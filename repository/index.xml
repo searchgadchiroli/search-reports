@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export><property name="pathProcessorId" value="file"/><property name="jsVersion" value="4.7.0 CE"/><module id="tenants"><organization>organizations</organization></module><module id="authority"><user>jasperadmin</user><user>anonymousUser</user><user>jss</user><role>ROLE_ADMINISTRATOR</role><role>ROLE_USER</role><role>ROLE_ANONYMOUS</role></module><module id="repositoryResources"><folder>/</folder></module><module id="reportJobs"/></export>

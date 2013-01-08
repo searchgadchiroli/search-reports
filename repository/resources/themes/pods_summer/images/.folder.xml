@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder>
+    <parent>/themes/pods_summer</parent>
+    <name>images</name>
+    <label>images</label>
+    <creationDate>2012-12-24T23:35:18.000+05:30</creationDate>
+    <updateDate>2012-08-16T04:09:16.000+05:30</updateDate>
+    <resource>banner_bkgd.png</resource>
+    <resource>body_bkgnd.png</resource>
+    <resource>button_action_primary_sprite.png</resource>
+    <resource>button_capsule_sprite.png</resource>
+    <resource>disclosure_indicators_sprite.png</resource>
+    <resource>footer_bkgd.png</resource>
+    <resource>logo.png</resource>
+    <resource>menu_primaryNav_sprite.png</resource>
+    <resource>tabs_horizontal_sprite.png</resource>
+    <resource>tabs_vertical_sprite.png</resource>
+</folder>

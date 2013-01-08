@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource dataFile="login_welcome_bkgd.jpg.data">
+    <folder>/themes/default/images</folder>
+    <name>login_welcome_bkgd.jpg</name>
+    <version>0</version>
+    <label>login_welcome_bkgd.jpg</label>
+    <creationDate>2012-12-24T23:35:20.000+05:30</creationDate>
+    <updateDate>2012-08-16T04:09:13.000+05:30</updateDate>
+    <fileType>img</fileType>
+</fileResource>

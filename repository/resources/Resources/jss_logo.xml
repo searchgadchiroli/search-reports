@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource dataFile="jss_logo.data">
+    <folder>/Resources</folder>
+    <name>jss_logo</name>
+    <version>0</version>
+    <label>JSS_Logo</label>
+    <description>JSS Logo</description>
+    <creationDate>2013-01-08T10:30:22.000+05:30</creationDate>
+    <updateDate>2013-01-08T10:30:22.000+05:30</updateDate>
+    <fileType>img</fileType>
+</fileResource>

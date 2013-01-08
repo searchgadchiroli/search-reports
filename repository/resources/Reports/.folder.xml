@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder>
+    <parent>/</parent>
+    <name>Reports</name>
+    <label>Reports</label>
+    <description></description>
+    <creationDate>2013-01-07T16:11:35.000+05:30</creationDate>
+    <updateDate>2013-01-07T16:11:35.000+05:30</updateDate>
+    <resource>chartReport</resource>
+    <resource>PatientList</resource>
+</folder>

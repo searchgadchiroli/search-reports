@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileResource dataFile="overrides_ie7.css.data">
+    <folder>/themes/default</folder>
+    <name>overrides_ie7.css</name>
+    <version>0</version>
+    <label>overrides_ie7.css</label>
+    <creationDate>2012-12-24T23:35:18.000+05:30</creationDate>
+    <updateDate>2012-08-16T04:09:14.000+05:30</updateDate>
+    <fileType>css</fileType>
+</fileResource>
