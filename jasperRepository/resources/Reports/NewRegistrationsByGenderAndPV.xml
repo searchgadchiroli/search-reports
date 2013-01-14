@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit>
+    <folder>/Reports</folder>
+    <name>NewRegistrationsByGenderAndPV</name>
+    <version>1</version>
+    <label>NewRegistrationsByGenderAndPV</label>
+    <creationDate>2013-01-14T13:55:12.000+05:30</creationDate>
+    <updateDate>2013-01-14T13:59:28.000+05:30</updateDate>
+    <mainReport>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            dataFile="NewRegistrationsByGenderAndPV_jrxml.data" xsi:type="fileResource">
+            <folder>/Reports/NewRegistrationsByGenderAndPV_files</folder>
+            <name>NewRegistrationsByGenderAndPV_jrxml</name>
+            <version>1</version>
+            <label>Main jrxml</label>
+            <description>Main jrxml</description>
+            <creationDate>2013-01-14T13:59:28.000+05:30</creationDate>
+            <updateDate>2013-01-14T13:59:28.000+05:30</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </mainReport>
+    <dataSource>
+        <uri>/Data_Sources/local</uri>
+    </dataSource>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>1</controlsLayout>
+</reportUnit>
