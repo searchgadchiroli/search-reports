@@ -59,7 +59,7 @@
 FROM   person p
        INNER JOIN person_address pa
                ON p.person_id = pa.person_id
-       LEFT OUTER JOIN program_village pv
+       LEFT OUTER JOIN jss_program_village pv
                     ON pa.city_village = pv.city_village
 WHERE  p.gender IS NOT NULL
        AND p.gender <> '' AND p.date_created > STR_TO_DATE($P{startDate},'%d/%m/%Y') AND p.date_created < STR_TO_DATE($P{endDate},'%d/%m/%Y')
@@ -92,7 +92,7 @@ ORDER  BY year_created ASC,
 FROM   person p
        INNER JOIN person_address pa
                ON p.person_id = pa.person_id
-       LEFT OUTER JOIN program_village pv
+       LEFT OUTER JOIN jss_program_village pv
                     ON pa.city_village = pv.city_village
 WHERE  p.gender IS NOT NULL
        AND p.gender <> ''

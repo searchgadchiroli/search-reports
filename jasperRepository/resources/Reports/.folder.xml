@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <folder>
     <parent>/</parent>
     <name>Reports</name>
@@ -6,5 +5,5 @@
     <description></description>
     <creationDate>2013-01-10T16:58:57.000+05:30</creationDate>
     <updateDate>2013-01-07T16:11:35.000+05:30</updateDate>
-    <resource>NewRegistrationsByGender</resource>
+    <resource>NewRegistrationsByGenderAndPV</resource>
 </folder>
