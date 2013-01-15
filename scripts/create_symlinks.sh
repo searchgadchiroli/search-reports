@@ -5,31 +5,37 @@ usage() {
 	echo "Creates symlinks for all files with an exension .data in <ReportsDirectory> in the <LinkDirectory>" 
 }
 
-if [ $# != 2 ]
+ReportsDirectory=$1
+LinkDirectory=$2
+
+if [ "${ReportsDirectory}"a = "a" ]
 then
-	echo "Not enough arguments"
-	usage
-	exit
+	ReportsDirectory="../jasperRepository/resources/Reports"
 fi
 
-if [ ! -d "$1" ]
+if [ "${LinkDirectory}"a = "a" ]
 then
-	echo "Directory $1 does not exist"
+	LinkDirectory="../jrxml"
+fi
+	
+if [ ! -d "$ReportsDirectory" ]
+then
+	echo "Directory $ReportsDirectory does not exist"
 	usage
 	exit 1
 fi
 
-if [ ! -d "$2" ]
+if [ ! -d "$LinkDirectory" ]
 then
-	echo "Directory $2 does not exist"
+	echo "Directory $LinkDirectory does not exist"
 	usage
 	exit 1
 fi
 
-for file in `find $1 -name *.data`
+for file in `find $ReportsDirectory -name *.data`
 do 
 	jrxmlName=`echo $file | sed -E 's/.*\/(.*.data)/\1.jrxml/g'`; 
-	jrxmlFile="${2}/${jrxmlName}"
+	jrxmlFile="${LinkDirectory}/${jrxmlName}"
 
 	if [ -h "$jrxmlFile" ]
 	then
