@@ -112,19 +112,10 @@ ORDER  BY year_created ASC,
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="79" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="61" splitType="Stretch"/>
-	</columnHeader>
-	<detail>
-		<band height="125" splitType="Stretch">
+	<summary>
+		<band height="60" splitType="Stretch">
 			<componentElement>
-				<reportElement uuid="b1d840a2-fa76-4c10-8051-d3230ff262ef" key="table 1" style="table 1" x="97" y="37" width="360" height="50"/>
+				<reportElement uuid="b1d840a2-fa76-4c10-8051-d3230ff262ef" key="table 1" style="table 1" x="45" y="0" width="360" height="50"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="new_registrations_by_gender_and_pv" uuid="4b9014c8-dd7b-4a05-a25d-089e8a2bf919">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
@@ -212,14 +203,5 @@ ORDER  BY year_created ASC,
 				</jr:table>
 			</componentElement>
 		</band>
-	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
 	</summary>
 </jasperReport>
