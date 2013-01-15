@@ -2,10 +2,11 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>NewRegistrationsByCasteAndPV</name>
-    <version>0</version>
+    <version>1</version>
     <label>NewRegistrationsByCasteAndPV</label>
+    <description></description>
     <creationDate>2013-01-15T15:01:57.000+05:30</creationDate>
-    <updateDate>2013-01-15T15:01:57.000+05:30</updateDate>
+    <updateDate>2013-01-15T15:25:01.000+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -23,6 +24,69 @@
     <dataSource>
         <uri>/Data_Sources/local</uri>
     </dataSource>
+    <inputControl>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="inputControl">
+            <folder>/Reports/NewRegistrationsByCasteAndPV_files</folder>
+            <name>startDate</name>
+            <version>0</version>
+            <label>Start Date</label>
+            <description></description>
+            <creationDate>2013-01-15T15:25:01.000+05:30</creationDate>
+            <updateDate>2013-01-15T15:25:01.000+05:30</updateDate>
+            <type>2</type>
+            <mandatory>false</mandatory>
+            <readOnly>false</readOnly>
+            <visible>true</visible>
+            <dataType>
+                <localResource xsi:type="dataType">
+                    <folder>/Reports/NewRegistrationsByCasteAndPV_files/startDate_files</folder>
+                    <name>startDate</name>
+                    <version>0</version>
+                    <label>Start Date</label>
+                    <description></description>
+                    <creationDate>2013-01-15T15:25:01.000+05:30</creationDate>
+                    <updateDate>2013-01-15T15:25:01.000+05:30</updateDate>
+                    <type>1</type>
+                    <regularExpr></regularExpr>
+                    <strictMin>false</strictMin>
+                    <strictMax>false</strictMax>
+                </localResource>
+            </dataType>
+        </localResource>
+    </inputControl>
+    <inputControl>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="inputControl">
+            <folder>/Reports/NewRegistrationsByCasteAndPV_files</folder>
+            <name>End_Date</name>
+            <version>0</version>
+            <label>End Date</label>
+            <description></description>
+            <creationDate>2013-01-15T15:25:01.000+05:30</creationDate>
+            <updateDate>2013-01-15T15:25:01.000+05:30</updateDate>
+            <type>2</type>
+            <mandatory>false</mandatory>
+            <readOnly>false</readOnly>
+            <visible>true</visible>
+            <dataType>
+                <localResource xsi:type="dataType">
+                    <folder>/Reports/NewRegistrationsByCasteAndPV_files/End_Date_files</folder>
+                    <name>endDate</name>
+                    <version>0</version>
+                    <label>EndDate</label>
+                    <description></description>
+                    <creationDate>2013-01-15T15:25:01.000+05:30</creationDate>
+                    <updateDate>2013-01-15T15:25:01.000+05:30</updateDate>
+                    <type>1</type>
+                    <regularExpr></regularExpr>
+                    <strictMin>false</strictMin>
+                    <strictMax>false</strictMax>
+                </localResource>
+            </dataType>
+        </localResource>
+    </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
     <alwaysPromptControls>true</alwaysPromptControls>
     <controlsLayout>1</controlsLayout>
 </reportUnit>
