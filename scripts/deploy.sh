@@ -60,7 +60,7 @@ done
 echo "###########################################################################"
 echo "Deploying reports into Jasper Server"
 echo "###########################################################################"
-/bin/sh ${JASPER_HOME}/BUILDOMATIC/js-import.sh --input-dir ../jasperRepository --update
+/bin/sh ${JASPER_HOME}/buildomatic/js-import.sh --input-dir ../jasperRepository --update
 if [ $? -ne 0 ]
 then
 	echo "Failed "
