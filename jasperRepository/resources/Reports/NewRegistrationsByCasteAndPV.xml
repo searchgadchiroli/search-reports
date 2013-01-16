@@ -2,18 +2,18 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>NewRegistrationsByCasteAndPV</name>
-    <version>1</version>
+    <version>2</version>
     <label>NewRegistrationsByCasteAndPV</label>
     <description></description>
     <creationDate>2013-01-15T15:01:57.000+05:30</creationDate>
-    <updateDate>2013-01-15T15:25:01.000+05:30</updateDate>
+    <updateDate>2013-01-15T22:34:32.000+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="NewRegistrationsByCasteAndPV_jrxml.data" xsi:type="fileResource">
             <folder>/Reports/NewRegistrationsByCasteAndPV_files</folder>
             <name>NewRegistrationsByCasteAndPV_jrxml</name>
-            <version>0</version>
+            <version>1</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
             <creationDate>2013-01-15T15:01:57.000+05:30</creationDate>
@@ -29,7 +29,7 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="inputControl">
             <folder>/Reports/NewRegistrationsByCasteAndPV_files</folder>
             <name>startDate</name>
-            <version>0</version>
+            <version>1</version>
             <label>Start Date</label>
             <description></description>
             <creationDate>2013-01-15T15:25:01.000+05:30</creationDate>
@@ -60,7 +60,7 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="inputControl">
             <folder>/Reports/NewRegistrationsByCasteAndPV_files</folder>
             <name>End_Date</name>
-            <version>0</version>
+            <version>1</version>
             <label>End Date</label>
             <description></description>
             <creationDate>2013-01-15T15:25:01.000+05:30</creationDate>

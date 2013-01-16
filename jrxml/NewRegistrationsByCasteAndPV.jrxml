@@ -54,7 +54,7 @@
 		<queryString>
 			<![CDATA[SELECT Date_format(p.date_created, '%Y-%m') month ,
        IF(( Year(p.date_created) - Year(p.birthdate) ) < 12, 'C', p.gender)g,
-       pv_name program_village,
+       IF(jss_program_village is null,'NPV','PV') program_village,
        personat.value caste,
        Count(*)  count
 FROM   person p
@@ -69,9 +69,8 @@ WHERE  p.gender IS NOT NULL
        AND p.date_created > STR_TO_DATE($P{startDate},'%d/%m/%Y') AND p.date_created < STR_TO_DATE($P{endDate},'%d/%m/%Y')
        AND pat.name ='Caste'
 
-
 GROUP  BY month,
-          pv_name,
+          program_village,
           g ,
           caste
 ORDER  BY
@@ -123,10 +122,10 @@ ORDER  BY year_created ASC,
 	<summary>
 		<band height="123" splitType="Stretch">
 			<crosstab>
-				<reportElement uuid="8adea4d6-919b-41b0-8cb2-322a3c2d730b" x="0" y="0" width="555" height="123"/>
+				<reportElement uuid="c7606abb-6bb8-44a8-bd9f-e90a5b867534" x="0" y="0" width="555" height="123"/>
 				<crosstabDataset>
 					<dataset>
-						<datasetRun subDataset="new_registrations_by_caste_and_pv" uuid="7c3ffbb7-a8f1-428c-8f1c-000b3d9e44ca">
+						<datasetRun subDataset="new_registrations_by_caste_and_pv" uuid="a2d445ef-c71c-45de-a2ba-1fbf7cd8e7ae">
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
@@ -141,7 +140,7 @@ ORDER  BY year_created ASC,
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement uuid="0ebf0bc5-d99e-4c1a-b12d-e12967276f4b" style="Crosstab Data Text" x="0" y="0" width="70" height="25"/>
+								<reportElement uuid="d3f76d13-5b45-49a0-8b9d-fed14df22964" style="Crosstab Data Text" x="0" y="0" width="70" height="25"/>
 								<textElement/>
 								<textFieldExpression><![CDATA[$V{caste}]]></textFieldExpression>
 							</textField>
@@ -153,9 +152,9 @@ ORDER  BY year_created ASC,
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement uuid="5489154c-6eb3-424b-a3d1-ea7e543675c6" x="0" y="0" width="70" height="25"/>
+								<reportElement uuid="ac35582c-e2ba-4d46-a9d9-af0eb1393ad3" x="0" y="0" width="70" height="25"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Total ]]></text>
+								<text><![CDATA[Total caste]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalRowHeader>
@@ -170,7 +169,7 @@ ORDER  BY year_created ASC,
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement uuid="f839074e-3678-45a0-ba3b-f5b557dab91f" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
+								<reportElement uuid="8f76e8dd-caf3-4672-bd73-48c7be75b5a3" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
 								<textElement/>
 								<textFieldExpression><![CDATA[$V{month}]]></textFieldExpression>
 							</textField>
@@ -182,9 +181,9 @@ ORDER  BY year_created ASC,
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement uuid="b7a1affb-0fcb-48f8-90bc-15a8dea71e56" x="0" y="0" width="50" height="60" forecolor="#FFFFFF"/>
+								<reportElement uuid="e017c241-c4b6-490a-be1d-0ed76bb55dba" x="0" y="0" width="50" height="60" forecolor="#FFFFFF"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Total]]></text>
+								<text><![CDATA[Total month]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalColumnHeader>
@@ -199,7 +198,7 @@ ORDER  BY year_created ASC,
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement uuid="3c61e255-df72-4994-b34c-249ed74cd7d2" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
+								<reportElement uuid="bc60e358-35bc-4445-bdcd-88f7cc8788f1" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
 								<textElement/>
 								<textFieldExpression><![CDATA[$V{program_village}]]></textFieldExpression>
 							</textField>
@@ -222,7 +221,7 @@ ORDER  BY year_created ASC,
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="8dfbeb68-0e77-438e-92a7-8b5d4d8cc792" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+							<reportElement uuid="1cc642b2-aaf9-442d-b5e3-bdd9dfd61201" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
 							<textElement/>
 							<textFieldExpression><![CDATA[$V{countMeasure}]]></textFieldExpression>
 						</textField>
@@ -234,37 +233,37 @@ ORDER  BY year_created ASC,
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="d9d4baa6-355c-48db-9d60-c96a46123f8e" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+							<reportElement uuid="ec137b9c-d76f-4ce4-be77-e731cbd803e9" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
 							<textElement/>
 							<textFieldExpression><![CDATA[$V{countMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="88" height="25" columnTotalGroup="month">
+				<crosstabCell width="50" columnTotalGroup="month">
 					<cellContents backcolor="#005FB3" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="ff9f59fe-b955-464a-977a-48bf6abf3c7e" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
+							<reportElement uuid="dbdb6c03-83b8-4b31-be02-a4c177fca089" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
 							<textElement/>
 							<textFieldExpression><![CDATA[$V{countMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="88" rowTotalGroup="caste" columnTotalGroup="month">
+				<crosstabCell rowTotalGroup="caste" columnTotalGroup="month">
 					<cellContents backcolor="#005FB3" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="1dd24a15-f9de-4d63-954c-64911c9ebdb0" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
+							<reportElement uuid="ae73ecdc-008a-4dfd-afdd-87929fcdb947" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
 							<textElement/>
 							<textFieldExpression><![CDATA[$V{countMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="0" height="25" columnTotalGroup="program_village">
+				<crosstabCell width="0" columnTotalGroup="program_village">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>

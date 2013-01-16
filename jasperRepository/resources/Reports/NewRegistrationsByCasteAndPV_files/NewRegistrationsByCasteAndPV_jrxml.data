@@ -43,6 +43,7 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
 	<subDataset name="new_registrations_by_caste_and_pv" uuid="abbc53df-7975-4fa9-9366-397e7bf37a61">
 		<parameter name="startDate" class="java.lang.String">
 			<defaultValueExpression><![CDATA["01/01/2000"]]></defaultValueExpression>
@@ -51,10 +52,9 @@
 			<defaultValueExpression><![CDATA["01/01/2013"]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT Date_format(p.date_created, '%Y') year_created ,
-       Date_format(p.date_created, '%m') month_created,
+			<![CDATA[SELECT Date_format(p.date_created, '%Y-%m') month ,
        IF(( Year(p.date_created) - Year(p.birthdate) ) < 12, 'C', p.gender)g,
-       pv_name program_village,
+       IF(jss_program_village is null,'NPV','PV') program_village,
        personat.value caste,
        Count(*)  count
 FROM   person p
@@ -69,17 +69,15 @@ WHERE  p.gender IS NOT NULL
        AND p.date_created > STR_TO_DATE($P{startDate},'%d/%m/%Y') AND p.date_created < STR_TO_DATE($P{endDate},'%d/%m/%Y')
        AND pat.name ='Caste'
 
-GROUP  BY year_created,
-          month_created,
-          pv_name,
+GROUP  BY month,
+          program_village,
           g ,
           caste
-ORDER  BY year_created ASC,
-          month_created ASC,
+ORDER  BY
+          month ASC,
           g ASC]]>
 		</queryString>
-		<field name="year_created" class="java.lang.String"/>
-		<field name="month_created" class="java.lang.String"/>
+		<field name="month" class="java.lang.String"/>
 		<field name="g" class="java.lang.String"/>
 		<field name="program_village" class="java.lang.String"/>
 		<field name="caste" class="java.lang.String"/>
@@ -123,110 +121,163 @@ ORDER  BY year_created ASC,
 	</background>
 	<summary>
 		<band height="123" splitType="Stretch">
-			<componentElement>
-				<reportElement uuid="9b5c11a5-25b1-40e9-b7cc-38b317433b61" key="table 1" style="table 1" x="0" y="0" width="555" height="123"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="new_registrations_by_caste_and_pv" uuid="7380f32d-8028-4a10-92f5-e7da45f2abb9">
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:column uuid="63eb4a45-638c-4595-bdcb-19100cf3e77d" width="90">
-						<jr:columnHeader style="table 1_CH" height="30">
-							<staticText>
-								<reportElement uuid="83b582fe-7e17-4815-988d-2c825b0a6921" x="0" y="0" width="90" height="30"/>
-								<textElement/>
-								<text><![CDATA[year_created]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 1_TD" height="20">
+			<crosstab>
+				<reportElement uuid="c7606abb-6bb8-44a8-bd9f-e90a5b867534" x="0" y="0" width="555" height="123"/>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="new_registrations_by_caste_and_pv" uuid="a2d445ef-c71c-45de-a2ba-1fbf7cd8e7ae">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<rowGroup name="caste" width="70" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{caste}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
 							<textField>
-								<reportElement uuid="22df9af5-0ca2-49b8-9bcd-1b78cf266648" x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="d3f76d13-5b45-49a0-8b9d-fed14df22964" style="Crosstab Data Text" x="0" y="0" width="70" height="25"/>
 								<textElement/>
-								<textFieldExpression><![CDATA[$F{year_created}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{caste}]]></textFieldExpression>
 							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="cf9a5b5f-a19b-43c3-bd0c-d57d392ff2ff" width="90">
-						<jr:columnHeader style="table 1_CH" height="30">
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
 							<staticText>
-								<reportElement uuid="baab5545-1950-4c02-97db-2d1e68f113d9" x="0" y="0" width="90" height="30"/>
-								<textElement/>
-								<text><![CDATA[month_created]]></text>
+								<reportElement uuid="ac35582c-e2ba-4d46-a9d9-af0eb1393ad3" x="0" y="0" width="70" height="25"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total caste]]></text>
 							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 1_TD" height="20">
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="month" height="30" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{month}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
 							<textField>
-								<reportElement uuid="9912f821-4b68-4e47-869b-6298a181a7b5" x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="8f76e8dd-caf3-4672-bd73-48c7be75b5a3" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
 								<textElement/>
-								<textFieldExpression><![CDATA[$F{month_created}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{month}]]></textFieldExpression>
 							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="faf558c6-0135-4355-a8bf-56152fdb1cf2" width="90">
-						<jr:columnHeader style="table 1_CH" height="30">
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
 							<staticText>
-								<reportElement uuid="c377ba95-5d5e-47ef-a6f8-7f431ca269ca" x="0" y="0" width="90" height="30"/>
-								<textElement/>
-								<text><![CDATA[g]]></text>
+								<reportElement uuid="e017c241-c4b6-490a-be1d-0ed76bb55dba" x="0" y="0" width="50" height="60" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total month]]></text>
 							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 1_TD" height="20">
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="program_village" height="30" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{program_village}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
 							<textField>
-								<reportElement uuid="35f45478-0977-46b8-8a44-403d5497b0d2" x="0" y="0" width="90" height="20"/>
+								<reportElement uuid="bc60e358-35bc-4445-bdcd-88f7cc8788f1" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
 								<textElement/>
-								<textFieldExpression><![CDATA[$F{g}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{program_village}]]></textFieldExpression>
 							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="0e05a86a-e014-4494-a021-dffe8a5e1962" width="90">
-						<jr:columnHeader style="table 1_CH" height="30">
-							<staticText>
-								<reportElement uuid="0f36e452-af3c-42f3-8e0c-649e387cc399" x="0" y="0" width="90" height="30"/>
-								<textElement/>
-								<text><![CDATA[program_village]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 1_TD" height="20">
-							<textField>
-								<reportElement uuid="038ed7b2-c1c0-4d6e-93f0-cfd285abe855" x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression><![CDATA[$F{program_village}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="0e0134f8-079b-4736-a23c-1309b762da7a" width="90">
-						<jr:columnHeader style="table 1_CH" height="30">
-							<staticText>
-								<reportElement uuid="f9e4e486-5528-4082-81e1-62b5e9edac79" x="0" y="0" width="90" height="30"/>
-								<textElement/>
-								<text><![CDATA[caste]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 1_TD" height="20">
-							<textField>
-								<reportElement uuid="4dda63de-23e3-4e36-b933-f6c5d3593f5f" x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression><![CDATA[$F{caste}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="21903c4e-5e8e-4c61-a59d-ab662ff3f64b" width="90">
-						<jr:columnHeader style="table 1_CH" height="30">
-							<staticText>
-								<reportElement uuid="39e88adf-0adb-4dd0-b1cd-b1b121ebbc0e" x="0" y="0" width="90" height="30"/>
-								<textElement/>
-								<text><![CDATA[count]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 1_TD" height="20">
-							<textField>
-								<reportElement uuid="3d09b718-7715-4020-aa5b-2757a60af9f9" x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="countMeasure" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{count}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement uuid="1cc642b2-aaf9-442d-b5e3-bdd9dfd61201" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$V{countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="caste">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement uuid="ec137b9c-d76f-4ce4-be77-e731cbd803e9" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$V{countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="month">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement uuid="dbdb6c03-83b8-4b31-be02-a4c177fca089" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$V{countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="caste" columnTotalGroup="month">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement uuid="ae73ecdc-008a-4dfd-afdd-87929fcdb947" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$V{countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" columnTotalGroup="program_village">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" rowTotalGroup="caste" columnTotalGroup="program_village">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
 		</band>
 	</summary>
 </jasperReport>
