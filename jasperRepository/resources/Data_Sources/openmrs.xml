@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdbcDataSource>
+    <folder>/Data_Sources</folder>
+    <name>openmrs</name>
+    <version>0</version>
+    <label>openmrs</label>
+    <description>OpenMRS data source. This will provide the local data source for now. </description>
+    <creationDate>2013-01-16T12:27:50.000+05:30</creationDate>
+    <updateDate>2013-01-16T12:27:50.000+05:30</updateDate>
+    <driver>com.mysql.jdbc.Driver</driver>
+    <connectionUrl>jdbc:mysql://${openmrs_dbhost}localhost:3306/openmrs</connectionUrl>
+    <connectionUser>${openmrs_username}</connectionUser>
+    <connectionPassword>${openmrs-password}</connectionPassword>
+    <timezone></timezone>
+</jdbcDataSource>
