@@ -1,1 +1,6 @@
 .DS_Store
+scripts/import-errors.log
+jasperRepository/resources/Data_Sources/*.xml
+jasperRepository/resources/Data_Sources/*.xml-e
+*.jasper
+

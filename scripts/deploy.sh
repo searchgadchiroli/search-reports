@@ -47,13 +47,15 @@ echo "##########################################################################
 echo "Fixing properties files"
 echo "###########################################################################"
 
-for file in `ls ${SCRIPT_DIR}/../jasperRepository/resources/Data_Sources/*.xml`
+for file in `ls ${SCRIPT_DIR}/../jasperRepository/resources/Data_Sources/*.xml.template`
 do
+	xml=`echo $file | sed 's/.template$//'`
+	cp $file $xml
 	for line in `cat $PROPERTIES_FILE`
 	do
 		key=`echo $line | cut -f1 -d"="` 
 		value=`echo $line | cut -f2 -d"="`
-		sed -i -e "s/\${$key}/$value/g" $file
+		sed -i -e "s/\${$key}/$value/g" $xml
 	done
 done
 
