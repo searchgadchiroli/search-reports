@@ -21,7 +21,7 @@
         </localResource>
     </mainReport>
     <dataSource>
-        <uri>/Data_Sources/local</uri>
+        <uri>/Data_Sources/openmrs</uri>
     </dataSource>
     <alwaysPromptControls>true</alwaysPromptControls>
     <controlsLayout>1</controlsLayout>
