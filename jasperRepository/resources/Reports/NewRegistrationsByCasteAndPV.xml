@@ -22,7 +22,7 @@
         </localResource>
     </mainReport>
     <dataSource>
-        <uri>/Data_Sources/openmrs</uri>
+        <uri>/Data_Sources/local</uri>
     </dataSource>
     <inputControl>
         <localResource
