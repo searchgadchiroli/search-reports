@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl>
+    <folder>/Resources</folder>
+    <name>to_date</name>
+    <version>0</version>
+    <label>Enter the end date</label>
+    <description></description>
+    <creationDate>2013-01-23T15:12:52.092+05:30</creationDate>
+    <updateDate>2013-01-23T15:12:52.092+05:30</updateDate>
+    <type>2</type>
+    <mandatory>true</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <dataType>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dataType">
+            <folder>/Resources/to_date_files</folder>
+            <name>to_date</name>
+            <version>0</version>
+            <label>to_date</label>
+            <description></description>
+            <creationDate>2013-01-23T15:12:52.092+05:30</creationDate>
+            <updateDate>2013-01-23T15:12:52.092+05:30</updateDate>
+            <type>3</type>
+            <regularExpr></regularExpr>
+            <strictMin>false</strictMin>
+            <strictMax>false</strictMax>
+        </localResource>
+    </dataType>
+</inputControl>

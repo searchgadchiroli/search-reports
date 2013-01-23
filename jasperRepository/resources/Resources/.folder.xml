@@ -4,7 +4,9 @@
     <name>Resources</name>
     <label>Resources</label>
     <description></description>
-    <creationDate>2013-01-07T16:13:48.000+05:30</creationDate>
+    <creationDate>2013-01-22T13:47:11.294+05:30</creationDate>
     <updateDate>2013-01-07T16:13:48.000+05:30</updateDate>
+    <resource>from_date</resource>
     <resource>jss_logo</resource>
+    <resource>to_date</resource>
 </folder>
