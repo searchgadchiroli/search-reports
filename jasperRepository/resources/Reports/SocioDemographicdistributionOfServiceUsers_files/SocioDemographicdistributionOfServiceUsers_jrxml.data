@@ -30,20 +30,22 @@
 	<parameter name="from_date" class="java.util.Date"/>
 	<parameter name="to_date" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[select person_id, gender,
-IF(age>=0 && age<15, '0-14',
-IF(age>14 && age<25, '15-24',
-IF(age>24 && age<35, '25-34',
-IF(age>34 && age<45, '35-44',
-IF(age>44 && age<55, '45-54',
-IF(age>54 && age<65, '55-64',
-IF(age>64, '64+',
-'other'))))))) as ageGroup from(
-select person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) as age,
-gender from person
-where gender in ('M','F')) as foo
-join encounter e on e.patient_id = foo.person_id
-where e.encounter_datetime between $P{from_date} and $P{to_date}]]>
+		<![CDATA[SELECT  distinct person_id,
+       gender,
+       IF(age>=0 && age<15, '0-14',
+		IF(age>14 && age<25, '15-24',
+		IF(age>24 && age<35, '25-34',
+		IF(age>34 && age<45, '35-44',
+		IF(age>44 && age<55, '45-54',
+		IF(age>54 && age<65, '55-64',
+		IF(age>64, '64+', 'other'))))))) AS ageGroup
+from
+	(SELECT person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age, gender
+	  FROM person
+	  WHERE gender IN ('M','F')
+	) AS foo
+JOIN encounter e ON e.patient_id = foo.person_id
+WHERE e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date};]]>
 	</queryString>
 	<field name="person_id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
