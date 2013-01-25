@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl>
+    <folder>/Resources</folder>
+    <name>program_village</name>
+    <version>9</version>
+    <label>Please select the name of the program village</label>
+    <description></description>
+    <creationDate>2013-01-24T16:17:58.628+05:30</creationDate>
+    <updateDate>2013-01-24T17:19:03.645+05:30</updateDate>
+    <type>4</type>
+    <mandatory>true</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="query">
+            <folder>/Resources/program_village_files</folder>
+            <name>get_all_program_villages</name>
+            <version>4</version>
+            <label>programVillagesQuery</label>
+            <description></description>
+            <creationDate>2013-01-24T16:17:58.628+05:30</creationDate>
+            <updateDate>2013-01-24T16:17:58.628+05:30</updateDate>
+            <language>sql</language>
+            <queryString>select jss_program_village from jss_program_village</queryString>
+            <dataSource>
+                <uri>/Data_Sources/openmrs</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>jss_program_village</queryVisibleColumn>
+    <queryValueColumn>jss_program_village</queryValueColumn>
+</inputControl>

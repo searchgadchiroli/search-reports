@@ -86,6 +86,15 @@ WHERE e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date};]]>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA["View Data By Program Villages"]]></textFieldExpression>
+				<hyperlinkParameter name="_report">
+					<hyperlinkParameterExpression><![CDATA["/Reports/SocioDemographicDistributionOfServiceUsersByProgramVillage"]]></hyperlinkParameterExpression>
+				</hyperlinkParameter>
+				<hyperlinkParameter name="from_date">
+					<hyperlinkParameterExpression><![CDATA[$P{from_date}.getYear()+1900+"-"+($P{from_date}.getMonth()+1)+"-"+$P{from_date}.getDate()]]></hyperlinkParameterExpression>
+				</hyperlinkParameter>
+				<hyperlinkParameter name="to_date">
+					<hyperlinkParameterExpression><![CDATA[($P{to_date}.getYear()+1900)+"-"+($P{to_date}.getMonth()+1)+"-"+$P{to_date}.getDate()]]></hyperlinkParameterExpression>
+				</hyperlinkParameter>
 			</textField>
 			<textField hyperlinkType="ReportExecution">
 				<reportElement uuid="a983b82a-bfe7-42f0-832f-d8b9db22a1af" mode="Opaque" x="304" y="12" width="237" height="27" forecolor="#FFFFFF" backcolor="#006699"/>

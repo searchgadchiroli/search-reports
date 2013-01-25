@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit>
+    <folder>/Reports</folder>
+    <name>SocioDemographicDistributionOfServiceUsersByProgramVillage</name>
+    <version>4</version>
+    <label>Socio Demographic Distribution Of Service Users By Program Village</label>
+    <description></description>
+    <creationDate>2013-01-24T16:11:28.065+05:30</creationDate>
+    <updateDate>2013-01-25T10:53:15.111+05:30</updateDate>
+    <mainReport>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            dataFile="SocioDemographicDistributionOfServiceUsersByProgramVillage_jrxml.data" xsi:type="fileResource">
+            <folder>/Reports/SocioDemographicDistributionOfServiceUsersByProgramVillage_files</folder>
+            <name>SocioDemographicDistributionOfServiceUsersByProgramVillage_jrxml</name>
+            <version>0</version>
+            <label>Main jrxml</label>
+            <description>Main jrxml</description>
+            <creationDate>2013-01-24T16:11:28.065+05:30</creationDate>
+            <updateDate>2013-01-24T16:11:28.065+05:30</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </mainReport>
+    <dataSource>
+        <uri>/Data_Sources/openmrs</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/Resources/program_village</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/Resources/from_date</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/Resources/to_date</uri>
+    </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>4</controlsLayout>
+</reportUnit>
