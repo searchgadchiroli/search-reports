@@ -32,5 +32,5 @@
     </inputControl>
     <inputControlRenderingView></inputControlRenderingView>
     <alwaysPromptControls>true</alwaysPromptControls>
-    <controlsLayout>1</controlsLayout>
+    <controlsLayout>4</controlsLayout>
 </reportUnit>
