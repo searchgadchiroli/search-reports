@@ -8,7 +8,7 @@
     <creationDate>2013-01-16T12:27:50.000+05:30</creationDate>
     <updateDate>2013-01-16T12:27:50.000+05:30</updateDate>
     <driver>com.mysql.jdbc.Driver</driver>
-    <connectionUrl>jdbc:mysql://${openmrs_dbhost}localhost:3306/openmrs</connectionUrl>
+    <connectionUrl>jdbc:mysql://${openmrs_dbhost}:3306/openmrs</connectionUrl>
     <connectionUser>${openmrs_username}</connectionUser>
     <connectionPassword>${openmrs-password}</connectionPassword>
     <timezone></timezone>
