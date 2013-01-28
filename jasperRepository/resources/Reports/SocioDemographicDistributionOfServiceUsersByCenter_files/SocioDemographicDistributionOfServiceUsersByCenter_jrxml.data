@@ -41,28 +41,32 @@ and l.name = $P{center};]]>
 	<title>
 		<band height="86" splitType="Stretch">
 			<frame>
-				<reportElement uuid="aebdb54f-c93d-49c9-9341-d9ba959963b1" mode="Opaque" x="0" y="0" width="555" height="85" backcolor="#006699"/>
+				<reportElement uuid="aebdb54f-c93d-49c9-9341-d9ba959963b1" mode="Opaque" x="0" y="1" width="555" height="85" backcolor="#006699"/>
 				<staticText>
-					<reportElement uuid="4a9628e3-67e2-4896-ac65-66bdba4af2eb" x="10" y="20" width="545" height="43" forecolor="#FFFFFF"/>
+					<reportElement uuid="4a9628e3-67e2-4896-ac65-66bdba4af2eb" x="110" y="20" width="445" height="43" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Socio Demographic Report]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="10e8080a-99c6-4134-a2c0-968adf3e41b5" x="20" y="63" width="535" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="10e8080a-99c6-4134-a2c0-968adf3e41b5" x="110" y="63" width="445" height="20" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["For Date range "+$P{from_date}+" - "+$P{to_date}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement uuid="551b8732-98b2-4575-8735-ea0a60c85c1e" x="10" y="0" width="88" height="85"/>
+					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</title>
 	<summary>
-		<band height="78" splitType="Stretch">
+		<band height="123" splitType="Stretch">
 			<crosstab>
-				<reportElement uuid="5128c4f2-63bf-4860-b42c-642e7262065d" x="0" y="0" width="555" height="78"/>
+				<reportElement uuid="5128c4f2-63bf-4860-b42c-642e7262065d" x="10" y="21" width="530" height="80"/>
 				<rowGroup name="ageGroup" width="70" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{ageGroup}]]></bucketExpression>
