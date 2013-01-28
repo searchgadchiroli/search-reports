@@ -8,33 +8,54 @@
 	<parameter name="to_date" class="java.util.Date"/>
 	<parameter name="center" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT  distinct foo.person_id,
-       gender,
-       IF(age>=0 && age<15, '0-14',
-		IF(age>14 && age<25, '15-24',
-		IF(age>24 && age<35, '25-34',
-		IF(age>34 && age<45, '35-44',
-		IF(age>44 && age<55, '45-54',
-		IF(age>54 && age<65, '55-64',
-		IF(age>64, '64+', 'other'))))))) AS ageGroup
-from
-	(SELECT p.person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age, gender
-	  FROM person p
-	  join person_address pa on pa.person_id = p.person_id
-	  WHERE gender IN ('M','F')
-	) AS foo
-JOIN encounter e ON e.patient_id = foo.person_id
-JOIN location l ON l.location_id = e.location_id
-WHERE e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date}
-and l.name = $P{center};]]>
+		<![CDATA[SELECT t.ageGroup,
+       t.male,
+       t.female,
+       ROUND((t.female/t.male)*1000) AS sexRatio,
+       t.male+t.female AS COUNT
+FROM
+  (SELECT bar.ageGroup,
+          SUM(CASE WHEN bar.gender = 'M' THEN 1 ELSE 0 END) AS male,
+          SUM(CASE WHEN bar.gender = 'F' THEN 1 ELSE 0 END) AS female
+   FROM
+     (SELECT DISTINCT person_id,
+                      gender,
+						IF(age>=0 && age<15, '0-14',
+						IF(age>14 && age<25, '15-24',
+						IF(age>24 && age<35, '25-34',
+						IF(age>34 && age<45, '35-44',
+						IF(age>44 && age<55, '45-54',
+						IF(age>54 && age<65, '55-64',
+						IF(age>64, '64+', 'other'))))))) AS ageGroup
+      FROM
+        (SELECT person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age,
+                                                                          gender
+         FROM person
+         WHERE gender IN ('M','F') ) AS foo
+      JOIN encounter e ON e.patient_id = foo.person_id
+      JOIN location l ON l.location_id = e.location_id
+      WHERE e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date}
+      and l.name = $P{center}) AS bar
+   GROUP BY ageGroup) AS t;]]>
 	</queryString>
-	<field name="person_id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="gender" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="ageGroup" class="java.lang.String"/>
+	<field name="male" class="java.math.BigDecimal"/>
+	<field name="female" class="java.math.BigDecimal"/>
+	<field name="sexRatio" class="java.math.BigDecimal"/>
+	<field name="COUNT" class="java.math.BigDecimal"/>
+	<variable name="totalMale" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{male}]]></variableExpression>
+	</variable>
+	<variable name="totalFemale" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{female}]]></variableExpression>
+	</variable>
+	<variable name="totalCount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{COUNT}]]></variableExpression>
+	</variable>
+	<variable name="totalSexRatio" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[Math.round($V{totalFemale}/$V{totalMale}*1000)
+]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -43,140 +64,141 @@ and l.name = $P{center};]]>
 			<frame>
 				<reportElement uuid="aebdb54f-c93d-49c9-9341-d9ba959963b1" mode="Opaque" x="0" y="1" width="555" height="85" backcolor="#006699"/>
 				<staticText>
-					<reportElement uuid="4a9628e3-67e2-4896-ac65-66bdba4af2eb" x="110" y="20" width="445" height="43" forecolor="#FFFFFF"/>
+					<reportElement uuid="4a9628e3-67e2-4896-ac65-66bdba4af2eb" x="99" y="20" width="456" height="43" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Socio Demographic Report]]></text>
+					<text><![CDATA[Socio Demographic Report By Center]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="10e8080a-99c6-4134-a2c0-968adf3e41b5" x="110" y="63" width="445" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="10e8080a-99c6-4134-a2c0-968adf3e41b5" x="99" y="63" width="445" height="20" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["For Date range "+$P{from_date}+" - "+$P{to_date}]]></textFieldExpression>
 				</textField>
 				<image>
-					<reportElement uuid="551b8732-98b2-4575-8735-ea0a60c85c1e" x="10" y="0" width="88" height="85"/>
+					<reportElement uuid="719169d8-0a45-4ae1-9327-59dbb82b5ca2" x="0" y="2" width="99" height="83"/>
 					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
 				</image>
 			</frame>
 		</band>
 	</title>
+	<columnHeader>
+		<band height="50">
+			<staticText>
+				<reportElement uuid="18681562-04a5-4fc7-8b1d-ad94db88ef0c" style="Crosstab Data Text" mode="Opaque" x="24" y="30" width="100" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Age Group]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1fc03467-7428-49db-a822-666c570f114e" style="Crosstab Data Text" mode="Opaque" x="124" y="30" width="100" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="99d6cad2-2121-4150-a7c6-4f5572feaed2" style="Crosstab Data Text" mode="Opaque" x="224" y="30" width="100" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3689d6b8-69a4-4d7f-bc1a-27e7781c107a" style="Crosstab Data Text" mode="Opaque" x="324" y="30" width="100" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sex Ratio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f1a54afb-7015-4c68-b412-3cfd0abe64bc" style="Crosstab Data Text" mode="Opaque" x="424" y="30" width="100" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COUNT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement uuid="7bf874d6-3811-4b05-8350-fc3b07a4e69b" x="24" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ageGroup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ce01da3a-f123-4774-b72d-2e25f429e4d2" x="124" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{male}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ec696164-0f98-4283-a172-87dfcebcfcac" x="224" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{female}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b1655801-8bb4-46a4-b7d9-f86a243925e5" mode="Opaque" x="324" y="0" width="100" height="20" backcolor="#A9C9FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sexRatio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="91b1dbca-72dd-45e8-bfca-dfae736b72e0" mode="Opaque" x="424" y="0" width="100" height="20" backcolor="#A9C9FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
 	<summary>
-		<band height="123" splitType="Stretch">
-			<crosstab>
-				<reportElement uuid="5128c4f2-63bf-4860-b42c-642e7262065d" x="10" y="21" width="530" height="80"/>
-				<rowGroup name="ageGroup" width="70" totalPosition="End">
-					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{ageGroup}]]></bucketExpression>
-					</bucket>
-					<crosstabRowHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField>
-								<reportElement uuid="c5fe4239-64e3-44a4-9e5d-c906a4ba6fa0" style="Crosstab Data Text" x="0" y="0" width="70" height="25"/>
-								<textElement/>
-								<textFieldExpression><![CDATA[$V{ageGroup}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabRowHeader>
-					<crosstabTotalRowHeader>
-						<cellContents backcolor="#E6F3FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<staticText>
-								<reportElement uuid="c4b11e5c-90db-4e00-a4e2-ef239fadeed3" x="0" y="0" width="70" height="25"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Total ageGroup]]></text>
-							</staticText>
-						</cellContents>
-					</crosstabTotalRowHeader>
-				</rowGroup>
-				<columnGroup name="gender" height="30" totalPosition="End">
-					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{gender}]]></bucketExpression>
-					</bucket>
-					<crosstabColumnHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField>
-								<reportElement uuid="416103b8-515d-4599-8b4d-7597b78c0b0d" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
-								<textElement/>
-								<textFieldExpression><![CDATA[$V{gender}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabColumnHeader>
-					<crosstabTotalColumnHeader>
-						<cellContents backcolor="#E6F3FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<staticText>
-								<reportElement uuid="73c25e26-54dc-4482-8c03-9b2651d05017" x="0" y="0" width="50" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Total gender]]></text>
-							</staticText>
-						</cellContents>
-					</crosstabTotalColumnHeader>
-				</columnGroup>
-				<measure name="ageGroupMeasure" class="java.lang.Integer" calculation="Count">
-					<measureExpression><![CDATA[$F{ageGroup}]]></measureExpression>
-				</measure>
-				<crosstabCell width="50" height="25">
-					<cellContents>
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="6c9dcf8a-028b-4e2e-bc38-50aede93cc90" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
-							<textElement/>
-							<textFieldExpression><![CDATA[$V{ageGroupMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell height="25" rowTotalGroup="ageGroup">
-					<cellContents backcolor="#E6F3FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="97b079b9-c270-467b-a67e-e5287cf022e0" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
-							<textElement/>
-							<textFieldExpression><![CDATA[$V{ageGroupMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="50" columnTotalGroup="gender">
-					<cellContents backcolor="#E6F3FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="a018b518-96db-45ad-b919-439edd939e27" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
-							<textElement/>
-							<textFieldExpression><![CDATA[$V{ageGroupMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell rowTotalGroup="ageGroup" columnTotalGroup="gender">
-					<cellContents backcolor="#E6F3FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="0a47264f-143e-4ee8-9d3e-89644f2262f9" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
-							<textElement/>
-							<textFieldExpression><![CDATA[$V{ageGroupMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-			</crosstab>
+		<band height="50">
+			<textField>
+				<reportElement uuid="188b1be0-7d82-4ab2-b229-c8bce4da0ccb" mode="Opaque" x="124" y="0" width="100" height="20" backcolor="#A9C9FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalMale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="62835412-5c3f-4059-bcaa-547dd05332cb" mode="Opaque" x="224" y="0" width="100" height="20" backcolor="#A9C9FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalFemale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c205a4e1-1373-4e90-9c6f-f9731e23bc96" mode="Opaque" x="324" y="0" width="100" height="20" backcolor="#A9C9FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalSexRatio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e98a97e8-36d7-46ef-b622-0b6fc3947759" mode="Opaque" x="424" y="0" width="100" height="20" backcolor="#A9C9FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1c3c3381-8a78-47e2-a5a7-6bb41c93f914" mode="Opaque" x="24" y="0" width="100" height="20" backcolor="#A9C9FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["COUNT"]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>
