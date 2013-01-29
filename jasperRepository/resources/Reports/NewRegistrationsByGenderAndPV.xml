@@ -2,21 +2,21 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>NewRegistrationsByGenderAndPV</name>
-    <version>8</version>
+    <version>5</version>
     <label>NewRegistrationsByGenderAndPV</label>
     <description></description>
-    <creationDate>2013-01-15T11:20:30.000+05:30</creationDate>
-    <updateDate>2013-01-16T18:03:21.000+05:30</updateDate>
+    <creationDate>2013-01-29T12:22:21.430+05:30</creationDate>
+    <updateDate>2013-01-29T15:13:29.229+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="NewRegistrationsByGenderAndPV_jrxml.data" xsi:type="fileResource">
             <folder>/Reports/NewRegistrationsByGenderAndPV_files</folder>
             <name>NewRegistrationsByGenderAndPV_jrxml</name>
-            <version>2</version>
+            <version>4</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2013-01-15T11:20:30.000+05:30</creationDate>
+            <creationDate>2013-01-29T12:22:21.430+05:30</creationDate>
             <updateDate>2013-01-14T13:59:28.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
@@ -25,68 +25,12 @@
         <uri>/Data_Sources/openmrs</uri>
     </dataSource>
     <inputControl>
-        <localResource
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="inputControl">
-            <folder>/Reports/NewRegistrationsByGenderAndPV_files</folder>
-            <name>startDate</name>
-            <version>1</version>
-            <label>Start Date</label>
-            <description></description>
-            <creationDate>2013-01-15T15:47:07.000+05:30</creationDate>
-            <updateDate>2013-01-15T15:47:07.000+05:30</updateDate>
-            <type>2</type>
-            <mandatory>false</mandatory>
-            <readOnly>false</readOnly>
-            <visible>true</visible>
-            <dataType>
-                <localResource xsi:type="dataType">
-                    <folder>/Reports/NewRegistrationsByGenderAndPV_files/startDate_files</folder>
-                    <name>StartDate</name>
-                    <version>0</version>
-                    <label>StartDate</label>
-                    <description></description>
-                    <creationDate>2013-01-15T15:47:07.000+05:30</creationDate>
-                    <updateDate>2013-01-15T15:47:07.000+05:30</updateDate>
-                    <type>1</type>
-                    <regularExpr></regularExpr>
-                    <strictMin>false</strictMin>
-                    <strictMax>false</strictMax>
-                </localResource>
-            </dataType>
-        </localResource>
+        <uri>/Resources/from_date</uri>
     </inputControl>
     <inputControl>
-        <localResource
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="inputControl">
-            <folder>/Reports/NewRegistrationsByGenderAndPV_files</folder>
-            <name>endDate</name>
-            <version>1</version>
-            <label>End Date</label>
-            <description></description>
-            <creationDate>2013-01-15T15:47:07.000+05:30</creationDate>
-            <updateDate>2013-01-15T15:47:07.000+05:30</updateDate>
-            <type>2</type>
-            <mandatory>false</mandatory>
-            <readOnly>false</readOnly>
-            <visible>true</visible>
-            <dataType>
-                <localResource xsi:type="dataType">
-                    <folder>/Reports/NewRegistrationsByGenderAndPV_files/endDate_files</folder>
-                    <name>EndDate</name>
-                    <version>0</version>
-                    <label>EndDate</label>
-                    <description></description>
-                    <creationDate>2013-01-15T15:47:07.000+05:30</creationDate>
-                    <updateDate>2013-01-15T15:47:07.000+05:30</updateDate>
-                    <type>1</type>
-                    <regularExpr></regularExpr>
-                    <strictMin>false</strictMin>
-                    <strictMax>false</strictMax>
-                </localResource>
-            </dataType>
-        </localResource>
+        <uri>/Resources/to_date</uri>
     </inputControl>
     <inputControlRenderingView></inputControlRenderingView>
     <alwaysPromptControls>true</alwaysPromptControls>
-    <controlsLayout>1</controlsLayout>
+    <controlsLayout>4</controlsLayout>
 </reportUnit>
