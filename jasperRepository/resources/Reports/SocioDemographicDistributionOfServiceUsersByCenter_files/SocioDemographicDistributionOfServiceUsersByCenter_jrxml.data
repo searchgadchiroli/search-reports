@@ -11,7 +11,7 @@
 		<![CDATA[SELECT t.ageGroup,
        t.male,
        t.female,
-       ROUND((t.female/t.male)*1000) AS sexRatio,
+       COALESCE(ROUND((t.female/t.male)*1000), t.female*1000) AS sexRatio,
        t.male+t.female AS COUNT
 FROM
   (SELECT bar.ageGroup,
@@ -53,8 +53,7 @@ FROM
 		<variableExpression><![CDATA[$F{COUNT}]]></variableExpression>
 	</variable>
 	<variable name="totalSexRatio" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[Math.round($V{totalFemale}/$V{totalMale}*1000)
-]]></variableExpression>
+		<variableExpression><![CDATA[$V{totalMale} == 0 ? 0 : Math.round($V{totalFemale}/$V{totalMale}*1000)]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>

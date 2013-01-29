@@ -8,7 +8,7 @@
 	<parameter name="program_village" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT t.ageGroup, t.male, t.female,
-       ROUND((t.female/t.male)*1000) AS sexRatio,
+       COALESCE(ROUND((t.female/t.male)*1000), t.female*1000) AS sexRatio,
        t.male+t.female AS COUNT
 FROM (
 	SELECT bar.ageGroup,
@@ -49,7 +49,7 @@ FROM (
 		<variableExpression><![CDATA[$F{COUNT}]]></variableExpression>
 	</variable>
 	<variable name="totalSexRatio" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[Math.round($V{totalFemale}/$V{totalMale}*1000)]]></variableExpression>
+		<variableExpression><![CDATA[$V{totalMale} == 0 ? 0 : Math.round($V{totalFemale}/$V{totalMale}*1000)]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -142,14 +142,14 @@ FROM (
 				<textFieldExpression><![CDATA[$F{female}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3f615068-15e3-43a5-bc10-05dd8b4d05b3" x="322" y="0" width="100" height="20"/>
+				<reportElement uuid="3f615068-15e3-43a5-bc10-05dd8b4d05b3" mode="Opaque" x="322" y="0" width="100" height="20" backcolor="#A9C9FF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sexRatio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="fceb74a8-0bb5-4c50-bc4b-1ce873bc734d" x="422" y="0" width="100" height="20"/>
+				<reportElement uuid="fceb74a8-0bb5-4c50-bc4b-1ce873bc734d" mode="Opaque" x="422" y="0" width="100" height="20" backcolor="#A9C9FF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
