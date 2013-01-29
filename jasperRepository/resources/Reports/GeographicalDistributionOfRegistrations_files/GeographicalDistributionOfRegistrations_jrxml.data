@@ -4,9 +4,8 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
-	<subDataset name="CrossTabData" uuid="f361123b-74ec-4cec-b3b0-31afb1ccdf62">
-		<queryString language="SQL">
-			<![CDATA[select l.name location_name, p.gender person_gender, date_format(p.date_created, '%Y-%m') created_month, count(*) total
+	<queryString>
+		<![CDATA[select l.name location_name, p.gender person_gender, date_format(p.date_created, '%Y-%m') created_month, count(*) total
 from person p,
 	person_attribute pa,
 	person_attribute_type pat,
@@ -17,40 +16,36 @@ where p.person_id = pa.person_id
 	and pa.value = l.location_id
 group by l.name, p.gender, date_format(p.date_created, 'Y-m')
 order by location_name asc]]>
-		</queryString>
-		<field name="location_name" class="java.lang.String"/>
-		<field name="person_gender" class="java.lang.String"/>
-		<field name="created_month" class="java.lang.String"/>
-		<field name="total" class="java.lang.Long"/>
-	</subDataset>
-	<queryString>
-		<![CDATA[select 1 as dummy_field]]>
 	</queryString>
+	<field name="location_name" class="java.lang.String"/>
+	<field name="person_gender" class="java.lang.String"/>
+	<field name="created_month" class="java.lang.String"/>
+	<field name="total" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
-			<staticText>
-				<reportElement uuid="4c4df7f9-e019-4743-95e8-131bc40a26f7" x="0" y="0" width="572" height="79"/>
-				<textElement textAlignment="Center">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[Geographical Distibution of Service Users]]></text>
-			</staticText>
+		<band height="83" splitType="Stretch">
+			<frame>
+				<reportElement uuid="218e2a56-4ba6-4374-aa33-f3b0071eaeb5" mode="Opaque" x="0" y="0" width="555" height="83" backcolor="#006699"/>
+				<staticText>
+					<reportElement uuid="d8d78f09-0a91-4fd3-a9c3-ab241fd8544b" x="99" y="0" width="456" height="83" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[GEOGRAPHIC DISTRUBUTION OF REGISTRATION]]></text>
+				</staticText>
+				<image>
+					<reportElement uuid="30af6975-981d-45b9-b823-3d26d3a27103" x="0" y="0" width="99" height="83"/>
+					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+				</image>
+			</frame>
 		</band>
 	</title>
-	<detail>
-		<band height="125" splitType="Stretch">
+	<summary>
+		<band height="146">
 			<crosstab>
-				<reportElement uuid="e3dae94b-fcbd-4b18-9d31-80a47e4ce92f" x="0" y="0" width="572" height="125"/>
-				<crosstabDataset>
-					<dataset>
-						<datasetRun subDataset="CrossTabData" uuid="e5e04d63-10df-436b-9f04-a86321223946">
-							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-						</datasetRun>
-					</dataset>
-				</crosstabDataset>
+				<reportElement uuid="8f131331-f09d-45aa-b2bb-15e9c4efb2ca" x="0" y="12" width="572" height="131"/>
 				<rowGroup name="location_name" width="70" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{location_name}]]></bucketExpression>
@@ -61,8 +56,10 @@ order by location_name asc]]>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement uuid="def2f53d-7ece-4803-906e-63d17fa67f29" style="Crosstab Data Text" x="0" y="0" width="70" height="25"/>
-								<textElement/>
+								<reportElement uuid="ced99f12-863d-40e4-847f-a31278617875" style="Crosstab Data Text" x="0" y="0" width="70" height="25"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$V{location_name}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -73,9 +70,11 @@ order by location_name asc]]>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement uuid="bf1bf850-4c0e-4690-b7f8-2e2ec520e332" x="0" y="0" width="70" height="25"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Total]]></text>
+								<reportElement uuid="83b31530-0546-4ff7-b8fd-dbcf2d66839e" x="0" y="0" width="70" height="25"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Total location_name]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalRowHeader>
@@ -90,8 +89,10 @@ order by location_name asc]]>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement uuid="9ca96c59-e4f6-466d-96a1-f22adba4669f" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
-								<textElement/>
+								<reportElement uuid="c0224dec-572d-462a-89ce-f53980ae379e" style="Crosstab Data Text" x="0" y="0" width="209" height="30"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$V{created_month}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -102,8 +103,10 @@ order by location_name asc]]>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement uuid="8bd987ea-ae14-49a5-bd94-4cfc3b825c64" x="0" y="0" width="50" height="60" forecolor="#FFFFFF"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<reportElement uuid="1849ed80-9375-4f5d-a3bd-e8fed1e77bdc" x="0" y="0" width="50" height="60" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
 								<text><![CDATA[Total]]></text>
 							</staticText>
 						</cellContents>
@@ -118,9 +121,11 @@ order by location_name asc]]>
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField isBlankWhenNull="true">
-								<reportElement uuid="00930355-3f22-48c8-9484-8dd269278f92" style="Crosstab Data Text" x="0" y="0" width="50" height="30"/>
-								<textElement/>
+							<textField>
+								<reportElement uuid="ef5eb41a-bc14-4ca0-9683-9e81fac19322" style="Crosstab Data Text" x="0" y="0" width="99" height="30"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$V{person_gender}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -131,36 +136,42 @@ order by location_name asc]]>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement uuid="984250fe-5ff6-462c-a192-811dee41fd05" x="0" y="0" width="50" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Total]]></text>
+								<reportElement uuid="3ab7a1f7-8921-48d0-a939-2b3c345a883d" x="0" y="0" width="110" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Total person per month]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
-				<measure name="totalMeasure" class="java.lang.Long" calculation="Sum">
+				<measure name="totalMeasure" class="java.lang.Integer" calculation="Count">
 					<measureExpression><![CDATA[$F{total}]]></measureExpression>
 				</measure>
-				<crosstabCell width="50" height="25">
+				<crosstabCell width="99" height="25">
 					<cellContents>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="07155679-c729-41e3-88ed-6d1a97ea93b6" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
-							<textElement/>
+							<reportElement uuid="c2b4c3c1-0a9b-4b6f-98f8-a673520e7550" style="Crosstab Data Text" x="0" y="0" width="99" height="25"/>
+							<textElement verticalAlignment="Middle">
+								<font size="12"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell height="25" rowTotalGroup="location_name">
+				<crosstabCell width="99" height="25" rowTotalGroup="location_name">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="015e43b9-1c12-4008-8af9-937b97afce7b" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
-							<textElement/>
+							<reportElement uuid="35aa6a40-9f4c-4cd7-8700-e732d2df4703" style="Crosstab Data Text" x="0" y="0" width="99" height="25"/>
+							<textElement verticalAlignment="Middle">
+								<font size="12"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
@@ -171,49 +182,57 @@ order by location_name asc]]>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="57f514cc-af09-45d9-905b-d61528fcc1f5" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
-							<textElement/>
+							<reportElement uuid="ac650930-07ea-4a7d-93b9-e8fa47bb17eb" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
+							<textElement verticalAlignment="Middle">
+								<font size="12"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell rowTotalGroup="location_name" columnTotalGroup="created_month">
+				<crosstabCell width="50" rowTotalGroup="location_name" columnTotalGroup="created_month">
 					<cellContents backcolor="#005FB3" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="ec95906b-02b9-4c4c-9183-e76128d77508" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
-							<textElement/>
+							<reportElement uuid="c12b09b7-0233-4a76-9e01-8c27aec19c8f" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
+							<textElement verticalAlignment="Middle">
+								<font size="12"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="50" columnTotalGroup="person_gender">
+				<crosstabCell width="110" columnTotalGroup="person_gender">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="3530a858-6a29-4123-b3f1-e986d7fa1d60" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
-							<textElement/>
+							<reportElement uuid="3be3fb3b-996a-424b-b54e-0198e9d0c3c3" style="Crosstab Data Text" x="0" y="0" width="110" height="25"/>
+							<textElement verticalAlignment="Middle">
+								<font size="12"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell rowTotalGroup="location_name" columnTotalGroup="person_gender">
+				<crosstabCell width="110" rowTotalGroup="location_name" columnTotalGroup="person_gender">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="e49603aa-80b6-43d9-a452-a3c1440b9e9e" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
-							<textElement/>
+							<reportElement uuid="b997da26-e596-4fbc-a0a5-2afcecbc8e78" style="Crosstab Data Text" x="0" y="0" width="110" height="25"/>
+							<textElement verticalAlignment="Middle">
+								<font size="12"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
 			</crosstab>
 		</band>
-	</detail>
+	</summary>
 </jasperReport>
