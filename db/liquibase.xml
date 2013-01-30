@@ -54,7 +54,7 @@
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Nevsa','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Parsada','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Peeparkhut','');
-            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Saraipali,'');
+            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Saraipali','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Shivtaraii','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Atariya','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Aurapani','');
@@ -62,7 +62,7 @@
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Bamhanii','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Bisauni','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Boirha','');
-            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Danganiya,'');
+            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Danganiya','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Ghameri','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Jakadbandha','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Jamunahi','');
@@ -74,15 +74,15 @@
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Sarsoha','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Surhi','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Achanakmar','');
-            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Bahaud,'');
+            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Bahaud','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Bankal','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Bindaval','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Bokrakachhar','');
-            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Chhaparwa,'');
+            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Chhaparwa','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Jalda','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Samardhasan','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Sarsdol','');
-            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Sivalkhar,'');
+            INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Sivalkhar','');
             INSERT INTO jss_program_village  (city_village,jss_program_village) VALUES ('Tilaidabara','');
 
         </sql>
