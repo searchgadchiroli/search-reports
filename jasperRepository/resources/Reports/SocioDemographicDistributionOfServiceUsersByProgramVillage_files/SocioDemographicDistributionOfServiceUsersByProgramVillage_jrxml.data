@@ -1,199 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="socioDemographic_PV" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dcf97342-0678-405c-b3ae-f0e629f1f55e">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PV" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d20f4e0-4356-46df-affd-2ed28cd1e211">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/NewRegistrationsByGenderAndPV"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8000/jasperserver/services/repository"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/Users/sushrao/code/TW/JSS/jrxmls/"]]></defaultValueExpression>
+	</parameter>
 	<parameter name="from_date" class="java.util.Date"/>
 	<parameter name="to_date" class="java.util.Date"/>
-	<parameter name="program_village" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[SELECT t.ageGroup, t.male, t.female,
-       COALESCE(ROUND((t.female/t.male)*1000), t.female*1000) AS sexRatio,
-       t.male+t.female AS COUNT
-FROM (
-	SELECT bar.ageGroup,
-          SUM(CASE WHEN bar.gender = 'M' THEN 1 ELSE 0 END) AS male,
-          SUM(CASE WHEN bar.gender = 'F' THEN 1 ELSE 0 END) AS female
-   	FROM(
-   		SELECT  distinct foo.person_id, gender,
-       			IF(age>=0 && age<15, '0-14',
-				IF(age>14 && age<25, '15-24',
-				IF(age>24 && age<35, '25-34',
-				IF(age>34 && age<45, '35-44',
-				IF(age>44 && age<55, '45-54',
-				IF(age>54 && age<65, '55-64',
-				IF(age>64, '64+', 'other'))))))) AS ageGroup
-		FROM (
-			SELECT p.person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age, gender
-	  		FROM person p
-	  		JOIN person_address pa on pa.person_id = p.person_id
-	  		JOIN jss_program_village pv on pv.city_village= pa.city_village
-	  		WHERE gender IN ('M','F') AND pv.jss_program_village=$P{program_village}
-		) AS foo
-	JOIN encounter e ON e.patient_id = foo.person_id
-	WHERE e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date}) as bar
-	GROUP by ageGroup) as t;]]>
+	<queryString language="SQL">
+		<![CDATA[select * from person]]>
 	</queryString>
-	<field name="ageGroup" class="java.lang.String"/>
-	<field name="male" class="java.math.BigDecimal"/>
-	<field name="female" class="java.math.BigDecimal"/>
-	<field name="sexRatio" class="java.math.BigDecimal"/>
-	<field name="COUNT" class="java.math.BigDecimal"/>
-	<variable name="totalMale" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{male}]]></variableExpression>
-	</variable>
-	<variable name="totalFemale" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{female}]]></variableExpression>
-	</variable>
-	<variable name="totalCount" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{COUNT}]]></variableExpression>
-	</variable>
-	<variable name="totalSexRatio" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[$V{totalMale} == 0 ? 0 : Math.round($V{totalFemale}/$V{totalMale}*1000)]]></variableExpression>
-	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="85" splitType="Stretch">
+		<band height="100" splitType="Stretch">
 			<frame>
-				<reportElement uuid="afeba05e-6c21-4db4-8938-43bec03da31f" mode="Opaque" x="0" y="0" width="555" height="85" backcolor="#006699"/>
+				<reportElement uuid="8186addc-b74d-4c5d-a2b1-552c54f49cf0" mode="Opaque" x="0" y="0" width="555" height="100" backcolor="#006699"/>
 				<staticText>
-					<reportElement uuid="600525ba-f75f-4d7e-8baf-4b5237df66ea" x="80" y="0" width="475" height="63" forecolor="#FFFFFF"/>
+					<reportElement uuid="fbfba68b-1486-429b-a6af-7a05cc737c5d" x="99" y="2" width="456" height="61" forecolor="#FFFFFF"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Socio Demographic Report By Program Village]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="bea2c375-5347-4989-be93-22eab50e10fb" x="80" y="63" width="475" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="cc29fa2d-1c42-46a3-9f9f-1a0f9e55c7a8" x="99" y="63" width="445" height="37" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["For Date range "+$P{from_date}+" - "+$P{to_date}]]></textFieldExpression>
 				</textField>
-				<image>
-					<reportElement uuid="fedb3491-efb8-46ff-a3fd-225cf70d8403" x="0" y="0" width="80" height="83"/>
-					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
-				</image>
 			</frame>
 		</band>
 	</title>
-	<columnHeader>
-		<band height="61" splitType="Stretch">
-			<staticText>
-				<reportElement uuid="3c3c0799-2316-429c-9981-66aaf537b881" mode="Opaque" x="22" y="41" width="100" height="20" backcolor="#006699"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Age Group]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="75c4437b-9b9c-4b9d-9ea4-76e2e47bcd16" mode="Opaque" x="122" y="41" width="100" height="20" backcolor="#006699"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Male]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="118f6bc4-b7bd-46ae-80c5-d2af6c6e0040" mode="Opaque" x="222" y="41" width="100" height="20" backcolor="#006699"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Female]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="97c27ac5-6613-4d43-b7b9-57e57dae9605" mode="Opaque" x="322" y="41" width="100" height="20" backcolor="#006699"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Sex Ratio]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="d6178c5c-4a71-43b7-8686-01e6bec61867" mode="Opaque" x="422" y="41" width="100" height="20" backcolor="#006699"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA["COUNT"]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="27" splitType="Stretch">
-			<textField>
-				<reportElement uuid="65a21763-2305-4cb9-affb-b7beb750fd5a" x="22" y="0" width="100" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ageGroup}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="8a7aee5c-ddf9-4cda-8790-38381a379148" x="122" y="0" width="100" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{male}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="d7421da7-90c2-4994-9a63-f433101363d1" x="222" y="0" width="100" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{female}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="3f615068-15e3-43a5-bc10-05dd8b4d05b3" mode="Opaque" x="322" y="0" width="100" height="20" backcolor="#A9C9FF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sexRatio}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="fceb74a8-0bb5-4c50-bc4b-1ce873bc734d" mode="Opaque" x="422" y="0" width="100" height="20" backcolor="#A9C9FF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{COUNT}]]></textFieldExpression>
-			</textField>
-		</band>
-	</detail>
 	<summary>
-		<band height="50">
-			<textField>
-				<reportElement uuid="d0bac2f6-80da-4efa-b3ad-a225444de538" mode="Opaque" x="122" y="0" width="100" height="20" backcolor="#A9C9FF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+		<band height="427" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="06b808d4-df10-43eb-a7a9-88776aebf3ca" x="0" y="12" width="343" height="20"/>
+				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{totalMale}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="6eede1f8-9975-481d-b07e-f4876bf1e0f5" mode="Opaque" x="222" y="0" width="100" height="20" backcolor="#A9C9FF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<text><![CDATA[For Patients Visiting From Non Program Villages]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5f2c4837-13da-46c3-bfcc-9b69a7e46c05" x="0" y="268" width="343" height="20"/>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{totalFemale}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="69fc6f56-47f9-487a-bdcc-9251ac1a2c98" mode="Opaque" x="322" y="0" width="100" height="20" backcolor="#A9C9FF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{totalSexRatio}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="f7f1784e-ed0f-4f19-9147-92b984ab06ee" mode="Opaque" x="422" y="0" width="100" height="20" backcolor="#A9C9FF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{totalCount}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="ca308d8a-6955-4ccb-aa31-c0ca1aa590f4" mode="Opaque" x="22" y="0" width="100" height="20" backcolor="#A9C9FF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA["COUNT"]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[For Patients Visiting From Program Villages]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="e1f07050-a939-4648-9921-a9c2e17f5f89" x="25" y="47" width="200" height="100"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="to_date">
+					<subreportParameterExpression><![CDATA[$P{to_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="from_date">
+					<subreportParameterExpression><![CDATA[$P{from_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["repo:PV_subreport1"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="d678fd6a-8287-46f7-be25-8840edb54886" x="25" y="306" width="200" height="100"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="to_date">
+					<subreportParameterExpression><![CDATA[$P{to_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="from_date">
+					<subreportParameterExpression><![CDATA[$P{from_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["repo:PV_subreport2"]]></subreportExpression>
+			</subreport>
 		</band>
 	</summary>
 </jasperReport>
