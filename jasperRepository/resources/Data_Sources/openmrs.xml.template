@@ -10,6 +10,6 @@
     <driver>com.mysql.jdbc.Driver</driver>
     <connectionUrl>jdbc:mysql://${openmrs_dbhost}:3306/openmrs</connectionUrl>
     <connectionUser>${openmrs_username}</connectionUser>
-    <connectionPassword>${openmrs-password}</connectionPassword>
+    <connectionPassword>${openmrs_password}</connectionPassword>
     <timezone></timezone>
 </jdbcDataSource>
