@@ -3,4 +3,5 @@ scripts/import-errors.log
 jasperRepository/resources/Data_Sources/*.xml
 jasperRepository/resources/Data_Sources/*.xml-e
 *.jasper
-
+html/.idea
+html/html.iml
