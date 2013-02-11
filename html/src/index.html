@@ -1,44 +1,61 @@
 <html>
     <head>
-        <link rel="stylesheet" href="../lib/leaflet.css" />
-        <link rel="stylesheet" href="../lib/app.css" />
+        <link rel="stylesheet" href="maps/lib/leaflet.css" />
+        <link rel="stylesheet" href="maps/lib/app.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+        <script src="maps/js/JSSGeoJSON.js"></script>
+        <script src="maps/js/util/csvConverter.js"></script>
+        <script src="maps/js/util/jsonMerger.js"></script>
+        <script src="maps/js/util/colorPalette.js"></script>
+        <script src="maps/js/util/inputControl.js"></script>
     </head>
     <body>
-        <div id="mapList">
+    <div id="container">
+        <div id="inputControls">
+            <div id="controlHeading"><h2>Input Controls</h2></div>
+            <div id="controlDataContainer"></div>
+        </div>
+            <div id="mapList">
             <ul>
                 <li><a onclick="showMaps();" href="#" >Geographical Representation Of Patient Statistics</a></li>
             </ul>
         </div>
-        <div id="backToList">
-            <a onclick="backToList()" href="#">Back</a>
+        <div id="report">
+            <div id="heading"><h1>Geographical distribution of patients</h1></div>
+            <div id="map"></div>
         </div>
-        <div id="map"></div>
-        <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-        <script src="js/JSSGeoJSON.js"></script>
+
+        <div id="backToList">
+            <a onclick="backToList()" href="#"><h4>Back</h4></a>
+        </div>
+    </div>
     <script type="text/javascript">
         function showMaps() {
-            jQuery.getScript('js/reports/GeographicDistributionOfPatients.js').done(function() {
-                $("div.mapList").hide();
-                $("div.map").show();
-                $("div.backToList").show();
-                JSSMaps.report.start();
+            $.ajax({
+                cache   : false,
+                url     : 'maps/js/reports/GeographicDistributionOfPatients.js',
+                success : function() {
+                            $("#mapList").hide();
+                            $("#report").show();
+                            $("#backToList").show();
+                            $("#inputControls").show();
+                            JSSMaps.report.start();
+                            }
             });
         }
-    </script>
-    <script type="text/javascript">
-        var x = function() {
-            $("div.mapList").show();
-            $("div.map").hide();
-            $("div.backToList").hide();
-        }();
 
         function backToList() {
-            $("div.mapList").show();
-            $("div.map").hide();
-            $("div.backToList").hide();
+            $("#mapList").show();
+            $("#report").hide();
+            $("#inputControls").hide();
+            $("#backToList").hide();
+            JSSMaps.report.start();
         }
+        backToList();
     </script>
-
     </body>
 </html>

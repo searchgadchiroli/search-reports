@@ -1,6 +1,31 @@
-#map {
-    width: 1152px;
-    height: 968px;
+#frame {
+    background-color: #ffffff;
+}
+#report {
+    float: left;
+    text-align: center;
+}
+
+#mapContainer {
+    width: 500px;
+    height: 800px;
+}
+
+
+#inputControls {
+    width: 20%;
+    height: inherit;
+    margin-right: 100px;
+    float: left;
+    border-right-color: blue;
+    border-right-width: thick;
+    border-right-style: double;
+}
+
+#backToList {
+    width: 500px;
+    height: 800px;
+    float: left;
 }
 
 .info {

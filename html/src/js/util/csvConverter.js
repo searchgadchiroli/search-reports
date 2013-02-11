@@ -24,5 +24,3 @@ JSSMaps.util.convertToJson = function (csv) {
         return singleRowObject(ele)
     }).filter(isNotNull);
 }
-
-
