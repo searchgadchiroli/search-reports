@@ -24,8 +24,15 @@
 		</box>
 	</style>
 	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="start_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select Date_format(encounter_datetime,'%Y-%m') month,IF(encounter_type = 8,'New','Old')visittype,count(distinct patient_id) from encounter]]>
+		<![CDATA[select Date_format(encounter_datetime,'%Y-%m') month,IF(encounter_type = 8,'New','Old')visittype,count(distinct patient_id) from encounter
+ where encounter_datetime BETWEEN $P{start_date} AND $P{end_date}]]>
 	</queryString>
 	<field name="month" class="java.lang.String"/>
 	<field name="visittype" class="java.lang.String"/>
@@ -55,7 +62,7 @@
 		<band height="113" splitType="Stretch">
 			<crosstab>
 				<reportElement uuid="865b99f1-b944-4987-98c6-160f2157dbf0" x="0" y="10" width="555" height="99"/>
-				<rowGroup name="visittype" width="109" totalPosition="End">
+				<rowGroup name="visittype" width="159" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{visittype}]]></bucketExpression>
 					</bucket>
@@ -65,7 +72,7 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement uuid="ee13224a-2c0d-4647-add6-cb71f1589652" style="Crosstab Data Text" x="0" y="0" width="109" height="25"/>
+								<reportElement uuid="ee13224a-2c0d-4647-add6-cb71f1589652" style="Crosstab Data Text" x="0" y="0" width="159" height="25"/>
 								<textElement verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
@@ -79,11 +86,11 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement uuid="11177046-4ef0-49b5-8a2f-880c09469f69" x="0" y="0" width="109" height="25"/>
+								<reportElement uuid="11177046-4ef0-49b5-8a2f-880c09469f69" x="0" y="0" width="159" height="25"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
-								<text><![CDATA[Total visittype]]></text>
+								<text><![CDATA[Total ]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalRowHeader>
@@ -98,7 +105,7 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement uuid="2488e0b7-55ca-41cd-bf12-3b3de8ce0319" style="Crosstab Data Text" x="0" y="0" width="147" height="30"/>
+								<reportElement uuid="2488e0b7-55ca-41cd-bf12-3b3de8ce0319" style="Crosstab Data Text" x="0" y="0" width="234" height="30"/>
 								<textElement verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
@@ -112,11 +119,11 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement uuid="86a45bb1-cfb3-4277-9ee8-59bceebb2185" x="0" y="0" width="153" height="30"/>
+								<reportElement uuid="86a45bb1-cfb3-4277-9ee8-59bceebb2185" x="0" y="0" width="294" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
-								<text><![CDATA[Total month]]></text>
+								<text><![CDATA[Total]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalColumnHeader>
@@ -124,13 +131,13 @@
 				<measure name="count(distinct patient_id)Measure" class="java.lang.Integer" calculation="Count">
 					<measureExpression><![CDATA[$F{count(distinct patient_id)}]]></measureExpression>
 				</measure>
-				<crosstabCell width="147" height="25">
+				<crosstabCell width="234" height="25">
 					<cellContents>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="e5952a2e-dc66-45fb-b41d-4ee06755f30b" style="Crosstab Data Text" x="0" y="0" width="147" height="25"/>
+							<reportElement uuid="e5952a2e-dc66-45fb-b41d-4ee06755f30b" style="Crosstab Data Text" x="0" y="0" width="234" height="25"/>
 							<textElement verticalAlignment="Middle">
 								<font size="12"/>
 							</textElement>
@@ -138,13 +145,13 @@
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="147" height="25" rowTotalGroup="visittype">
+				<crosstabCell width="234" height="25" rowTotalGroup="visittype">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="011e3417-8e71-44f1-906e-1921702c1ace" style="Crosstab Data Text" x="0" y="0" width="147" height="25"/>
+							<reportElement uuid="011e3417-8e71-44f1-906e-1921702c1ace" style="Crosstab Data Text" x="0" y="0" width="234" height="25"/>
 							<textElement verticalAlignment="Middle">
 								<font size="12"/>
 							</textElement>
@@ -152,13 +159,13 @@
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="153" columnTotalGroup="month">
+				<crosstabCell width="294" columnTotalGroup="month">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="84c8bd1a-bd85-45d9-a77e-ad5ade6d4a28" style="Crosstab Data Text" x="0" y="0" width="153" height="25"/>
+							<reportElement uuid="84c8bd1a-bd85-45d9-a77e-ad5ade6d4a28" style="Crosstab Data Text" x="0" y="0" width="294" height="25"/>
 							<textElement verticalAlignment="Middle">
 								<font size="12"/>
 							</textElement>
@@ -166,13 +173,13 @@
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="153" rowTotalGroup="visittype" columnTotalGroup="month">
+				<crosstabCell width="294" height="25" rowTotalGroup="visittype" columnTotalGroup="month">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement uuid="82027186-f3da-4a2d-9897-9652e2daf2f4" style="Crosstab Data Text" x="0" y="0" width="153" height="25"/>
+							<reportElement uuid="82027186-f3da-4a2d-9897-9652e2daf2f4" style="Crosstab Data Text" x="0" y="0" width="294" height="25"/>
 							<textElement verticalAlignment="Middle">
 								<font size="12"/>
 							</textElement>
