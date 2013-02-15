@@ -1,6 +1,45 @@
-require(["helper/util"], function(util) {
-    //This function is called when scripts/helper/util.js is loaded.
-    //If util.js calls define(), then this function is not fired until
-    //util's dependencies have loaded, and the util argument will hold
-    //the module value for "helper/util".
+requirejs.config({
+    baseUrl: 'maps/lib',
+    shim: {
+        'leaflet': {
+            exports: 'L'
+        }
+    },
+    paths: {
+        app: '../js',
+        'jquery-ui': '../../scripts/jquery/js/jquery-ui-1.8.20.custom.min',
+        datepicker: '../../scripts/jquery/js/jquery.ui.datepicker-en'
+    }
 });
+
+
+requirejs(['require'],
+    function (require) {
+        var showMaps = function (path) {
+            require([path], function (map) {
+                map.start();
+            });
+
+            jQuery("#mapList").hide();
+            jQuery("#report").show();
+            jQuery("#backToList").show();
+            jQuery("#inputControls").show();
+        }
+
+        var backToList = function () {
+            jQuery("#mapList").show();
+            jQuery("#report").hide();
+            jQuery("#inputControls").hide();
+            jQuery("#backToList").hide();
+        };
+
+        jQuery('#jssMapReportsBackButton').click(function () {
+            backToList();
+        });
+
+        jQuery('#jssPatientStatistics').click(function () {
+            showMaps('app/reports/GeographicDistributionOfPatients');
+        });
+
+        backToList();
+    });

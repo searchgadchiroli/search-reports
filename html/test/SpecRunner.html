@@ -10,48 +10,52 @@
     <script type="text/javascript" src="../lib/jasmine-1.3.1/jasmine-html.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    <script type="text/javascript" src="lib/require.js"></script>
 
-    <!-- include source files here... -->
-    <script type="text/javascript" src="../src/js/util/colorPalette.js"></script>
-    <script type="text/javascript" src="../src/js/util/csvConverter.js"></script>
-    <script type="text/javascript" src="../src/js/util/jsonMerger.js"></script>
-    <script type="text/javascript" src="../src/js/util/inputControl.js"></script>
-
-    <!-- include spec files here... -->
-    <script type="text/javascript" src="util/csvConverterSpec.js"></script>
-    <script type="text/javascript" src="util/jsonMergerSpec.js"></script>
-    <script type="text/javascript" src="util/colorPaletteSpec.js"></script>
-    <script type="text/javascript" src="util/inputControlSpec.js"></script>
 
     <script type="text/javascript">
-        (function() {
-            var jasmineEnv = jasmine.getEnv();
-            jasmineEnv.updateInterval = 1000;
+        requirejs.config({
 
-            var htmlReporter = new jasmine.HtmlReporter();
+            baseUrl: 'lib',
 
-            jasmineEnv.addReporter(htmlReporter);
-
-            jasmineEnv.specFilter = function(spec) {
-                return htmlReporter.specFilter(spec);
-            };
-
-            var currentWindowOnload = window.onload;
-
-            window.onload = function() {
-                if (currentWindowOnload) {
-                    currentWindowOnload();
-                }
-                execJasmine();
-            };
-
-            function execJasmine() {
-                jasmineEnv.execute();
+            paths: {
+                app: '../../src/js',
+                test: '../',
+                'jquery-ui': '../../scripts/jquery/js/jquery-ui-1.8.20.custom.min',
+                datepicker: '../../scripts/jquery/js/jquery.ui.datepicker-en'
             }
+        });
 
-        })();
+        require(
+                [
+                    "test/util/csvToJsonSpec",
+                    "test/util/mergeJsonSpec",
+                    "test/ui/colorPaletteSpec",
+                    "test/ui/createInputControlSpec"
+                ],
+                function(spec){
+
+                    var jasmineEnv = jasmine.getEnv();
+                    jasmineEnv.updateInterval = 1000;
+
+                    var htmlReporter = new jasmine.HtmlReporter();
+
+                    jasmineEnv.addReporter(htmlReporter);
+
+                    jasmineEnv.specFilter = function(spec) {
+                        return htmlReporter.specFilter(spec);
+                    };
+
+                    var currentWindowOnload = window.onload;
+
+                        execJasmine();
+
+                    function execJasmine() {
+                        jasmineEnv.execute();
+                    }
+                }
+        );
     </script>
-
 </head>
 
 <body>

@@ -1,19 +1,10 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="maps/lib/leaflet.css" />
-        <link rel="stylesheet" href="maps/lib/app.css" />
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
-
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-        <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-        <script src="maps/js/JSSGeoJSON.js"></script>
-        <script src="maps/js/util/csvConverter.js"></script>
-        <script src="maps/js/util/jsonMerger.js"></script>
-        <script src="maps/js/util/colorPalette.js"></script>
-        <script src="maps/js/util/inputControl.js"></script>
-    </head>
-    <body>
+<head>
+    <link rel="stylesheet" href="maps/lib/leaflet.css" />
+    <link rel="stylesheet" href="maps/lib/app.css" />
+    <link rel="stylesheet" href="scripts/jquery/theme/redmond/jquery-ui-1.8.20.custom.css" />
+</head>
+<body>
     <div id="container">
         <div id="inputControls">
             <div id="controlHeading"><h2>Input Controls</h2></div>
@@ -21,7 +12,7 @@
         </div>
             <div id="mapList">
             <ul>
-                <li><a onclick="showMaps();" href="#" >Geographical Representation Of Patient Statistics</a></li>
+                <li><a id="jssPatientStatistics"  href="#" >Geographical Representation Of Patient Statistics</a></li>
             </ul>
         </div>
         <div id="report">
@@ -30,32 +21,9 @@
         </div>
 
         <div id="backToList">
-            <a onclick="backToList()" href="#"><h4>Back</h4></a>
+            <a id="jssMapReportsBackButton" href="#"><h4>Back</h4></a>
         </div>
     </div>
-    <script type="text/javascript">
-        function showMaps() {
-            $.ajax({
-                cache   : false,
-                url     : 'maps/js/reports/GeographicDistributionOfPatients.js',
-                success : function() {
-                            $("#mapList").hide();
-                            $("#report").show();
-                            $("#backToList").show();
-                            $("#inputControls").show();
-                            JSSMaps.report.start();
-                            }
-            });
-        }
-
-        function backToList() {
-            $("#mapList").show();
-            $("#report").hide();
-            $("#inputControls").hide();
-            $("#backToList").hide();
-            JSSMaps.report.start();
-        }
-        backToList();
-    </script>
-    </body>
+    <script data-main="maps/js/main.js" src="maps/lib/require.js"></script>
+</body>
 </html>
