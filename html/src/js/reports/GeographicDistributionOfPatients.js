@@ -19,7 +19,7 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
 
             var showOnMap = function (data) {
                 resetMap();
-                var map = l.map('mapContainer').setView([21.07963 , 82.53914], 7.2);
+                var map = l.map('mapContainer').setView([22.07963 , 79.53914], 6.7);
 
                 // control that shows state info on hover
                 var info = l.control();
@@ -33,7 +33,7 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
                 info.update = function (props) {
                     this._div.innerHTML = (props ?
                         '<b>District: </b>' + props.district + '<br>' +
-                        '<b>Tehsil: </b>' + props.name + '<br>' +
+                        '<b>Tehsil: </b>' + props.tehsil + '<br>' +
                         props.data.total + ' (Female-' + props.data.female + ', Male-' + props.data.male + ')<br>'
                         : 'Hover over a state');
                 };
