@@ -4,6 +4,7 @@ define(function () {
         var matchingData = function (element) {
             var newDefaultObject = jQuery.extend({}, defaultObject);
             newDefaultObject.tehsil = element.properties.name;
+            newDefaultObject.district = element.properties.district;
 
             var data = ourData.filter(function (ele) {
                 return ele.tehsil == element.properties.name;

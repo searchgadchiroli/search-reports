@@ -31,7 +31,9 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
 
                 info.update = function (props) {
                     this._div.innerHTML = (props ?
-                        '<b>' + props.name + '</b><br>' + props.data.total
+                        '<b>District: </b>' + props.district + '<br>' +
+                        '<b>Tehsil: </b>' + props.name + '<br>' +
+                        props.data.total + ' (Female-' + props.data.female + ', Male-' + props.data.male + ')<br>'
                         : 'Hover over a state');
                 };
 
