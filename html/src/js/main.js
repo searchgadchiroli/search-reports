@@ -21,19 +21,15 @@ requirejs(['require'],
             });
 
             jQuery("#mapList").hide();
-            jQuery("#report").show();
-            jQuery("#backToList").show();
-            jQuery("#inputControls").show();
+            jQuery("#container").show();
         }
 
         var backToList = function () {
             jQuery("#mapList").show();
-            jQuery("#report").hide();
-            jQuery("#inputControls").hide();
-            jQuery("#backToList").hide();
+            jQuery("#container").hide();
         };
 
-        jQuery('#jssMapReportsBackButton').click(function () {
+        jQuery('#back').click(function () {
             backToList();
         });
 

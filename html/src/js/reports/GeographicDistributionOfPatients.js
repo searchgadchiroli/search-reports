@@ -8,6 +8,7 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
 
             var init = function () {
                 resetMap();
+                jQuery('#report .title').empty().append('Geographical distribution of patients');
                 var url = 'rest_v2/reports/Reports/GeographicDistributionOfPatients/inputControls';
                 jQuery.ajax({
                     url: url,
