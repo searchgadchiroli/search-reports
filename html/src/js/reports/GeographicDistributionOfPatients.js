@@ -18,13 +18,13 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
 
             var showOnMap = function (data) {
                 resetMap();
-                var map = L.map('mapContainer').setView([21.07963 , 82.53914], 7.2);
+                var map = l.map('mapContainer').setView([21.07963 , 82.53914], 7.2);
 
                 // control that shows state info on hover
-                var info = L.control();
+                var info = l.control();
 
                 info.onAdd = function () {
-                    this._div = L.DomUtil.create('div', 'info');
+                    this._div = l.DomUtil.create('div', 'info');
                     this.update();
                     return this._div;
                 };
@@ -93,17 +93,17 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
                     });
                 }
 
-                geojson = L.geoJson(reportDataGeoJson, {
+                geojson = l.geoJson(reportDataGeoJson, {
                     style: style,
                     onEachFeature: onEachFeature
                 }).addTo(map);
 
 
-                var legend = L.control({position: 'bottomright'});
+                var legend = l.control({position: 'bottomright'});
 
                 legend.onAdd = function (map) {
 
-                    var div = L.DomUtil.create('div', 'info legend'),
+                    var div = l.DomUtil.create('div', 'info legend'),
                         grades = palette.getGrades(),
                         labels = [],
                         from, to;
