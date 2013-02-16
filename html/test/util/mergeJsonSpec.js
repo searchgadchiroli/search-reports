@@ -4,15 +4,15 @@ define(['app/util/mergeJson'], function (mergeJson) {
         var whereTehsilIs = function (val) {
             var value = val;
             return function (element) {
-                return element.properties.name == value
+                return element.properties.tehsil == value
             }
         };
 
         it("merges random data to properties of a geojson", function () {
             var geoJson = {"type": "FeatureCollection", "features": [
-                { "type": "Feature", "id": "01", "properties": {"name": "Raj Nandgaon"}, "geometry": { "type": "Polygon", "coordinates": [] } },
-                { "type": "Feature", "id": "03", "properties": {"name": "Ambikapur", "density": 10}, "geometry": { "type": "Polygon", "coordinates": [] } },
-                { "type": "Feature", "id": "02", "properties": {"name": "Jagdalpur"}, "geometry": { "type": "Polygon", "coordinates": [] } }
+                { "type": "Feature", "id": "01", "properties": {"tehsil": "Raj Nandgaon"}, "geometry": { "type": "Polygon", "coordinates": [] } },
+                { "type": "Feature", "id": "03", "properties": {"tehsil": "Ambikapur", "density": 10}, "geometry": { "type": "Polygon", "coordinates": [] } },
+                { "type": "Feature", "id": "02", "properties": {"tehsil": "Jagdalpur"}, "geometry": { "type": "Polygon", "coordinates": [] } }
             ]};
             var ourData = [
                 {tehsil: 'Raj Nandgaon', male: '31', female: '57', total: '88'},
@@ -29,9 +29,9 @@ define(['app/util/mergeJson'], function (mergeJson) {
 
         it("will add a default object when mapping not found", function () {
             var geoJson = {"type": "FeatureCollection", "features": [
-                { "type": "Feature", "id": "01", "properties": {"name": "Raj Nandgaon"}, "geometry": { "type": "Polygon", "coordinates": [] } },
-                { "type": "Feature", "id": "03", "properties": {"name": "Ambikapur", "density": 10}, "geometry": { "type": "Polygon", "coordinates": [] } },
-                { "type": "Feature", "id": "02", "properties": {"name": "Jagdalpur"}, "geometry": { "type": "Polygon", "coordinates": [] } }
+                { "type": "Feature", "id": "01", "properties": {"tehsil": "Raj Nandgaon"}, "geometry": { "type": "Polygon", "coordinates": [] } },
+                { "type": "Feature", "id": "03", "properties": {"tehsil": "Ambikapur", "density": 10}, "geometry": { "type": "Polygon", "coordinates": [] } },
+                { "type": "Feature", "id": "02", "properties": {"tehsil": "Jagdalpur"}, "geometry": { "type": "Polygon", "coordinates": [] } }
             ]};
             var ourData = [
                 {tehsil: 'Raj Nandgaon', male: '31', female: '57', total: '88'},
