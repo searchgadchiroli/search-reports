@@ -67,7 +67,7 @@ FROM
 					<textElement verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Socio Demographic Report By Center]]></text>
+					<text><![CDATA[Demographic Report By Center]]></text>
 				</staticText>
 				<textField>
 					<reportElement uuid="10e8080a-99c6-4134-a2c0-968adf3e41b5" x="99" y="63" width="445" height="20" forecolor="#FFFFFF"/>

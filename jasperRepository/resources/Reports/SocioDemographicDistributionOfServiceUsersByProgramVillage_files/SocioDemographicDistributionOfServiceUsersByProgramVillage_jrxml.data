@@ -45,7 +45,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Socio Demographic Report By Program Village]]></text>
+					<text><![CDATA[Demographic Report By Program Village]]></text>
 				</staticText>
 				<textField>
 					<reportElement uuid="cc29fa2d-1c42-46a3-9f9f-1a0f9e55c7a8" x="99" y="63" width="445" height="37" forecolor="#FFFFFF"/>
