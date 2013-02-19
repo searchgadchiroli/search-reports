@@ -10,7 +10,6 @@
     <resource>GeographicDistributionOfPatients</resource>
     <resource>NewAndOldPatientVisitsByMonth</resource>
     <resource>NewRegistrationsByCasteAndPV</resource>
-    <resource>NewRegistrationsByGenderAndPV</resource>
     <resource>SocioDemographicdistributionOfServiceUsers</resource>
     <resource>SocioDemographicDistributionOfServiceUsersByCenter</resource>
     <resource>SocioDemographicDistributionOfServiceUsersByProgramVillage</resource>
