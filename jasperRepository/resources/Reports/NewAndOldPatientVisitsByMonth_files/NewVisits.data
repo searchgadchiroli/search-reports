@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NewVisits" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fb208b6b-36f8-4dee-ba12-ea06440c7e1a">
+	<property name="ireport.zoom" value="5.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="from_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="to_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT t.ageGroup,
+       t.male,
+       t.female,
+       COALESCE(ROUND((t.female/t.male)*1000), t.female*1000) AS sexRatio,
+       t.male+t.female AS COUNT
+FROM
+  (SELECT bar.ageGroup,
+          SUM(CASE WHEN bar.gender = 'M' THEN 1 ELSE 0 END) AS male,
+          SUM(CASE WHEN bar.gender = 'F' THEN 1 ELSE 0 END) AS female
+   FROM
+     (SELECT person_id,
+                      gender,
+						IF(foo.age < 1, '0-1',
+						IF(foo.age >= 1 && age < 5, '1-5',
+						IF(foo.age >= 5 && age < 16, '5-16',
+						IF(foo.age >= 16 && age < 45, '16-45',
+						IF(foo.age >= 45 && age < 60, '45-60',
+						IF(foo.age >= 60, '64+', 'other')))))) AS ageGroup
+      FROM
+        (SELECT person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age,
+                                                                          gender, date_created
+         FROM person
+         WHERE gender IN ('M','F') ) AS foo
+      JOIN encounter e ON e.patient_id = foo.person_id
+      WHERE e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date}
+	AND Datediff(e.date_created, foo.date_created) < 1) AS bar
+   GROUP BY ageGroup) AS t;]]>
+	</queryString>
+	<field name="ageGroup" class="java.lang.String"/>
+	<field name="male" class="java.math.BigDecimal"/>
+	<field name="female" class="java.math.BigDecimal"/>
+	<field name="sexRatio" class="java.math.BigDecimal"/>
+	<field name="COUNT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ea5bd389-d695-4ab6-b559-b165b897933f" x="0" y="0" width="111" height="20"/>
+				<textElement/>
+				<text><![CDATA[Age Group]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6a8c4844-2e8a-4bec-b87a-c31ab32cc4de" x="111" y="0" width="111" height="20"/>
+				<textElement/>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1e416bd5-e709-413e-ac17-c517106299db" x="222" y="0" width="111" height="20"/>
+				<textElement/>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0672922c-0b07-4efc-b920-b4b7c49233f7" x="333" y="0" width="111" height="20"/>
+				<textElement/>
+				<text><![CDATA[Sex Ratio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5342c42a-a8d8-48a5-84db-44630b27ea3e" x="444" y="0" width="111" height="20"/>
+				<textElement/>
+				<text><![CDATA[Count]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="217e6bd3-cb4e-432e-b863-e76406b23d9c" x="0" y="0" width="111" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ageGroup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e343a430-e156-4d86-968a-8a47a72fbd2f" x="111" y="0" width="111" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{male}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="52aed7e8-fc76-44a9-a9a8-ee567dd8beb4" x="222" y="0" width="111" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{female}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fbec9703-a7f0-4483-96b1-767b936bb203" x="333" y="0" width="111" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{sexRatio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ffe8ce6c-f03b-4f72-950a-e2b1e78b027d" x="444" y="0" width="111" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

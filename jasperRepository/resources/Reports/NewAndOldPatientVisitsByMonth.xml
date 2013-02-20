@@ -2,20 +2,21 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>NewAndOldPatientVisitsByMonth</name>
-    <version>0</version>
+    <version>18</version>
     <label>NewAndOldPatientVisitsByMonth</label>
-    <creationDate>2013-01-18T11:01:12.000+05:30</creationDate>
-    <updateDate>2013-01-18T11:01:12.000+05:30</updateDate>
+    <description></description>
+    <creationDate>2013-02-19T11:49:46.000+05:30</creationDate>
+    <updateDate>2013-02-20T10:30:07.000+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="NewAndOldPatientVisitsByMonth_jrxml.data" xsi:type="fileResource">
             <folder>/Reports/NewAndOldPatientVisitsByMonth_files</folder>
             <name>NewAndOldPatientVisitsByMonth_jrxml</name>
-            <version>0</version>
+            <version>7</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2013-01-18T11:01:12.000+05:30</creationDate>
+            <creationDate>2013-02-19T11:49:46.000+05:30</creationDate>
             <updateDate>2013-01-18T11:01:12.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
@@ -23,6 +24,40 @@
     <dataSource>
         <uri>/Data_Sources/openmrs</uri>
     </dataSource>
+    <inputControl>
+        <uri>/Resources/from_date</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/Resources/to_date</uri>
+    </inputControl>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            dataFile="NewVisits.data" xsi:type="fileResource">
+            <folder>/Reports/NewAndOldPatientVisitsByMonth_files</folder>
+            <name>NewVisits</name>
+            <version>0</version>
+            <label>NewVisits</label>
+            <description></description>
+            <creationDate>2013-02-20T10:20:34.000+05:30</creationDate>
+            <updateDate>2013-02-20T10:20:34.000+05:30</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </resource>
+    <resource>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            dataFile="ReturningVisits.data" xsi:type="fileResource">
+            <folder>/Reports/NewAndOldPatientVisitsByMonth_files</folder>
+            <name>ReturningVisits</name>
+            <version>1</version>
+            <label>ReturningVisits</label>
+            <creationDate>2013-02-20T10:20:34.000+05:30</creationDate>
+            <updateDate>2013-02-20T10:20:34.000+05:30</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </resource>
+    <inputControlRenderingView></inputControlRenderingView>
     <alwaysPromptControls>true</alwaysPromptControls>
-    <controlsLayout>1</controlsLayout>
+    <controlsLayout>4</controlsLayout>
 </reportUnit>
