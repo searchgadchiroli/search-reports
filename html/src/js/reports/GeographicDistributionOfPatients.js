@@ -1,6 +1,9 @@
 define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPalette', 'app/ui/createInputControl', 'app/JSSGeoJSON'],
-    function (l, mergeJson, csvToJson, colorPalette, createInputControl, tehsilData) {
+    function (l, mergeJson, csvToJson, colorPalette, createInputControl, tehsilData) { 
         return {start: function () {
+
+            var title='Geographical Distribution for New Registration of Patients ';
+
             var resetMap = function () {
                 jQuery('#map').empty();
                 jQuery('#map').append('<div id="mapContainer"></div>');
@@ -8,7 +11,8 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
 
             var init = function () {
                 resetMap();
-                jQuery('#report .title').empty().append('Geographical distribution of patients');
+               
+                jQuery('#report .title').empty().append(title);
                 var url = 'rest_v2/reports/Reports/GeographicDistributionOfPatients/inputControls';
                 jQuery.ajax({
                     url: url,
@@ -19,7 +23,17 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
 
             var showOnMap = function (data) {
                 resetMap();
-                var map = l.map('mapContainer').setView([22.07963 , 79.53914], 6.7);
+
+                //restrict the boundaries
+                var southWest = new L.LatLng(17,74); 
+                var northEast = new L.LatLng(27,84.5); 
+                var restrictBounds = new L.LatLngBounds(southWest, northEast); 
+                var mapOptions = { 
+                  maxBounds: restrictBounds 
+                }; 
+
+                var map = l.map('mapContainer',mapOptions).setView([22.5 , 79.2],6.7);
+               
 
                 // control that shows state info on hover
                 var info = l.control();
@@ -129,6 +143,14 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
             var getReport = function () {
                 var inputControls = jQuery('#controlDataContainer > form');
                 var url = 'rest_v2/reports/Reports/GeographicDistributionOfPatients.csv?' + inputControls.serialize();
+
+                var date_string=inputControls.serialize();
+                var splitForEqual=date_string.split("=");
+                var splitForAmp=splitForEqual[1].split("&");               
+                var from_date=splitForAmp[0];
+                var to_date=splitForEqual[2];
+
+                jQuery('#report .title').empty().append(from_date ? title +'from'+from_date+' to '+to_date : title);
                 jQuery.ajax({
                     url: url,
                     success: showOnMap
