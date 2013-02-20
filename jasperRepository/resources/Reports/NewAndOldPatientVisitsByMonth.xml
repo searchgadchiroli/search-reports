@@ -2,11 +2,11 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>NewAndOldPatientVisitsByMonth</name>
-    <version>18</version>
-    <label>NewAndOldPatientVisitsByMonth</label>
+    <version>20</version>
+    <label>New vs Return Patient Visits</label>
     <description></description>
     <creationDate>2013-02-19T11:49:46.000+05:30</creationDate>
-    <updateDate>2013-02-20T10:30:07.000+05:30</updateDate>
+    <updateDate>2013-02-20T11:57:52.000+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
