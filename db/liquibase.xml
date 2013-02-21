@@ -87,4 +87,32 @@
 
         </sql>
     </changeSet>
+	
+    <changeSet id="2013-02-21-jss-create-jss_agegroups" author="Vinay Venu">
+        <createTable tableName="jss_agegroups">
+            <column name="jss_agegroup_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="group_name" type="varchar(50)">
+                <constraints nullable="false"/>				
+			</column>
+            <column name="age_min" type="int">
+                <constraints nullable="false"/>				
+			</column>
+            <column name="age_max" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2013-02-21-jss-create-reporting-agegroups" author="Vinay Venu">
+        <sql>
+            INSERT INTO jss_agegroups  (group_name, age_min, age_max) VALUES ('demographicReport', 0, 1);
+            INSERT INTO jss_agegroups  (group_name, age_min, age_max) VALUES ('demographicReport', 1, 5);
+            INSERT INTO jss_agegroups  (group_name, age_min, age_max) VALUES ('demographicReport', 0, 5);
+            INSERT INTO jss_agegroups  (group_name, age_min, age_max) VALUES ('demographicReport', 5, 16);
+            INSERT INTO jss_agegroups  (group_name, age_min, age_max) VALUES ('demographicReport', 16, 45);
+            INSERT INTO jss_agegroups  (group_name, age_min, age_max) VALUES ('demographicReport', 45, 60);
+            INSERT INTO jss_agegroups  (group_name, age_min, age_max) VALUES ('demographicReport', 60, 200);
+        </sql>
+    </changeSet>
 </databaseChangeLog>
