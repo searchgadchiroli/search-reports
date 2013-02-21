@@ -42,7 +42,6 @@ echo "PROPERTIES_FILE = $PROPERTIES_FILE"
 
 cd $SCRIPT_DIR
 
-#Changing properties
 echo "###########################################################################"
 echo "Fixing properties files"
 echo "###########################################################################"
@@ -80,8 +79,15 @@ OPENMRS_DB_PASSWORD=`cat $PROPERTIES_FILE | grep openmrs_password | cut -f2 -d"=
 if [ $? -ne 0 ]
 then
 	echo "Failed "
-	exit 1
+	exit 1	
 fi
+
+echo "###########################################################################"
+echo "Copy interactive reports to Jasper Server"
+echo "###########################################################################"
+JASPER_MASTER_PROPERTIES="${JASPER_HOME}/buildomatic/build_conf/default/master.properties"
+APP_SERVER_DIR=`cat $JASPER_MASTER_PROPERTIES | grep ^appServerDir | cut -f2 -d"="`
+cp -r ${SCRIPT_DIR}/../html/src $APP_SERVER_DIR/webapps/jasperserver/maps
 
 
 echo "###########################################################################"
