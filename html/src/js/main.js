@@ -33,6 +33,14 @@ requirejs(['require'],
             backToList();
         });
 
+         jQuery('#showData').click(function () {
+            this.date_string;
+            var inputControls = jQuery('#controlDataContainer > form');
+            var inputParam=inputControls.serialize();
+            var url="flow.html?_flowId=viewReportFlow&standAlone=true&_flowId=viewReportFlow&ParentFolderUri=%2FReports&reportUnit=%2FReports%2FGeographicDistributionOfPatients";
+            window.location=inputParam?url+'&'+inputParam:url;
+        });
+
         jQuery('#jssPatientStatistics').click(function () {
             showMaps('app/reports/GeographicDistributionOfPatients');
         });

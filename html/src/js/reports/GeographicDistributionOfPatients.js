@@ -2,7 +2,7 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
     function (l, mergeJson, csvToJson, colorPalette, createInputControl, tehsilData) { 
         return {start: function () {
 
-            var title='Geographical Distribution for New Registration of Patients ';
+            var title='Geographic Distribution of New Registrations';
 
             var resetMap = function () {
                 jQuery('#map').empty();
@@ -29,7 +29,8 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
                 var northEast = new L.LatLng(27,84.5); 
                 var restrictBounds = new L.LatLngBounds(southWest, northEast); 
                 var mapOptions = { 
-                  maxBounds: restrictBounds 
+                  maxBounds: restrictBounds ,
+                  maxZoom:10
                 }; 
 
                 var map = l.map('mapContainer',mapOptions).setView([22.5 , 79.2],6.7);
@@ -45,11 +46,11 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
                 };
 
                 info.update = function (props) {
-                    this._div.innerHTML = (props ?
-                        '<b>District: </b>' + props.district + '<br>' +
+                    this._div.innerHTML = (props ?          
                         '<b>Tehsil: </b>' + props.tehsil + '<br>' +
+                        '<b>District: </b>' + props.district + '<br>' +
                         props.data.total + ' (Female-' + props.data.female + ', Male-' + props.data.male + ')<br>'
-                        : 'Hover over a state');
+                        : 'Hover over a tehsil');
                 };
 
                 info.addTo(map);
@@ -150,7 +151,7 @@ define(['leaflet', 'app/util/mergeJson', 'app/util/csvToJson', 'app/ui/colorPale
                 var from_date=splitForAmp[0];
                 var to_date=splitForEqual[2];
 
-                jQuery('#report .title').empty().append(from_date ? title +'from'+from_date+' to '+to_date : title);
+                jQuery('#report .title').empty().append(from_date ? title +' from '+from_date+' to '+to_date : title);
                 jQuery.ajax({
                     url: url,
                     success: showOnMap
