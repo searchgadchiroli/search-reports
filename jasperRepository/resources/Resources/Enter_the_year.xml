@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl>
+    <folder>/Resources</folder>
+    <name>Enter_the_year</name>
+    <version>1</version>
+    <label>Enter the year</label>
+    <description></description>
+    <creationDate>2013-02-20T12:28:48.000+05:30</creationDate>
+    <updateDate>2013-02-20T17:03:27.000+05:30</updateDate>
+    <type>4</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="query">
+            <folder>/Resources/Enter_the_year_files</folder>
+            <name>year_list</name>
+            <version>0</version>
+            <label>year_list</label>
+            <description></description>
+            <creationDate>2013-02-20T12:28:48.000+05:30</creationDate>
+            <updateDate>2013-02-20T12:28:48.000+05:30</updateDate>
+            <language>sql</language>
+            <queryString>select value from (
+SELECT
+    (TWO_1.SeqValue + TWO_2.SeqValue + TWO_4.SeqValue + TWO_8.SeqValue + TWO_16.SeqValue) + 2000 value
+FROM
+    (SELECT 0 SeqValue UNION ALL SELECT 1 SeqValue) TWO_1
+    CROSS JOIN (SELECT 0 SeqValue UNION ALL SELECT 2 SeqValue) TWO_2
+    CROSS JOIN (SELECT 0 SeqValue UNION ALL SELECT 4 SeqValue) TWO_4
+    CROSS JOIN (SELECT 0 SeqValue UNION ALL SELECT 8 SeqValue) TWO_8
+    CROSS JOIN (SELECT 0 SeqValue UNION ALL SELECT 16 SeqValue) TWO_16) sequence
+where sequence.value &gt;= 2000 and sequence.value &lt;= 2020;</queryString>
+            <dataSource>
+                <uri>/Data_Sources/openmrs</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>value</queryVisibleColumn>
+    <queryValueColumn>value</queryValueColumn>
+</inputControl>

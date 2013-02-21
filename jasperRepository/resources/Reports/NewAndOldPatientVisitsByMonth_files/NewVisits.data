@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NewVisits" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fb208b6b-36f8-4dee-ba12-ea06440c7e1a">
-	<property name="ireport.zoom" value="5.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="from_date" class="java.util.Date">
@@ -16,61 +16,109 @@
        COALESCE(ROUND((t.female/t.male)*1000), t.female*1000) AS sexRatio,
        t.male+t.female AS COUNT
 FROM
-  (SELECT bar.ageGroup,
+  (SELECT bar.ageGroup, bar.sortOrder as sortOrder,
           SUM(CASE WHEN bar.gender = 'M' THEN 1 ELSE 0 END) AS male,
           SUM(CASE WHEN bar.gender = 'F' THEN 1 ELSE 0 END) AS female
    FROM
      (SELECT person_id,
                       gender,
-						IF(foo.age < 1, '0-1',
-						IF(foo.age >= 1 && age < 5, '1-5',
-						IF(foo.age >= 5 && age < 16, '5-16',
-						IF(foo.age >= 16 && age < 45, '16-45',
-						IF(foo.age >= 45 && age < 60, '45-60',
-						IF(foo.age >= 60, '64+', 'other')))))) AS ageGroup
+					   if(jag.age_max = 200, CONCAT('>', CAST(jag.age_min AS CHAR(10))), CONCAT(CAST(jag.age_min AS CHAR(10)), '-', CAST(jag.age_max AS CHAR(10)))) ageGroup,
+                      jag.jss_agegroup_id sortOrder
       FROM
         (SELECT person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age,
                                                                           gender, date_created
          FROM person
          WHERE gender IN ('M','F') ) AS foo
       JOIN encounter e ON e.patient_id = foo.person_id
-      WHERE e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date}
-	AND Datediff(e.date_created, foo.date_created) < 1) AS bar
-   GROUP BY ageGroup) AS t;]]>
+        AND Datediff(e.date_created, foo.date_created) < 1
+        AND ((e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date}) OR (e.encounter_datetime is null))
+	  RIGHT JOIN jss_agegroups jag on foo.age >= jag.age_min and foo.age < jag.age_max
+		AND jag.group_name = 'demographicReport') AS bar
+   GROUP BY ageGroup) AS t
+order by t.sortOrder asc;]]>
 	</queryString>
 	<field name="ageGroup" class="java.lang.String"/>
 	<field name="male" class="java.math.BigDecimal"/>
 	<field name="female" class="java.math.BigDecimal"/>
 	<field name="sexRatio" class="java.math.BigDecimal"/>
 	<field name="COUNT" class="java.math.BigDecimal"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<variable name="totalMale" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{male}]]></variableExpression>
+	</variable>
+	<variable name="totalFemale" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{female}]]></variableExpression>
+	</variable>
+	<variable name="totalCount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{COUNT}]]></variableExpression>
+	</variable>
+	<variable name="totalSexRatio" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{totalMale} == 0 ? 0 : Math.round($V{totalFemale}/$V{totalMale}*1000)]]></variableExpression>
+	</variable>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="ea5bd389-d695-4ab6-b559-b165b897933f" x="0" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="ea5bd389-d695-4ab6-b559-b165b897933f" mode="Opaque" x="0" y="0" width="111" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Age Group]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6a8c4844-2e8a-4bec-b87a-c31ab32cc4de" x="111" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="6a8c4844-2e8a-4bec-b87a-c31ab32cc4de" mode="Opaque" x="111" y="0" width="111" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Male]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1e416bd5-e709-413e-ac17-c517106299db" x="222" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="1e416bd5-e709-413e-ac17-c517106299db" mode="Opaque" x="222" y="0" width="111" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Female]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0672922c-0b07-4efc-b920-b4b7c49233f7" x="333" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="0672922c-0b07-4efc-b920-b4b7c49233f7" mode="Opaque" x="333" y="0" width="111" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Sex Ratio]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5342c42a-a8d8-48a5-84db-44630b27ea3e" x="444" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="5342c42a-a8d8-48a5-84db-44630b27ea3e" mode="Opaque" x="444" y="0" width="111" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Count]]></text>
 			</staticText>
 		</band>
@@ -78,30 +126,139 @@ FROM
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="217e6bd3-cb4e-432e-b863-e76406b23d9c" x="0" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="217e6bd3-cb4e-432e-b863-e76406b23d9c" mode="Opaque" x="0" y="0" width="111" height="20" backcolor="#FFFFFF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{ageGroup}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e343a430-e156-4d86-968a-8a47a72fbd2f" x="111" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="e343a430-e156-4d86-968a-8a47a72fbd2f" mode="Opaque" x="111" y="0" width="111" height="20" backcolor="#FFFFFF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{male}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="52aed7e8-fc76-44a9-a9a8-ee567dd8beb4" x="222" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="52aed7e8-fc76-44a9-a9a8-ee567dd8beb4" mode="Opaque" x="222" y="0" width="111" height="20" backcolor="#FFFFFF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{female}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="fbec9703-a7f0-4483-96b1-767b936bb203" x="333" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="fbec9703-a7f0-4483-96b1-767b936bb203" mode="Opaque" x="333" y="0" width="111" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{sexRatio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ffe8ce6c-f03b-4f72-950a-e2b1e78b027d" x="444" y="0" width="111" height="20"/>
-				<textElement/>
+				<reportElement uuid="ffe8ce6c-f03b-4f72-950a-e2b1e78b027d" mode="Opaque" x="444" y="0" width="111" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
+	<summary>
+		<band height="20">
+			<staticText>
+				<reportElement uuid="489cb723-d7f1-45a6-a6a8-ec1a3f844ea4" mode="Opaque" x="0" y="0" width="111" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="261e0bdb-fa95-4cbb-82aa-c15fbe03214f" mode="Opaque" x="111" y="0" width="111" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalMale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e7e11546-289f-4afb-869f-9b7b5ce71f5d" mode="Opaque" x="222" y="0" width="111" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalFemale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f8cf45a9-61ef-4dc1-9fc2-1387ad440397" mode="Opaque" x="333" y="0" width="111" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalSexRatio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3a768a13-65b7-48f7-9ebb-dfa4a1181b9a" mode="Opaque" x="444" y="0" width="111" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalCount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
 </jasperReport>

@@ -53,29 +53,29 @@
 					<textElement verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA["For Date range "+$P{from_date}+" - "+$P{to_date}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy")]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
 	</title>
 	<summary>
-		<band height="254" splitType="Stretch">
+		<band height="267" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="06b808d4-df10-43eb-a7a9-88776aebf3ca" x="0" y="12" width="343" height="20"/>
+				<reportElement uuid="06b808d4-df10-43eb-a7a9-88776aebf3ca" positionType="Float" x="0" y="12" width="343" height="20"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[New Patient Visits]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5f2c4837-13da-46c3-bfcc-9b69a7e46c05" x="0" y="132" width="343" height="20"/>
+				<reportElement uuid="5f2c4837-13da-46c3-bfcc-9b69a7e46c05" positionType="Float" x="0" y="147" width="343" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Returning Patient Visits]]></text>
 			</staticText>
 			<subreport>
-				<reportElement uuid="c5df79a3-0334-44f8-ba9a-44c4f6b49ea9" x="0" y="32" width="200" height="100"/>
+				<reportElement uuid="c5df79a3-0334-44f8-ba9a-44c4f6b49ea9" positionType="Float" x="0" y="32" width="200" height="100"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -89,7 +89,7 @@
 				<subreportExpression><![CDATA["repo:NewVisits"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement uuid="a2aa6cd2-e12d-4b04-8492-6361694f46c6" x="0" y="152" width="200" height="100"/>
+				<reportElement uuid="a2aa6cd2-e12d-4b04-8492-6361694f46c6" positionType="Float" x="0" y="167" width="200" height="100"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>

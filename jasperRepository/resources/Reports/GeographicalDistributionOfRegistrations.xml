@@ -2,20 +2,21 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>GeographicalDistributionOfRegistrations</name>
-    <version>0</version>
+    <version>48</version>
     <label>Geographical Distribution Of Registrations</label>
-    <creationDate>2013-01-15T16:22:30.000+05:30</creationDate>
-    <updateDate>2013-01-15T16:22:30.000+05:30</updateDate>
+    <description></description>
+    <creationDate>2013-02-21T09:52:22.000+05:30</creationDate>
+    <updateDate>2013-02-21T17:44:46.000+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="GeographicalDistributionOfRegistrations_jrxml.data" xsi:type="fileResource">
             <folder>/Reports/GeographicalDistributionOfRegistrations_files</folder>
             <name>GeographicalDistributionOfRegistrations_jrxml</name>
-            <version>0</version>
+            <version>18</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2013-01-15T16:22:30.000+05:30</creationDate>
+            <creationDate>2013-02-21T09:52:22.000+05:30</creationDate>
             <updateDate>2013-01-15T16:22:30.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
@@ -23,6 +24,10 @@
     <dataSource>
         <uri>/Data_Sources/openmrs</uri>
     </dataSource>
+    <inputControl>
+        <uri>/Resources/Enter_the_year</uri>
+    </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
     <alwaysPromptControls>true</alwaysPromptControls>
-    <controlsLayout>1</controlsLayout>
+    <controlsLayout>4</controlsLayout>
 </reportUnit>

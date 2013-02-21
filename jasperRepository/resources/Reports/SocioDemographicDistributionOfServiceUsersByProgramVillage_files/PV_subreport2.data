@@ -7,20 +7,16 @@
 	<parameter name="to_date" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[SELECT t.ageGroup, t.male, t.female,
-       COALESCE(ROUND((t.female/t.male)*1000), t.female*1000) AS sexRatio,
+       COALESCE(ROUND((t.female/t.male)*1000), 'NA') AS sexRatio,
        t.male+t.female AS COUNT
 FROM (
-	SELECT bar.ageGroup,
+	SELECT bar.ageGroup as ageGroup, bar.sortOrder as sortOrder,
           SUM(CASE WHEN bar.gender = 'M' THEN 1 ELSE 0 END) AS male,
           SUM(CASE WHEN bar.gender = 'F' THEN 1 ELSE 0 END) AS female
    	FROM(
    		SELECT  distinct foo.person_id, gender,
-						IF(foo.age < 1, '0-1',
-						IF(foo.age >= 1 && age < 5, '1-5',
-						IF(foo.age >= 5 && age < 16, '5-16',
-						IF(foo.age >= 16 && age < 45, '16-45',
-						IF(foo.age >= 45 && age < 60, '45-60',
-						IF(foo.age >= 60, '64+', 'other')))))) AS ageGroup
+					   if(jag.age_max = 200, CONCAT('>', CAST(jag.age_min AS CHAR(10))), CONCAT(CAST(jag.age_min AS CHAR(10)), '-', CAST(jag.age_max AS CHAR(10)))) ageGroup,
+                      jag.jss_agegroup_id sortOrder
 		FROM (
 			SELECT p.person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age, gender
 	  		FROM person p
@@ -28,9 +24,10 @@ FROM (
 	  		INNER JOIN jss_program_village pv on pv.city_village= pa.city_village
 	  		WHERE gender IN ('M','F')
 		) AS foo
-	JOIN encounter e ON e.patient_id = foo.person_id
-	WHERE e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date}) as bar
-	GROUP by ageGroup) as t;]]>
+	JOIN encounter e ON e.patient_id = foo.person_id AND (e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date} or e.encounter_datetime is null)
+	  RIGHT JOIN jss_agegroups jag on foo.age >= jag.age_min and foo.age < jag.age_max
+		AND jag.group_name = 'demographicReport') as bar GROUP BY ageGroup) as t
+ORDER by t.sortOrder asc;]]>
 	</queryString>
 	<field name="ageGroup" class="java.lang.String"/>
 	<field name="male" class="java.math.BigDecimal"/>
@@ -137,7 +134,7 @@ FROM (
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA["Count"]]></text>
+				<text><![CDATA[COUNT]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="6dee2fc9-4edd-4182-b1a7-e6a6588f9508" mode="Opaque" x="100" y="0" width="100" height="20" backcolor="#A9C9FF"/>

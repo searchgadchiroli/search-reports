@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GeographicalDistributionOfRegistrations" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5c62c8fc-6025-423e-8313-d3b286d50a24">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="Enter_the_year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select l.name location_name, p.gender person_gender, date_format(p.date_created, '%Y-%m') created_month, count(*) total
+		<![CDATA[select location_name, male, female, COALESCE(ROUND((female/male)*1000), female*1000) AS sexRatio, total from (
+select l.name location_name,
+SUM(CASE WHEN p.gender = 'M' THEN 1 ELSE 0 END) AS male,
+SUM(CASE WHEN p.gender = 'M' THEN 0 ELSE 1 END) AS female,
+count(distinct p.person_id) total
 from person p,
 	person_attribute pa,
 	person_attribute_type pat,
@@ -14,225 +21,251 @@ where p.person_id = pa.person_id
 	and pa.person_attribute_type_id = pat.person_attribute_type_id
 	and pat.name = 'Health Center'
 	and pa.value = l.location_id
-group by l.name, p.gender, date_format(p.date_created, 'Y-m')
-order by location_name asc]]>
+    and year(p.date_created) =  $P{Enter_the_year}
+group by l.name
+order by location_name asc) t;]]>
 	</queryString>
 	<field name="location_name" class="java.lang.String"/>
-	<field name="person_gender" class="java.lang.String"/>
-	<field name="created_month" class="java.lang.String"/>
+	<field name="male" class="java.math.BigDecimal"/>
+	<field name="female" class="java.math.BigDecimal"/>
+	<field name="sexRatio" class="java.math.BigDecimal"/>
 	<field name="total" class="java.lang.Long"/>
+	<variable name="totalMale" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{male}]]></variableExpression>
+	</variable>
+	<variable name="totalFemale" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{female}]]></variableExpression>
+	</variable>
+	<variable name="totalCount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="totalSexRatio" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{totalMale} == 0 ? 0 : Math.round($V{totalFemale}/$V{totalMale}*1000)]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="83" splitType="Stretch">
+		<band height="100" splitType="Stretch">
+			<image>
+				<reportElement uuid="b3a45421-fc5f-4356-97d2-3829da8f9589" x="0" y="0" width="99" height="83"/>
+				<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="4fb9d4bb-5af9-4150-a7df-c27c18139a70" x="99" y="0" width="471" height="43" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Demographic Report]]></text>
+			</staticText>
 			<frame>
-				<reportElement uuid="218e2a56-4ba6-4374-aa33-f3b0071eaeb5" mode="Opaque" x="0" y="0" width="555" height="83" backcolor="#006699"/>
+				<reportElement uuid="b4a0e685-da35-4373-86b8-de55bec84b88" mode="Opaque" x="0" y="0" width="570" height="91" backcolor="#006699"/>
 				<staticText>
-					<reportElement uuid="d8d78f09-0a91-4fd3-a9c3-ab241fd8544b" x="99" y="0" width="456" height="83" forecolor="#FFFFFF"/>
+					<reportElement uuid="4fb9d4bb-5af9-4150-a7df-c27c18139a70" x="99" y="20" width="456" height="43" forecolor="#FFFFFF"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
-					<text><![CDATA[GEOGRAPHIC DISTRUBUTION OF REGISTRATION]]></text>
+					<text><![CDATA[Registrations Per SubCenter]]></text>
 				</staticText>
 				<image>
-					<reportElement uuid="30af6975-981d-45b9-b823-3d26d3a27103" x="0" y="0" width="99" height="83"/>
+					<reportElement uuid="b3a45421-fc5f-4356-97d2-3829da8f9589" x="0" y="0" width="99" height="83"/>
 					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
 				</image>
+				<textField>
+					<reportElement uuid="d49662d4-de8f-4d66-9aae-a62d77807be5" x="99" y="63" width="456" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["For year: " + $P{Enter_the_year}.toString()]]></textFieldExpression>
+				</textField>
 			</frame>
 		</band>
 	</title>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement uuid="19e81e15-ccac-43a8-adbf-b288f780df16" mode="Opaque" x="0" y="0" width="114" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Location]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c74b571e-4567-4fc6-93ec-3048f8f70142" mode="Opaque" x="114" y="0" width="114" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7c656106-e88a-4d5b-b7d8-04fc67af5c31" mode="Opaque" x="228" y="0" width="114" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="943cea43-daa1-4d1a-b04c-02e92d55beca" mode="Opaque" x="342" y="0" width="114" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sex Ratio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="76e998d2-856c-4c7b-9c26-a35f89773066" mode="Opaque" x="456" y="0" width="114" height="20" backcolor="#006699"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement uuid="fd067d81-7358-490a-8fca-3f0ee6247e85" x="0" y="0" width="114" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{location_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="55a85c09-7ff6-4bcc-859d-93ecb83b24fe" x="114" y="0" width="114" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{male}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3792feee-68cc-45eb-9f16-5c5b63bcb7fd" x="228" y="0" width="114" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{female}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3b4a0a34-07aa-4735-9d1c-f72fe263e33e" mode="Opaque" x="342" y="0" width="114" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sexRatio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="32c1bd35-3d7e-44d7-a5da-bd7687a4c8c7" mode="Opaque" x="456" y="0" width="114" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
 	<summary>
-		<band height="146">
-			<crosstab>
-				<reportElement uuid="8f131331-f09d-45aa-b2bb-15e9c4efb2ca" x="0" y="12" width="572" height="131"/>
-				<rowGroup name="location_name" width="70" totalPosition="End">
-					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{location_name}]]></bucketExpression>
-					</bucket>
-					<crosstabRowHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField>
-								<reportElement uuid="ced99f12-863d-40e4-847f-a31278617875" style="Crosstab Data Text" x="0" y="0" width="70" height="25"/>
-								<textElement verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{location_name}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabRowHeader>
-					<crosstabTotalRowHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<staticText>
-								<reportElement uuid="83b31530-0546-4ff7-b8fd-dbcf2d66839e" x="0" y="0" width="70" height="25"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<text><![CDATA[Total location_name]]></text>
-							</staticText>
-						</cellContents>
-					</crosstabTotalRowHeader>
-				</rowGroup>
-				<columnGroup name="created_month" height="30" totalPosition="End">
-					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{created_month}]]></bucketExpression>
-					</bucket>
-					<crosstabColumnHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField>
-								<reportElement uuid="c0224dec-572d-462a-89ce-f53980ae379e" style="Crosstab Data Text" x="0" y="0" width="209" height="30"/>
-								<textElement verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{created_month}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabColumnHeader>
-					<crosstabTotalColumnHeader>
-						<cellContents backcolor="#005FB3" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<staticText>
-								<reportElement uuid="1849ed80-9375-4f5d-a3bd-e8fed1e77bdc" x="0" y="0" width="50" height="60" forecolor="#FFFFFF"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<text><![CDATA[Total]]></text>
-							</staticText>
-						</cellContents>
-					</crosstabTotalColumnHeader>
-				</columnGroup>
-				<columnGroup name="person_gender" height="30" totalPosition="End">
-					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{person_gender}]]></bucketExpression>
-					</bucket>
-					<crosstabColumnHeader>
-						<cellContents backcolor="#F0F8FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField>
-								<reportElement uuid="ef5eb41a-bc14-4ca0-9683-9e81fac19322" style="Crosstab Data Text" x="0" y="0" width="99" height="30"/>
-								<textElement verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{person_gender}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabColumnHeader>
-					<crosstabTotalColumnHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<staticText>
-								<reportElement uuid="3ab7a1f7-8921-48d0-a939-2b3c345a883d" x="0" y="0" width="110" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<text><![CDATA[Total person per month]]></text>
-							</staticText>
-						</cellContents>
-					</crosstabTotalColumnHeader>
-				</columnGroup>
-				<measure name="totalMeasure" class="java.lang.Integer" calculation="Count">
-					<measureExpression><![CDATA[$F{total}]]></measureExpression>
-				</measure>
-				<crosstabCell width="99" height="25">
-					<cellContents>
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="c2b4c3c1-0a9b-4b6f-98f8-a673520e7550" style="Crosstab Data Text" x="0" y="0" width="99" height="25"/>
-							<textElement verticalAlignment="Middle">
-								<font size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="99" height="25" rowTotalGroup="location_name">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="35aa6a40-9f4c-4cd7-8700-e732d2df4703" style="Crosstab Data Text" x="0" y="0" width="99" height="25"/>
-							<textElement verticalAlignment="Middle">
-								<font size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="50" columnTotalGroup="created_month">
-					<cellContents backcolor="#005FB3" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="ac650930-07ea-4a7d-93b9-e8fa47bb17eb" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
-							<textElement verticalAlignment="Middle">
-								<font size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="50" rowTotalGroup="location_name" columnTotalGroup="created_month">
-					<cellContents backcolor="#005FB3" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="c12b09b7-0233-4a76-9e01-8c27aec19c8f" style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF"/>
-							<textElement verticalAlignment="Middle">
-								<font size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="110" columnTotalGroup="person_gender">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="3be3fb3b-996a-424b-b54e-0198e9d0c3c3" style="Crosstab Data Text" x="0" y="0" width="110" height="25"/>
-							<textElement verticalAlignment="Middle">
-								<font size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="110" rowTotalGroup="location_name" columnTotalGroup="person_gender">
-					<cellContents backcolor="#BFE1FF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField>
-							<reportElement uuid="b997da26-e596-4fbc-a0a5-2afcecbc8e78" style="Crosstab Data Text" x="0" y="0" width="110" height="25"/>
-							<textElement verticalAlignment="Middle">
-								<font size="12"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{totalMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-			</crosstab>
+		<band height="20">
+			<staticText>
+				<reportElement uuid="ad5734b1-6a86-4178-bab1-68e1685ed970" mode="Opaque" x="0" y="0" width="114" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="6b35eec7-e9e2-441e-8000-0697f829e4d0" mode="Opaque" x="114" y="0" width="114" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{totalMale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="df0c5183-d6ac-4cbd-b61d-e0c1e7da11cc" mode="Opaque" x="228" y="0" width="114" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{totalFemale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1d34623e-29ef-40a7-814a-1ae12eb55181" mode="Opaque" x="456" y="0" width="114" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{totalCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3a6ded48-cadf-4f6e-b3c5-b86436ec9273" mode="Opaque" x="342" y="0" width="114" height="20" backcolor="#A9C9FF"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{totalSexRatio}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>
