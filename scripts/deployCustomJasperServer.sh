@@ -12,17 +12,17 @@ then
 	exit 1
 fi
 
-cp ${CUSTOM_DIR}/applicationContext-security.xml ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/applicationContext-security.xml 
+cp -v ${CUSTOM_DIR}/applicationContext-security.xml ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/applicationContext-security.xml 
 
-cp ${CUSTOM_DIR}/actionModel-navigation.xml ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/actionModel-navigation.xml
+cp -v ${CUSTOM_DIR}/actionModel-navigation.xml ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/actionModel-navigation.xml
 
-cp ${CUSTOM_DIR}/jasperserver_messages.properties ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/bundles/jasperserver_messages.properties
+cp -v ${CUSTOM_DIR}/jasperserver_messages.properties ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/bundles/jasperserver_messages.properties
 
-cp ${CUSTOM_DIR}/actionModel.primaryNavigation.js ${APP_SERVER_DIR}/webapps/jasperserver/scripts/actionModel.primaryNavigation.js
+cp -v ${CUSTOM_DIR}/actionModel.primaryNavigation.js ${APP_SERVER_DIR}/webapps/jasperserver/scripts/actionModel.primaryNavigation.js
 
-cp -R ${CUSTOM_DIR}/mapFlow ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/jsp/modules/
+cp -v -R ${CUSTOM_DIR}/mapFlow ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/jsp/modules/
 
-cp ${CUSTOM_DIR}/docMap*.xml ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/flows/
+cp -v ${CUSTOM_DIR}/docMap*.xml ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/flows/
 
 cd ${CUSTOM_DIR}
 
@@ -34,4 +34,4 @@ javac com/jaspersoft/jasperserver/war/maps/MapAction.java -classpath "lib/*" -d 
 
 jar -cvf bin/jssJasper.jar -C bin com
 
-cp bin/jssJasper.jar ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/lib 
+cp -v bin/jssJasper.jar ${APP_SERVER_DIR}/webapps/jasperserver/WEB-INF/lib 
