@@ -41,7 +41,7 @@
 FROM   person p
        INNER JOIN person_address pa
                ON p.person_id = pa.person_id
-                  AND pa.preferred = 0
+                  AND pa.preferred = 1
 WHERE  p.date_created > $P{from_date}
        AND p.date_created < $P{to_date}
        AND pa.address3 is not null
