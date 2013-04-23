@@ -18,15 +18,16 @@ FROM (
 					   if(jag.age_max = 200, CONCAT('>', CAST(jag.age_min AS CHAR(10))), CONCAT(CAST(jag.age_min AS CHAR(10)), '-', CAST(jag.age_max AS CHAR(10)))) ageGroup,
                       jag.jss_agegroup_id sortOrder
 		FROM (
-			SELECT p.person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age, gender
+			SELECT p.person_id, p.birthdate, (YEAR(e.encounter_datetime)-YEAR(p.birthdate)) - (RIGHT(e.encounter_datetime,5) < RIGHT(p.birthdate,5)) AS age, p.gender
 	  		FROM person p
 	  		JOIN person_address pa on pa.person_id = p.person_id
 	  		LEFT JOIN jss_program_village pv on pv.city_village= pa.city_village
-	  		WHERE gender IN ('M','F')
+
+	JOIN encounter e ON e.patient_id = p.person_id AND (e.encounter_datetime >= $P{from_date} AND e.encounter_datetime <= DATE_ADD($P{to_date},INTERVAL 1 DAY) or e.encounter_datetime is null)
+	WHERE p.gender IN ('M','F')
 			AND pv.city_village is null
 		) AS foo
-	JOIN encounter e ON e.patient_id = foo.person_id AND (e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date} or e.encounter_datetime is null)
-	  RIGHT JOIN jss_agegroups jag on foo.age >= jag.age_min and foo.age < jag.age_max
+	RIGHT JOIN jss_agegroups jag on foo.age >= jag.age_min and foo.age < jag.age_max
 		AND jag.group_name = 'demographicReport') as bar GROUP BY ageGroup) as t
 ORDER by t.sortOrder asc;]]>
 	</queryString>

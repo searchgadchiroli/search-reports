@@ -25,13 +25,12 @@ FROM
 					   if(jag.age_max = 200, CONCAT('>', CAST(jag.age_min AS CHAR(10))), CONCAT(CAST(jag.age_min AS CHAR(10)), '-', CAST(jag.age_max AS CHAR(10)))) ageGroup,
                       jag.jss_agegroup_id sortOrder
       FROM
-        (SELECT person_id, birthdate, (YEAR(CURDATE())-YEAR(birthdate)) - (RIGHT(CURDATE(),5) < RIGHT(birthdate,5)) AS age,
-                                                                          gender, date_created
-         FROM person
-         WHERE gender IN ('M','F') ) AS foo
-      JOIN encounter e ON e.patient_id = foo.person_id
-        AND Datediff(e.date_created, foo.date_created) < 1
-        AND ((e.encounter_datetime BETWEEN $P{from_date} AND $P{to_date}) OR (e.encounter_datetime is null))
+        (SELECT p.person_id, p.birthdate, (YEAR(e.encounter_datetime)-YEAR(p.birthdate)) - (RIGHT(e.encounter_datetime,5) < RIGHT(p.birthdate,5)) AS age,
+                                                                          p.gender, p.date_created
+         FROM person p
+          join encounter e ON e.patient_id = p.person_id AND Datediff(e.date_created, p.date_created) < 1
+        AND ((e.encounter_datetime >= $P{from_date} AND e.encounter_datetime <= DATE_ADD($P{to_date},INTERVAL 1 DAY)) OR (e.encounter_datetime is null))
+ WHERE gender IN ('M','F') ) AS foo
 	  RIGHT JOIN jss_agegroups jag on foo.age >= jag.age_min and foo.age < jag.age_max
 		AND jag.group_name = 'demographicReport') AS bar
    GROUP BY ageGroup) AS t

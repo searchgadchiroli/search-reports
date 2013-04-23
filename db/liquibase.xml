@@ -115,4 +115,9 @@
             INSERT INTO jss_agegroups  (group_name, age_min, age_max) VALUES ('demographicReport', 60, 200);
         </sql>
     </changeSet>
+        <changeSet id="2013-04-22-jss-removing-agegroup-0-5-from-agegroups" author="RT">
+        <sql>
+            DELETE FROM jss_agegroups  WHERE jss_agegroup_id = 3;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
