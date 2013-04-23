@@ -40,7 +40,7 @@ order by t.sortOrder asc;]]>
 	<field name="ageGroup" class="java.lang.String"/>
 	<field name="male" class="java.math.BigDecimal"/>
 	<field name="female" class="java.math.BigDecimal"/>
-	<field name="sexRatio" class="java.math.BigDecimal"/>
+	<field name="sexRatio" class="java.lang.String"/>
 	<field name="COUNT" class="java.math.BigDecimal"/>
 	<variable name="totalMale" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{male}]]></variableExpression>
