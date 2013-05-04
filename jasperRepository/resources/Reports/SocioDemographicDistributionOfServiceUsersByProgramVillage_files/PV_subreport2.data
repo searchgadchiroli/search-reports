@@ -14,7 +14,7 @@ FROM (
           SUM(CASE WHEN bar.gender = 'M' THEN 1 ELSE 0 END) AS male,
           SUM(CASE WHEN bar.gender = 'F' THEN 1 ELSE 0 END) AS female
    	FROM(
-   		SELECT  distinct foo.person_id, gender,
+   		SELECT foo.person_id, gender,
 					   if(jag.age_max = 200, CONCAT('>', CAST(jag.age_min AS CHAR(10))), CONCAT(CAST(jag.age_min AS CHAR(10)), '-', CAST(jag.age_max AS CHAR(10)))) ageGroup,
                       jag.jss_agegroup_id sortOrder
 		FROM (
