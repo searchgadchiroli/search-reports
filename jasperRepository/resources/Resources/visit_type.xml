@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl>
+    <folder>/Resources</folder>
+    <name>visit_type</name>
+    <version>2</version>
+    <label>Visit Type</label>
+    <description>Type of visit</description>
+    <creationDate>2013-06-01T15:03:46.000+05:30</creationDate>
+    <updateDate>2013-06-01T16:28:08.000+05:30</updateDate>
+    <type>3</type>
+    <mandatory>true</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <listOfValues>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="listOfValues">
+            <folder>/Resources/visit_type_files</folder>
+            <name>visit_list</name>
+            <version>2</version>
+            <label>visit_list</label>
+            <description></description>
+            <creationDate>2013-06-01T15:55:00.000+05:30</creationDate>
+            <updateDate>2013-06-01T15:55:00.000+05:30</updateDate>
+            <item>
+                <itemLabel>New Patient</itemLabel>
+                <itemValue xsi:type="java:java.lang.String">REG</itemValue>
+            </item>
+            <item>
+                <itemLabel>Returning Patient</itemLabel>
+                <itemValue xsi:type="java:java.lang.String">REVISIT</itemValue>
+            </item>
+        </localResource>
+    </listOfValues>
+</inputControl>

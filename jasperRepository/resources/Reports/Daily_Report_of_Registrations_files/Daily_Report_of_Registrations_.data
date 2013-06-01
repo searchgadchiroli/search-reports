@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="socioDemographic_center" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fcfcb073-bab2-4c9b-bb41-ddf907675a82">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="165"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="date" class="java.util.Date"/>
+	<parameter name="visit_type" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+			e.visit_id as visit_id,
+			pi.identifier identifier,
+			pi.patient_id as patient_id,
+			concat(pn.given_name, ' ', pn.family_name) as name,
+			e.date_created as date_created,
+			sum(case when cn.name = 'REGISTRATION FEES' then o.value_numeric else 0 end) as regFees,
+			concat(case when cn.name = 'COMMENTS' then o.value_text else '' end) as comments,
+			sum(case when cn.name = 'HEIGHT' then o.value_numeric else 0 end) as height,
+			sum(case when cn.name = 'WEIGHT' then o.value_numeric else 0 end) as weight,
+			(select max(vi.visit_id) from visit vi where vi.patient_id = e.patient_id) as max_visit_id,
+			(select max(date_started)
+				from visit v where v.patient_id = e.patient_id
+				and v.visit_id <> e.visit_id
+				and date(v.date_created) < date(e.date_created)
+			) last_visit
+		from encounter e
+		left outer join obs o on e.encounter_id = o.encounter_id and o.voided = 0
+		left outer join patient_identifier pi on e.patient_id = pi.patient_id and pi.preferred = 1 and pi.voided = 0
+		left outer join person_name pn on e.patient_id = pn.person_id and pn.voided = 0 and pn.preferred = 0
+		left outer join concept_name cn on o.concept_id = cn.concept_id
+			and concept_name_type = 'FULLY_SPECIFIED'
+			and cn.voided = 0
+		left outer join visit v on e.visit_id = v.visit_id
+		left outer join visit_type vt on v.visit_type_id = vt.visit_type_id
+		where date(e.encounter_datetime) = $P{date}
+			and vt.name = $P{visit_type}
+		group by e.visit_id,
+				pi.identifier,
+				pi.patient_id,
+				concat(pn.given_name, ' ', pn.family_name, e.date_created),
+				(select max(v.visit_id) max_visit_id from visit v where v.patient_id = e.patient_id),
+				(select max(date_started)
+				from visit v where v.patient_id = e.patient_id
+				and v.visit_id <> e.visit_id
+				and date(v.date_created) < date(e.date_created)
+			)
+		having max_visit_id = visit_id;]]>
+	</queryString>
+	<field name="visit_id" class="java.lang.Integer"/>
+	<field name="identifier" class="java.lang.String"/>
+	<field name="patient_id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="date_created" class="java.sql.Timestamp"/>
+	<field name="regFees" class="java.lang.Double"/>
+	<field name="comments" class="java.lang.String"/>
+	<field name="height" class="java.lang.Double"/>
+	<field name="weight" class="java.lang.Double"/>
+	<field name="max_visit_id" class="java.lang.Long"/>
+	<field name="last_visit" class="java.sql.Timestamp"/>
+	<variable name="total_fees" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{regFees}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<frame>
+				<reportElement uuid="aebdb54f-c93d-49c9-9341-d9ba959963b1" mode="Opaque" x="0" y="1" width="555" height="85" backcolor="#006699"/>
+				<textField>
+					<reportElement uuid="4a9628e3-67e2-4896-ac65-66bdba4af2eb" x="99" y="20" width="456" height="43" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($P{visit_type} == "REG" ? "New" : "Returning") + " Patient Registration Report"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="10e8080a-99c6-4134-a2c0-968adf3e41b5" x="99" y="63" width="445" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Date: " +  $P{date}.format("dd/MM/yyyy")]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement uuid="719169d8-0a45-4ae1-9327-59dbb82b5ca2" x="0" y="2" width="99" height="83"/>
+					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="54">
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="0" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Registration No. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0ec0fbf-2a38-4512-80dc-5684047a6339" mode="Opaque" x="92" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="25cd731b-c161-4171-9979-3464ad12aa68" mode="Opaque" x="184" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fees]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce8a2bd1-fd42-456c-82c9-840ed9cbba04" mode="Opaque" x="276" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Height]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="83acef71-f270-4274-8497-47574c7d9e32" mode="Opaque" x="368" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Weight]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cebccbc9-6780-4706-854e-ce8eac30f96c" mode="Opaque" x="460" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Last Visit Date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="0" y="5" width="92" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identifier}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ce14ffd7-b6b1-442f-8de4-502d7e1dfca9" x="92" y="5" width="92" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d53aea5b-0e8c-4a78-b555-0f5d75852a89" x="184" y="5" width="92" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{regFees}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9c5d022a-a23d-4f2a-a3a3-e3856e583d8e" x="276" y="5" width="92" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{height}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d626ecd5-8cc8-4cdb-9f89-c0a373976bc8" x="368" y="5" width="92" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weight}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f498ad93-4289-413b-a229-5acedcdda517" x="460" y="5" width="92" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{last_visit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="35">
+			<staticText>
+				<reportElement uuid="0c282579-d130-4e69-97bc-a8a2ec8ec214" mode="Opaque" x="0" y="15" width="184" height="20" backcolor="#A9C9FF"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="9c5d022a-a23d-4f2a-a3a3-e3856e583d8e" mode="Opaque" x="184" y="15" width="371" height="20" backcolor="#A9C9FF"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_fees}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

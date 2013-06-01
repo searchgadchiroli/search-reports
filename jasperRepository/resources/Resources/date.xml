@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl>
+    <folder>/Resources</folder>
+    <name>date</name>
+    <version>5</version>
+    <label>Enter the date</label>
+    <creationDate>2013-06-01T15:37:21.000+05:30</creationDate>
+    <updateDate>2013-06-01T16:11:46.000+05:30</updateDate>
+    <type>2</type>
+    <mandatory>true</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <dataType>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dataType">
+            <folder>/Resources/date_files</folder>
+            <name>date</name>
+            <version>1</version>
+            <label>date</label>
+            <description>Date</description>
+            <creationDate>2013-06-01T16:11:46.000+05:30</creationDate>
+            <updateDate>2013-06-01T16:11:46.000+05:30</updateDate>
+            <type>3</type>
+            <regularExpr></regularExpr>
+            <strictMin>false</strictMin>
+            <strictMax>false</strictMax>
+        </localResource>
+    </dataType>
+</inputControl>

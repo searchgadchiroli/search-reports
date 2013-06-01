@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder>
+    <parent>/</parent>
+    <name>properties</name>
+    <label>System Properties</label>
+    <description>System Properties</description>
+    <creationDate>2013-02-22T16:55:39.000+05:30</creationDate>
+    <updateDate>2013-02-22T16:55:39.000+05:30</updateDate>
+    <resource>GlobalPropertiesList</resource>
+</folder>
