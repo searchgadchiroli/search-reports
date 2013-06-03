@@ -178,7 +178,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{last_visit} == null) ? "-" : $F{last_visit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{last_visit} == null) ? "-" : $F{last_visit}.format("dd/MM/yyyy")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
