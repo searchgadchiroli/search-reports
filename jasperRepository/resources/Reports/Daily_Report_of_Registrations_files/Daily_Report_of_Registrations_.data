@@ -8,6 +8,9 @@
 		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="visit_type" class="java.lang.String"/>
+	<parameter name="center" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Ganiyari"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select
 			e.visit_id as visit_id,
@@ -34,6 +37,10 @@
 			and cn.voided = 0
 		left outer join visit v on e.visit_id = v.visit_id
 		left outer join visit_type vt on v.visit_type_id = vt.visit_type_id
+		JOIN person_attribute pa ON pa.person_id = pn.person_id
+        		JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'Health Center'
+        		JOIN location l ON l.location_id = pa.value AND (l.name = $P{center}  or l.name is null)
+
 		where date(e.encounter_datetime) = $P{date}
 			and vt.name = $P{visit_type}
 		group by e.visit_id,
@@ -74,7 +81,7 @@
 					<textElement verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($P{visit_type} == "REG" ? "New" : "Returning") + " Patient Registration Report"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($P{visit_type} == "REG" ? "New" : "Returning") + " Patient Registration Report " + "(" + $P{center} + ")"]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
 					<reportElement uuid="10e8080a-99c6-4134-a2c0-968adf3e41b5" x="92" y="63" width="184" height="20" forecolor="#FFFFFF"/>
