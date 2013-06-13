@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="socioDemographic_center" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="fcfcb073-bab2-4c9b-bb41-ddf907675a82">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="419"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="date" class="java.util.Date">
 		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="visit_type" class="java.lang.String"/>
-	<parameter name="center" class="java.lang.String">
-		<defaultValueExpression><![CDATA["Ganiyari"]]></defaultValueExpression>
+	<parameter name="centers" class="java.util.List">
+		<defaultValueExpression><![CDATA[Arrays.asList("Ganiyari")]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select
@@ -39,7 +39,7 @@
 		left outer join visit_type vt on v.visit_type_id = vt.visit_type_id
 		JOIN person_attribute pa ON pa.person_id = pn.person_id
         		JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'Health Center'
-        		JOIN location l ON l.location_id = pa.value AND (l.name = $P{center}  or l.name is null)
+        		JOIN location l ON l.location_id = pa.value AND ($X{IN,l.name,centers} or l.name is null)
 
 		where date(e.encounter_datetime) = $P{date}
 			and vt.name = $P{visit_type}
@@ -81,7 +81,7 @@
 					<textElement verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($P{visit_type} == "REG" ? "New" : "Returning") + " Patient Registration Report " + "(" + $P{center} + ")"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($P{visit_type} == "REG" ? "New" : "Returning") + " Patient Registration Report"]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
 					<reportElement uuid="10e8080a-99c6-4134-a2c0-968adf3e41b5" x="92" y="63" width="184" height="20" forecolor="#FFFFFF"/>

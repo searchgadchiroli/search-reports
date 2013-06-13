@@ -30,7 +30,7 @@
         <uri>/Resources/visit_type</uri>
     </inputControl>
         <inputControl>
-        <uri>/Resources/center</uri>
+        <uri>/Resources/centers</uri>
     </inputControl>
     <inputControlRenderingView></inputControlRenderingView>
     <alwaysPromptControls>false</alwaysPromptControls>

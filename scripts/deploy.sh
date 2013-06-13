@@ -6,7 +6,7 @@ export SCRIPT_DIR
 
 usage() {
 	echo "Usage: deploy.sh -j <JASPER_HOME> -p <PROPERTIES_FILE>"
-	echo "eg: deploy.sh /home/jss/jasperserver -p ../conf/reportdefault.properties"
+	echo "eg: deploy.sh -j /usr/local/jasperreports-server -p ../conf/reportdefault.properties"
 	echo "properties file will be defaulted to ../conf/reports_default.properties"
 }
 

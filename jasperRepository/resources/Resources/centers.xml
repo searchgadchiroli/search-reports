@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl>
+    <folder>/Resources</folder>
+    <name>centers</name>
+    <version>11</version>
+    <label>Select the centers</label>
+    <creationDate>2013-06-13T12:27:47.000+05:30</creationDate>
+    <updateDate>2013-06-13T13:23:29.000+05:30</updateDate>
+    <type>11</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="query">
+            <folder>/Resources/centers_files</folder>
+            <name>get_all_centers</name>
+            <version>1</version>
+            <label>CenterQuery</label>
+            <creationDate>2013-06-13T13:23:29.000+05:30</creationDate>
+            <updateDate>2013-06-13T13:23:29.000+05:30</updateDate>
+            <language>sql</language>
+            <queryString>Select name from location where name &lt;&gt; 'Unknown Location'</queryString>
+            <dataSource>
+                <uri>/Data_Sources/openmrs</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>name</queryVisibleColumn>
+    <queryValueColumn>name</queryValueColumn>
+</inputControl>
