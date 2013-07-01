@@ -556,7 +556,7 @@
                 inputControlsFlow=ROLE_ADMINISTRATOR
                 tenantFlow=ROLE_ADMINISTRATOR
                 createSLDatasourceFlow=ROLE_ADMINISTRATOR
-				docMapFlow=ROLE_ADMINISTRATOR
+				docMapFlow=ROLE_ADMINISTRATOR,ROLE_USER
                 <!--objectPermissionToRoleFlow=ROLE_ADMINISTRATOR-->
                 userEditFlow=ROLE_ADMINISTRATOR
                 roleEditFlow=ROLE_ADMINISTRATOR
