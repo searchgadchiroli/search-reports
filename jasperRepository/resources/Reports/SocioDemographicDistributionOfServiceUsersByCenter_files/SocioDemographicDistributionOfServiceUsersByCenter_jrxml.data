@@ -29,7 +29,7 @@ FROM
         JOIN encounter e ON e.patient_id = p.person_id
   		                  AND ((e.encounter_datetime >= $P{from_date} AND e.encounter_datetime <= DATE_ADD($P{to_date},INTERVAL 1 DAY)) OR (e.encounter_datetime is null))
         JOIN person_attribute pa ON p.person_id = pa.person_id
-        JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'Health Center'
+        JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'healthCenter'
         JOIN location l ON l.location_id = pa.value AND (l.name = $P{center}  or l.name is null)
 
 

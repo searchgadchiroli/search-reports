@@ -62,7 +62,7 @@ FROM   person p,
        location l
 WHERE  p.person_id = pa.person_id
        AND pa.person_attribute_type_id = pat.person_attribute_type_id
-       AND pat.name = 'Health Center'
+       AND pat.name = 'healthCenter'
        AND pa.value = l.location_id
        AND Year(p.date_created) = $P{Enter_the_year}
 GROUP  BY l.name,
@@ -95,7 +95,7 @@ FROM   person p,
        location l
 WHERE  p.person_id = pa.person_id
        AND pa.person_attribute_type_id = pat.person_attribute_type_id
-       AND pat.name = 'Health Center'
+       AND pat.name = 'healthCenter'
        AND pa.value = l.location_id
        AND Year(p.date_created) = $P{Enter_the_year}
 GROUP  BY l.name,

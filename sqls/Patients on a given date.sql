@@ -28,7 +28,7 @@ left outer join concept_name cn on o.concept_id = cn.concept_id
 left outer join visit v on e.visit_id = v.visit_id
 left outer join person p on p.person_id = e.patient_id
 JOIN person_attribute pa ON pa.person_id = pn.person_id
-JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'Health Center'
+JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'healthCenter'
 where date(e.encounter_datetime) = '2013-07-05'
 group by e.visit_id,
 		pi.identifier,

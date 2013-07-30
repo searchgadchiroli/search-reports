@@ -19,7 +19,7 @@
 			concat(pn.given_name, ' ', pn.family_name) as name,
 			e.date_created as date_created,
 			sum(case when cn.name = 'REGISTRATION FEES' then o.value_numeric else 0 end) as regFees,
-			concat(case when cn.name = 'COMMENTS' then o.value_text else '' end) as comments,
+			GROUP_CONCAT(case when cn.name = 'COMMENTS' then o.value_text else '' end SEPARATOR '') as comments,
 			sum(case when cn.name = 'HEIGHT' then o.value_numeric else 0 end) as height,
 			sum(case when cn.name = 'WEIGHT' then o.value_numeric else 0 end) as weight,
 			(select max(vi.visit_id) from visit vi where vi.patient_id = e.patient_id) as max_visit_id,
@@ -38,7 +38,7 @@
 		left outer join visit v on e.visit_id = v.visit_id
 		left outer join visit_type vt on v.visit_type_id = vt.visit_type_id
 		JOIN person_attribute pa ON pa.person_id = pn.person_id
-        		JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'Health Center'
+        		JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'healthCenter'
         		JOIN location l ON l.location_id = pa.value AND ($X{IN,l.name,centers} or l.name is null)
 
 		where date(e.encounter_datetime) = $P{date}
