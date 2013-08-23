@@ -22,7 +22,6 @@
 			GROUP_CONCAT(case when cn.name = 'COMMENTS' then o.value_text else '' end SEPARATOR '') as comments,
 			sum(case when cn.name = 'HEIGHT' then o.value_numeric else 0 end) as height,
 			sum(case when cn.name = 'WEIGHT' then o.value_numeric else 0 end) as weight,
-			(select max(vi.visit_id) from visit vi where vi.patient_id = e.patient_id) as max_visit_id,
 			(select max(date_started)
 				from visit v where v.patient_id = e.patient_id
 				and v.visit_id <> e.visit_id
@@ -46,14 +45,13 @@
 		group by e.visit_id,
 				pi.identifier,
 				pi.patient_id,
-				concat(pn.given_name, ' ', pn.family_name, e.date_created),
-				(select max(v.visit_id) max_visit_id from visit v where v.patient_id = e.patient_id),
+				concat(pn.given_name, ' ', pn.family_name),
+				e.date_created,
 				(select max(date_started)
 				from visit v where v.patient_id = e.patient_id
 				and v.visit_id <> e.visit_id
 				and date(v.date_created) < date(e.date_created)
-			)
-		having max_visit_id = visit_id;]]>
+			);]]>
 	</queryString>
 	<field name="visit_id" class="java.lang.Integer"/>
 	<field name="identifier" class="java.lang.String"/>
@@ -64,7 +62,6 @@
 	<field name="comments" class="java.lang.String"/>
 	<field name="height" class="java.lang.Double"/>
 	<field name="weight" class="java.lang.Double"/>
-	<field name="max_visit_id" class="java.lang.Long"/>
 	<field name="last_visit" class="java.sql.Timestamp"/>
 	<variable name="total_fees" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{regFees}]]></variableExpression>
