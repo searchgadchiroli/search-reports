@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/bash
 
 usage() {
 	echo "usage: create_symlinks.sh <ReportsDirectory> <LinkDirectory>"

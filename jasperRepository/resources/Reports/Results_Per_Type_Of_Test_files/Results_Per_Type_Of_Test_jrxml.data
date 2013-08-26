@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Results_Per_Type_Of_Test" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="fcfcb073-bab2-4c9b-bb41-ddf907675a82">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="from_date" class="java.util.Date"/>
+	<parameter name="to_date" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select test.name,
+    sum(CASE WHEN cast(result.value as double precision) <  result.min_normal then 1 else 0 end) as below_normal,
+    sum(CASE WHEN cast(result.value as double precision) >  result.max_normal then 1 else 0 end) as above_normal,
+    sum(CASE WHEN cast(result.value as double precision) >= result.min_normal and cast(result.value as double precision) <= result.max_normal then 1 else 0 end) as normal,
+    count(*) as total
+ from test
+inner join analysis on analysis.test_id = test.id
+inner join result on result.analysis_id=analysis.id
+inner join sample_item on sample_item.id = analysis.sampitem_id
+inner join sample on sample.id = sample_item.samp_id
+where result.result_type='N'
+       AND sample.entered_date >= $P{from_date}
+       AND sample.entered_date <= $P{to_date}
+group by test.id;]]>
+	</queryString>
+	<field name="name" class="java.lang.String"/>
+	<field name="below_normal" class="java.lang.Long"/>
+	<field name="above_normal" class="java.lang.Long"/>
+	<field name="normal" class="java.lang.Long"/>
+	<field name="total" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<frame>
+				<reportElement uuid="aebdb54f-c93d-49c9-9341-d9ba959963b1" mode="Opaque" x="0" y="0" width="802" height="85" backcolor="#006699"/>
+				<textField>
+					<reportElement uuid="4a9628e3-67e2-4896-ac65-66bdba4af2eb" x="92" y="20" width="710" height="43" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Results Per Type Of Test"]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement uuid="719169d8-0a45-4ae1-9327-59dbb82b5ca2" x="0" y="2" width="92" height="83"/>
+					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+				</image>
+				<textField evaluationTime="Report">
+					<reportElement uuid="ea3a9c75-51a9-45a0-b74e-a5bf377ac785" x="92" y="65" width="618" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy")]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="54">
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="0" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sl No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="92" y="34" width="269" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Test Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="361" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Normal ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="453" y="34" width="123" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Below Normal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="576" y="34" width="134" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Above Normal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="710" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="0" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="92" y="0" width="269" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="361" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{normal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="453" y="0" width="123" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{below_normal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="576" y="0" width="134" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{above_normal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="710" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="35"/>
+	</summary>
+</jasperReport>

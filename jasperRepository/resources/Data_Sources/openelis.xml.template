@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdbcDataSource>
+    <folder>/Data_Sources</folder>
+    <name>openelis</name>
+    <version>2</version>
+    <label>openelis</label>
+    <description>OpenELIS data source</description>
+    <creationDate>2013-08-26T11:07:40.000+05:30</creationDate>
+    <updateDate>2013-08-26T11:12:54.000+05:30</updateDate>
+    <driver>org.postgresql.Driver</driver>
+    <connectionUrl>jdbc:postgresql://${openelis_dbhost}:5432/${openelis_schema}</connectionUrl>
+    <connectionUser>${openelis_username}</connectionUser>
+    <connectionPassword>${openelis_password}</connectionPassword>
+    <timezone></timezone>
+</jdbcDataSource>
