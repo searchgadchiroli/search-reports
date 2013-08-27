@@ -15,6 +15,7 @@
     <resource>SocioDemographicdistributionOfServiceUsers</resource>
     <resource>SocioDemographicDistributionOfServiceUsersByCenter</resource>
     <resource>SocioDemographicDistributionOfServiceUsersByProgramVillage</resource>
+    <resource>SummaryOfSamplesForCHP</resource>
     <resource>Total_Patients_in_Lab</resource>
     <resource>Total_Tests_Per_Patient_And_Abnormal_Results</resource>
 </folder>
