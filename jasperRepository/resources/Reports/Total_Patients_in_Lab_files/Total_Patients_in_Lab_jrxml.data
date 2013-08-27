@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Total_Patients_in_Lab" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="fcfcb073-bab2-4c9b-bb41-ddf907675a82">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="283"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/Total_Patients_in_Lab"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="from_date" class="java.util.Date"/>
+	<parameter name="to_date" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select count(distinct(analysis.id)) as total_test, count(distinct(sample.id)) as total_patient, sample_source.name
+from sample
+	inner join sample_human on sample_human.samp_id=sample.id
+	inner join sample_item on sample_item.samp_id = sample.id
+	inner join analysis on analysis.sampitem_id = sample_item.id
+	inner join sample_source on sample.sample_source_id=sample_source.id
+	where  sample.entered_date >= $P{from_date}
+		AND sample.entered_date <= $P{to_date}
+	group by sample_source.name
+	order by sample_source.name]]>
+	</queryString>
+	<field name="total_test" class="java.lang.Long"/>
+	<field name="total_patient" class="java.lang.Long"/>
+	<field name="name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<frame>
+				<reportElement uuid="aebdb54f-c93d-49c9-9341-d9ba959963b1" mode="Opaque" x="0" y="0" width="802" height="85" backcolor="#006699"/>
+				<textField>
+					<reportElement uuid="4a9628e3-67e2-4896-ac65-66bdba4af2eb" x="92" y="20" width="710" height="43" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total Patients and Tests"]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement uuid="719169d8-0a45-4ae1-9327-59dbb82b5ca2" x="0" y="2" width="92" height="83"/>
+					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+				</image>
+				<textField evaluationTime="Report">
+					<reportElement uuid="ea3a9c75-51a9-45a0-b74e-a5bf377ac785" x="92" y="65" width="618" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy")]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="54">
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="0" y="34" width="92" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sl No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="92" y="34" width="269" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Source]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="361" y="34" width="215" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Patients]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="576" y="34" width="226" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Tests]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="0" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="92" y="0" width="269" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="361" y="0" width="215" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_patient}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="576" y="0" width="226" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_test}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="35"/>
+	</summary>
+</jasperReport>

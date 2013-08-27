@@ -4,7 +4,7 @@
     <name>Reports</name>
     <label>Reports</label>
     <description></description>
-    <creationDate>2013-08-23T14:37:30.000+05:30</creationDate>
+    <creationDate>2013-08-26T17:34:43.000+05:30</creationDate>
     <updateDate>2013-01-07T16:11:35.000+05:30</updateDate>
     <resource>Daily_Report_of_Registrations</resource>
     <resource>GeographicalDistributionOfRegistrations</resource>
@@ -15,4 +15,5 @@
     <resource>SocioDemographicdistributionOfServiceUsers</resource>
     <resource>SocioDemographicDistributionOfServiceUsersByCenter</resource>
     <resource>SocioDemographicDistributionOfServiceUsersByProgramVillage</resource>
+    <resource>Total_Patients_in_Lab</resource>
 </folder>
