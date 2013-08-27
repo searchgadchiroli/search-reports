@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Total_Tests_Per_Patient_And_Abnormal_Results" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="fcfcb073-bab2-4c9b-bb41-ddf907675a82">
-	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.jasperserver.reportUnit" value="/Reports/Total_Tests_Per_Patient_And_Abnormal_Results"/>
@@ -19,12 +19,27 @@ inner join sample_human on sample_human.samp_id = sample.id
 inner join patient on sample_human.patient_id = patient.id
 inner join patient_identity on patient_identity.patient_id = patient.id
 inner join patient_identity_type on (patient_identity.identity_type_id = patient_identity_type.id and patient_identity_type.identity_type = 'ST')
-where (result.result_type='N' AND (cast(result.value as double precision) NOT BETWEEN result.min_normal AND result.max_normal)) AND sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date};]]>
+where (result.result_type='N' AND (cast(result.value as double precision) NOT BETWEEN result.min_normal AND result.max_normal)) AND sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date}
+ORDER BY date, registration_number;]]>
 	</queryString>
 	<field name="date" class="java.util.Date"/>
 	<field name="registration_number" class="java.lang.String"/>
 	<field name="test_name" class="java.lang.String"/>
 	<field name="value" class="java.lang.String"/>
+	<group name="TestsByDateAndPatient">
+		<groupExpression><![CDATA["" + $F{date}.format("dd-MMM-yyyy") + $F{registration_number}]]></groupExpression>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" mode="Opaque" x="0" y="0" width="802" height="20" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Number of Tests : " + $V{TestsByDateAndPatient_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -54,28 +69,28 @@ where (result.result_type='N' AND (cast(result.value as double precision) NOT BE
 	<columnHeader>
 		<band height="54">
 			<staticText>
-				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="0" y="34" width="92" height="20" backcolor="#006699"/>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="0" y="34" width="228" height="20" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="92" y="34" width="269" height="20" backcolor="#006699"/>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="228" y="34" width="225" height="20" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Patient]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="361" y="34" width="215" height="20" backcolor="#006699"/>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="453" y="34" width="215" height="20" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Abnormal tests]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="576" y="34" width="134" height="20" backcolor="#006699"/>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="668" y="34" width="134" height="20" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -86,28 +101,28 @@ where (result.result_type='N' AND (cast(result.value as double precision) NOT BE
 	<detail>
 		<band height="25">
 			<textField>
-				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="0" y="0" width="92" height="20"/>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="0" y="0" width="228" height="20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{TestsByDateAndPatient_COUNT} == 1 ? $F{date}.format("dd-MMM-yyyy") : ""]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="92" y="0" width="269" height="20"/>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="228" y="0" width="225" height="20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{registration_number}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{TestsByDateAndPatient_COUNT} == 1 ? $F{registration_number} : ""]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="361" y="0" width="215" height="20"/>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="453" y="0" width="215" height="20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{test_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="576" y="0" width="134" height="20"/>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="668" y="0" width="134" height="20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
