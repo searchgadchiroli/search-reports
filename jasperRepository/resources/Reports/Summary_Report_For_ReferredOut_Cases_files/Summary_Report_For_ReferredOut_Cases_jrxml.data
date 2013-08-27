@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Summary_Report_For_ReferredOut_Cases" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="fcfcb073-bab2-4c9b-bb41-ddf907675a82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/Summary_Report_For_ReferredOut_Cases"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="from_date" class="java.util.Date"/>
+	<parameter name="to_date" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select organization.name as organization_name, type_of_sample.description as sample_type_name, count(distinct(sample.id)) numnber_of_samples, count(distinct(analysis.id)) as numnber_of_tests
+from referral
+inner join organization on referral.organization_id = organization.id
+inner join analysis on referral.analysis_id = analysis.id
+inner join test on analysis.test_id = test.id
+inner join result on result.analysis_id=analysis.id
+inner join sample_item on sample_item.id = analysis.sampitem_id
+inner join sample on sample.id = sample_item.samp_id
+inner join type_of_sample on sample_item.typeosamp_id = type_of_sample.id
+where sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date}
+group by organization.name, sample_type_name;]]>
+	</queryString>
+	<field name="organization_name" class="java.lang.String"/>
+	<field name="sample_type_name" class="java.lang.String"/>
+	<field name="numnber_of_samples" class="java.lang.Long"/>
+	<field name="numnber_of_tests" class="java.lang.Long"/>
+	<group name="TestsByOrganization">
+		<groupExpression><![CDATA[$F{organization_name}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" mode="Opaque" x="0" y="0" width="802" height="20" backcolor="#CCCCCC"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{organization_name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<frame>
+				<reportElement uuid="aebdb54f-c93d-49c9-9341-d9ba959963b1" mode="Opaque" x="0" y="0" width="802" height="85" backcolor="#006699"/>
+				<textField>
+					<reportElement uuid="4a9628e3-67e2-4896-ac65-66bdba4af2eb" x="92" y="20" width="710" height="43" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Summary Report For ReferredOut Cases"]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement uuid="719169d8-0a45-4ae1-9327-59dbb82b5ca2" x="0" y="2" width="92" height="83"/>
+					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+				</image>
+				<textField evaluationTime="Report">
+					<reportElement uuid="ea3a9c75-51a9-45a0-b74e-a5bf377ac785" x="92" y="65" width="710" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy")]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="54">
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="0" y="34" width="306" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sample Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="306" y="34" width="286" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No of unique samples]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="592" y="34" width="210" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No of Tests]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="0" y="0" width="306" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sample_type_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="306" y="0" width="286" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numnber_of_samples}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="592" y="0" width="210" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numnber_of_tests}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="35"/>
+	</summary>
+</jasperReport>
