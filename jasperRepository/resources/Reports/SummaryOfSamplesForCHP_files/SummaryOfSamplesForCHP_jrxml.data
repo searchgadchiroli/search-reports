@@ -30,6 +30,9 @@
 	</parameter>
 	<parameter name="from_date" class="java.util.Date"/>
 	<parameter name="to_date" class="java.util.Date"/>
+	<parameter name="program_name" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select s.received_date as date, tos.description as sample, pi.identity_data as registration_number, t.description as test,
 coalesce(case r.result_type WHEN 'N' then r.value
@@ -44,13 +47,15 @@ join type_of_sample tos on stt.sample_type_id = tos.id
 join sample_human sh on sh.samp_id = si.samp_id
 join patient_identity pi on pi.patient_id = sh.patient_id
 join patient_identity_type pit on pit.id = pi.identity_type_id
+join patient p on p.id = pi.patient_id
+join health_center hc on p.health_center_id = hc.id
 join test t on t.id = a.test_id
 left join result r on r.analysis_id = a.id
 left join dictionary d on d.id = case r.result_type WHEN 'D' then r.value::INTEGER
 						ELSE NULL
 						END
 where pit.identity_type = 'ST'
-and pi.identity_data like 'CHP%'
+and $X{IN,hc.name,program_name}
 and s.received_date >= $P{from_date}
 AND s.received_date <= $P{to_date}
 order by s.received_date desc]]>
@@ -63,6 +68,9 @@ order by s.received_date desc]]>
 	<field name="result" class="java.lang.String">
 		<fieldDescription><![CDATA[The result of the test, the meaning depends on the test itself]]></fieldDescription>
 	</field>
+	<group name="DateGroup">
+		<groupExpression><![CDATA["" + $F{date}.format("dd-MMM-yyyy")]]></groupExpression>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -83,7 +91,7 @@ order by s.received_date desc]]>
 					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy")]]></textFieldExpression>
 				</textField>
 				<image>
-					<reportElement uuid="99a839df-03f6-4a6c-af76-4989e98fcb0c" x="2" y="7" width="93" height="84"/>
+					<reportElement uuid="99a839df-03f6-4a6c-af76-4989e98fcb0c" x="2" y="10" width="93" height="84"/>
 					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
 				</image>
 			</frame>
@@ -139,10 +147,10 @@ order by s.received_date desc]]>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{DateGroup_COUNT} == 1 ? $F{date}.format("dd-MMM-yyyy") : ""]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="dfcdd4e8-00cf-4213-8dd0-977c01a33102" x="100" y="0" width="110" height="20"/>
@@ -153,7 +161,7 @@ order by s.received_date desc]]>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sample}]]></textFieldExpression>
@@ -167,7 +175,7 @@ order by s.received_date desc]]>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{registration_number}]]></textFieldExpression>
@@ -181,7 +189,7 @@ order by s.received_date desc]]>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{test}]]></textFieldExpression>
@@ -195,7 +203,7 @@ order by s.received_date desc]]>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{result}]]></textFieldExpression>

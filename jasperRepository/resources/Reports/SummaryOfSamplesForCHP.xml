@@ -2,21 +2,21 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>SummaryOfSamplesForCHP</name>
-    <version>9</version>
+    <version>22</version>
     <label>Summary Of Samples For CHP</label>
     <description></description>
-    <creationDate>2013-08-27T15:52:09.000+05:30</creationDate>
-    <updateDate>2013-08-27T17:00:32.000+05:30</updateDate>
+    <creationDate>2013-08-27T17:11:44.000+05:30</creationDate>
+    <updateDate>2013-08-27T18:23:23.000+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="SummaryOfSamplesForCHP_jrxml.data" xsi:type="fileResource">
             <folder>/Reports/SummaryOfSamplesForCHP_files</folder>
             <name>SummaryOfSamplesForCHP_jrxml</name>
-            <version>8</version>
+            <version>10</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2013-08-27T15:52:09.000+05:30</creationDate>
+            <creationDate>2013-08-27T17:11:44.000+05:30</creationDate>
             <updateDate>2013-08-27T15:52:09.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
@@ -29,6 +29,9 @@
     </inputControl>
     <inputControl>
         <uri>/Resources/to_date</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/Resources/program_name</uri>
     </inputControl>
     <inputControlRenderingView></inputControlRenderingView>
     <alwaysPromptControls>true</alwaysPromptControls>
