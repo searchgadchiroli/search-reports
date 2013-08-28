@@ -6,6 +6,7 @@
     <description></description>
     <creationDate>2013-08-26T16:39:31.000+05:30</creationDate>
     <updateDate>2013-01-07T16:11:35.000+05:30</updateDate>
+    <resource>All_Tests_Referred_Out</resource>
     <resource>Daily_Report_of_Registrations</resource>
     <resource>GeographicalDistributionOfRegistrations</resource>
     <resource>GeographicDistributionOfPatients</resource>
@@ -17,6 +18,7 @@
     <resource>SocioDemographicDistributionOfServiceUsersByProgramVillage</resource>
     <resource>Summary_Report_For_ReferredOut_Cases</resource>
     <resource>Summary_Report_For_ReferredOut_Cases_With_Abnormal_Results</resource>
+    <resource>SummaryOfSamplesForCHP</resource>
     <resource>Total_Patients_in_Lab</resource>
     <resource>Total_Tests_Per_Patient_And_Abnormal_Results</resource>
 </folder>
