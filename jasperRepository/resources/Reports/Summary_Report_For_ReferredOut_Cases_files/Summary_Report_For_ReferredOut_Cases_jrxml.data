@@ -18,7 +18,7 @@ inner join result on result.analysis_id=analysis.id
 inner join sample_item on sample_item.id = analysis.sampitem_id
 inner join sample on sample.id = sample_item.samp_id
 inner join type_of_sample on sample_item.typeosamp_id = type_of_sample.id
-where sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date}
+where sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date} and referral.canceled = FALSE 
 group by organization.name, sample_type_name;]]>
 	</queryString>
 	<field name="organization_name" class="java.lang.String"/>

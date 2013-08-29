@@ -3,13 +3,24 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="ireport.jasperserver.reportUnit" value="/Reports/Summary_Report_For_ReferredOut_Cases"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/All_Tests_Referred_Out"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="from_date" class="java.util.Date"/>
 	<parameter name="to_date" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[select organization.name as organization_name, type_of_sample.description as sample_type_name, count(distinct(sample.id)) number_of_samples, count(distinct(analysis.id)) as number_of_tests
+		<![CDATA[select organization.name as organization_name, sample.accession_number, sample.received_date as date, type_of_sample.description as sample, patient_identity.identity_data as registration_number, test.description as test,
+result.result_type,
+result.id as result_id,
+result.value,
+(case organization.name WHEN NULL THEN ''
+		ELSE (case result.result_type WHEN NULL THEN ''
+					WHEN 'N' then result.value
+					WHEN 'R' then result.value
+	 				WHEN 'D' then dictionary.dict_entry
+	 				ELSE 'N/A'
+		END)
+END) as result
 from referral
 inner join organization on referral.organization_id = organization.id
 inner join analysis on referral.analysis_id = analysis.id
@@ -17,23 +28,31 @@ inner join test on analysis.test_id = test.id
 inner join result on result.analysis_id=analysis.id
 inner join sample_item on sample_item.id = analysis.sampitem_id
 inner join sample on sample.id = sample_item.samp_id
+inner join sample_human on sample_human.samp_id = sample.id
+inner join patient_identity on patient_identity.patient_id = sample_human.patient_id
 inner join type_of_sample on sample_item.typeosamp_id = type_of_sample.id
 left  join dictionary on result.result_type='D' and dictionary.id::varchar(255) = result.value
 where ((result.result_type='N' AND result.value != '' AND result.value IS NOT NULL AND (cast(result.value as double precision) NOT BETWEEN result.min_normal AND result.max_normal)) OR (result.result_type='D' and dictionary.local_abbrev = 'POSITIVE'))
-AND sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date}
-group by organization.name, sample_type_name;]]>
+AND sample.entered_date >= '2013-08-01' AND sample.entered_date <= '2013-08-29' and referral.canceled = FALSE 
+order by organization_name asc, sample.received_date desc, accession_number asc;;]]>
 	</queryString>
 	<field name="organization_name" class="java.lang.String"/>
-	<field name="sample_type_name" class="java.lang.String"/>
-	<field name="number_of_samples" class="java.lang.Long"/>
-	<field name="number_of_tests" class="java.lang.Long"/>
+	<field name="accession_number" class="java.lang.String"/>
+	<field name="date" class="java.sql.Timestamp"/>
+	<field name="sample" class="java.lang.String"/>
+	<field name="registration_number" class="java.lang.String"/>
+	<field name="test" class="java.lang.String"/>
+	<field name="result_type" class="java.lang.String"/>
+	<field name="result_id" class="java.math.BigDecimal"/>
+	<field name="value" class="java.lang.String"/>
+	<field name="result" class="java.lang.String"/>
 	<group name="TestsByOrganization">
 		<groupExpression><![CDATA[$F{organization_name}]]></groupExpression>
 		<groupHeader>
 			<band height="20">
 				<textField>
-					<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" mode="Opaque" x="0" y="0" width="802" height="20" backcolor="#CCCCCC"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<reportElement uuid="fac05bda-52f3-473a-8780-a142f683d8ef" mode="Opaque" x="0" y="0" width="802" height="20" backcolor="#CCCCCC"/>
+					<textElement verticalAlignment="Middle">
 						<font size="12" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{organization_name}]]></textFieldExpression>
@@ -44,7 +63,7 @@ group by organization.name, sample_type_name;]]>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
+		<title>
 		<band height="86" splitType="Stretch">
 			<frame>
 				<reportElement uuid="aebdb54f-c93d-49c9-9341-d9ba959963b1" mode="Opaque" x="0" y="0" width="802" height="85" backcolor="#006699"/>
@@ -70,50 +89,92 @@ group by organization.name, sample_type_name;]]>
 	<columnHeader>
 		<band height="54">
 			<staticText>
-				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="0" y="34" width="306" height="20" backcolor="#006699"/>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="0" y="34" width="117" height="20" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Sample Type]]></text>
+				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="306" y="34" width="167" height="20" backcolor="#006699"/>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="117" y="34" width="111" height="20" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[No of unique samples]]></text>
+				<text><![CDATA[Acc #]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="473" y="34" width="329" height="20" backcolor="#006699"/>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="228" y="34" width="131" height="20" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[No of Tests With Abnormal Results]]></text>
+				<text><![CDATA[Patient]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="359" y="34" width="120" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sample]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="653" y="34" width="149" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Result]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="479" y="34" width="174" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Test]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="25">
 			<textField>
-				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="0" y="0" width="306" height="20"/>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="0" y="0" width="117" height="20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{sample_type_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{date}.format("dd-MMM-yyyy")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="306" y="0" width="167" height="20"/>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="117" y="0" width="111" height="20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{number_of_samples}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{accession_number}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="473" y="0" width="329" height="20"/>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="479" y="0" width="174" height="20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{number_of_tests}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{test}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="653" y="0" width="149" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{result}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="228" y="0" width="131" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registration_number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e480ec6b-94ee-4012-bae1-b2c540d6d8c1" x="359" y="0" width="120" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sample}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
