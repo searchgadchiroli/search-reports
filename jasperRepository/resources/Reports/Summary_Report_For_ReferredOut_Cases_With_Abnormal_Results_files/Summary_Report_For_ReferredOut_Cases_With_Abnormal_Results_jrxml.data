@@ -72,7 +72,7 @@ order by organization_name asc, sample.received_date desc, accession_number asc;
 					<textElement verticalAlignment="Middle">
 						<font size="20" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Summary of Referred Out Cases with Abnormal Results"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Referred Out Tests with Abnormal Results"]]></textFieldExpression>
 				</textField>
 				<image>
 					<reportElement uuid="719169d8-0a45-4ae1-9327-59dbb82b5ca2" x="0" y="2" width="92" height="83"/>
