@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit>
+    <folder>/Reports</folder>
+    <name>All_Test_Results</name>
+    <version>14</version>
+    <label>All Test Results</label>
+    <description></description>
+    <creationDate>2013-09-03T13:19:34.000+05:30</creationDate>
+    <updateDate>2013-09-03T17:28:22.000+05:30</updateDate>
+    <mainReport>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            dataFile="All_Test_Results_jrxml.data" xsi:type="fileResource">
+            <folder>/Reports/All_Test_Results_files</folder>
+            <name>All_Test_Results_jrxml</name>
+            <version>11</version>
+            <label>Main jrxml</label>
+            <description>Main jrxml</description>
+            <creationDate>2013-09-03T13:19:34.000+05:30</creationDate>
+            <updateDate>2013-09-03T13:19:34.000+05:30</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </mainReport>
+    <dataSource>
+        <uri>/Data_Sources/openelis</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/Resources/from_date</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/Resources/to_date</uri>
+    </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>4</controlsLayout>
+</reportUnit>
