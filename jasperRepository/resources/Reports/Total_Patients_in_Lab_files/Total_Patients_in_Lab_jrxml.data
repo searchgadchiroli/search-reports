@@ -15,6 +15,7 @@ from sample
 	inner join sample_item on sample_item.samp_id = sample.id
 	inner join analysis on analysis.sampitem_id = sample_item.id
 	inner join sample_source on sample.sample_source_id=sample_source.id
+	inner join status_of_sample on analysis.status_id = status_of_sample.id and status_of_sample.name <> 'Test Canceled'
 	where  sample.entered_date >= $P{from_date}
 		AND sample.entered_date <= $P{to_date}
 	group by sample_source.name
