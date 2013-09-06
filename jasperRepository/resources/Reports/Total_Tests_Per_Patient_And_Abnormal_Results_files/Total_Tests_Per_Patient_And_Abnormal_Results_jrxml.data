@@ -21,14 +21,23 @@ inner join patient on sample_human.patient_id = patient.id
 inner join patient_identity on patient_identity.patient_id = patient.id
 inner join patient_identity_type on (patient_identity.identity_type_id = patient_identity_type.id and patient_identity_type.identity_type = 'ST')
 left  join dictionary on result.result_type='D' and dictionary.id::varchar(255) = result.value
-where ( (result.result_type='N' AND result.value != '' AND result.value IS NOT NULL AND (cast(result.value as double precision) NOT BETWEEN result.min_normal AND result.max_normal)) OR (result.result_type='D' and dictionary.local_abbrev = 'POSITIVE'))
+where ( (result.result_type='N'
+	AND result.value != ''
+	AND result.value IS NOT NULL
+	AND NOT (result.min_normal=0 and result.max_normal=0)
+	AND (cast(result.value as double precision) NOT BETWEEN result.min_normal AND result.max_normal)
+      ) OR (result.result_type='D' and dictionary.local_abbrev = 'POSITIVE'))
 AND sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date}
 ORDER BY date, registration_number;]]>
 	</queryString>
-	<field name="date" class="java.util.Date"/>
+	<field name="date" class="java.sql.Timestamp"/>
 	<field name="registration_number" class="java.lang.String"/>
-	<field name="test_name" class="java.lang.String"/>
-	<field name="value" class="java.lang.String"/>
+	<field name="test_name" class="java.lang.String">
+		<fieldDescription><![CDATA[The test name, if a mapping is found then the mapping will be used, if not then the analyzer test name will be useds]]></fieldDescription>
+	</field>
+	<field name="value" class="java.lang.String">
+		<fieldDescription><![CDATA[Actual value]]></fieldDescription>
+	</field>
 	<group name="TestsByDateAndPatient">
 		<groupExpression><![CDATA["" + $F{date}.format("dd-MMM-yyyy") + $F{registration_number}]]></groupExpression>
 		<groupFooter>

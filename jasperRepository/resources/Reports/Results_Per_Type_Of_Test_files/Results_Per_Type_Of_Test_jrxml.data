@@ -8,9 +8,9 @@
 	<parameter name="to_date" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[select test.name,
-    sum(CASE WHEN cast(result.value as double precision) <  result.min_normal then 1 else 0 end) as below_normal,
-    sum(CASE WHEN cast(result.value as double precision) >  result.max_normal then 1 else 0 end) as above_normal,
-    sum(CASE WHEN cast(result.value as double precision) >= result.min_normal and cast(result.value as double precision) <= result.max_normal then 1 else 0 end) as normal,
+    sum(CASE WHEN cast(result.value as double precision) <  result.min_normal  and not (result.min_normal=0 and result.max_normal=0 ) then 1 else 0 end) as below_normal,
+    sum(CASE WHEN cast(result.value as double precision) >  result.max_normal and not (result.min_normal=0 and result.max_normal=0 ) then 1 else 0 end) as above_normal,
+    sum(CASE WHEN cast(result.value as double precision) BETWEEN result.min_normal and result.max_normal or (result.min_normal=0 and result.max_normal=0)  then 1 else 0 end) as normal,
     count(*) as total
  from test
 inner join analysis on analysis.test_id = test.id
@@ -22,7 +22,9 @@ where result.result_type='N'
        AND sample.entered_date <= $P{to_date}
 group by test.id;]]>
 	</queryString>
-	<field name="name" class="java.lang.String"/>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
+	</field>
 	<field name="below_normal" class="java.lang.Long"/>
 	<field name="above_normal" class="java.lang.Long"/>
 	<field name="normal" class="java.lang.Long"/>
