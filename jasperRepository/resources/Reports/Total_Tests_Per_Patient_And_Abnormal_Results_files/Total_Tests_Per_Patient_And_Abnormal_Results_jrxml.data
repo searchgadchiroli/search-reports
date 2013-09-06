@@ -10,7 +10,17 @@
 	<parameter name="to_date" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[select sample.entered_date as date, patient_identity.identity_data as registration_number, test.name as test_name,
-	(CASE WHEN result.result_type = 'D' THEN 'Positive' ELSE result.value END)as value
+	(CASE
+		WHEN (result.result_type='N'
+			AND result.value != ''
+			AND result.value IS NOT NULL
+			AND NOT (result.min_normal=0 and result.max_normal=0)
+			AND (cast(result.value as double precision) NOT BETWEEN result.min_normal AND result.max_normal))
+      	THEN result.value
+      	WHEN (result.result_type='D' and dictionary.local_abbrev = 'POSITIVE')
+      	THEN 'POSITIVE' ELSE ''
+    END) as abnormal_value
+
 from test
 inner join analysis on analysis.test_id = test.id
 inner join result on result.analysis_id=analysis.id
@@ -21,23 +31,17 @@ inner join patient on sample_human.patient_id = patient.id
 inner join patient_identity on patient_identity.patient_id = patient.id
 inner join patient_identity_type on (patient_identity.identity_type_id = patient_identity_type.id and patient_identity_type.identity_type = 'ST')
 left  join dictionary on result.result_type='D' and dictionary.id::varchar(255) = result.value
-where ( (result.result_type='N'
-	AND result.value != ''
-	AND result.value IS NOT NULL
-	AND NOT (result.min_normal=0 and result.max_normal=0)
-	AND (cast(result.value as double precision) NOT BETWEEN result.min_normal AND result.max_normal)
-      ) OR (result.result_type='D' and dictionary.local_abbrev = 'POSITIVE'))
+inner join status_of_sample on status_of_sample.id = analysis.status_id
+WHERE status_of_sample.name = 'Finalized'
 AND sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date}
-ORDER BY date, registration_number;]]>
+ORDER BY date, registration_number]]>
 	</queryString>
 	<field name="date" class="java.sql.Timestamp"/>
 	<field name="registration_number" class="java.lang.String"/>
 	<field name="test_name" class="java.lang.String">
 		<fieldDescription><![CDATA[The test name, if a mapping is found then the mapping will be used, if not then the analyzer test name will be useds]]></fieldDescription>
 	</field>
-	<field name="value" class="java.lang.String">
-		<fieldDescription><![CDATA[Actual value]]></fieldDescription>
-	</field>
+	<field name="abnormal_value" class="java.lang.String"/>
 	<group name="TestsByDateAndPatient">
 		<groupExpression><![CDATA["" + $F{date}.format("dd-MMM-yyyy") + $F{registration_number}]]></groupExpression>
 		<groupFooter>
@@ -99,14 +103,14 @@ ORDER BY date, registration_number;]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Abnormal tests]]></text>
+				<text><![CDATA[Test]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="9817fae7-783d-494c-9ffe-9f9bf7cddef7" mode="Opaque" x="668" y="34" width="134" height="20" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Value]]></text>
+				<text><![CDATA[Abnormal Value]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -138,7 +142,7 @@ ORDER BY date, registration_number;]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{abnormal_value}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

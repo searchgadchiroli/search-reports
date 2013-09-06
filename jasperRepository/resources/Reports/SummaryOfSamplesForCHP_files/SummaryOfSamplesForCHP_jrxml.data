@@ -54,14 +54,15 @@ left join result r on r.analysis_id = a.id
 left join dictionary d on d.id = case r.result_type WHEN 'D' then r.value::INTEGER
 						ELSE NULL
 						END
-where pit.identity_type = 'ST'
-and $X{IN,hc.name,program_name}
-and s.received_date >= $P{from_date}
+inner join status_of_sample on status_of_sample.id = a.status_id
+WHERE status_of_sample.name = 'Finalized'
+AND pit.identity_type = 'ST'
+AND $X{IN,hc.name,program_name}
+AND s.received_date >= $P{from_date}
 AND s.received_date <= $P{to_date}
 order by s.received_date desc]]>
 	</queryString>
 	<field name="date" class="java.sql.Timestamp"/>
-	<field name="accession_number" class="java.lang.String"/>
 	<field name="sample" class="java.lang.String"/>
 	<field name="registration_number" class="java.lang.String"/>
 	<field name="test" class="java.lang.String"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Total_Patients_in_Lab" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="fcfcb073-bab2-4c9b-bb41-ddf907675a82">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="283"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.jasperserver.reportUnit" value="/Reports/Total_Patients_in_Lab"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
@@ -15,15 +15,19 @@ from sample
 	inner join sample_item on sample_item.samp_id = sample.id
 	inner join analysis on analysis.sampitem_id = sample_item.id
 	inner join sample_source on sample.sample_source_id=sample_source.id
-	inner join status_of_sample on analysis.status_id = status_of_sample.id and status_of_sample.name <> 'Test Canceled'
-	where  sample.entered_date >= $P{from_date}
-		AND sample.entered_date <= $P{to_date}
+	inner join status_of_sample on analysis.status_id = status_of_sample.id
+	WHERE status_of_sample.name = 'Finalized'
+	AND status_of_sample.name <> 'Test Canceled'
+	AND  sample.entered_date >= $P{from_date}
+	AND sample.entered_date <= $P{to_date}
 	group by sample_source.name
 	order by sample_source.name]]>
 	</queryString>
 	<field name="total_test" class="java.lang.Long"/>
 	<field name="total_patient" class="java.lang.Long"/>
-	<field name="name" class="java.lang.String"/>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

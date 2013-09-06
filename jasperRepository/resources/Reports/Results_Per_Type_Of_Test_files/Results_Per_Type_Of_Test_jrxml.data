@@ -17,9 +17,11 @@ inner join analysis on analysis.test_id = test.id
 inner join result on result.analysis_id=analysis.id
 inner join sample_item on sample_item.id = analysis.sampitem_id
 inner join sample on sample.id = sample_item.samp_id
-where result.result_type='N'
-       AND sample.entered_date >= $P{from_date}
-       AND sample.entered_date <= $P{to_date}
+inner join status_of_sample on status_of_sample.id = analysis.status_id
+WHERE status_of_sample.name = 'Finalized'
+AND result.result_type='N'
+AND sample.entered_date >= $P{from_date}
+AND sample.entered_date <= $P{to_date}
 group by test.id;]]>
 	</queryString>
 	<field name="name" class="java.lang.String">
