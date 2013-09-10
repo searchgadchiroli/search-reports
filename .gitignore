@@ -5,3 +5,6 @@ jasperRepository/resources/Data_Sources/*.xml-e
 *.jasper
 html/.idea
 html/html.iml
+.idea
+out
+*.iml

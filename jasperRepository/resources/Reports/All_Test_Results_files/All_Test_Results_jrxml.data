@@ -55,7 +55,9 @@ join result r on r.analysis_id = a.id
 left join dictionary d on r.result_type='D' and d.id::varchar(255) = r.value
 left join note on note.reference_id = r.id
 left join reference_tables on note.reference_table = reference_tables.id and reference_tables.name = 'RESULT'
-where s.received_date BETWEEN $P{from_date} AND $P{to_date}
+inner join status_of_sample on status_of_sample.id = a.status_id
+WHERE status_of_sample.name = 'Finalized'
+AND s.received_date BETWEEN $P{from_date} AND $P{to_date}
 group by date, accession_number, sample, registration_number, test, result
 order by date, accession_number, sample, test;]]>
 	</queryString>
@@ -64,7 +66,9 @@ order by date, accession_number, sample, test;]]>
 	<field name="sample" class="java.lang.String"/>
 	<field name="registration_number" class="java.lang.String"/>
 	<field name="test" class="java.lang.String"/>
-	<field name="result" class="java.lang.String"/>
+	<field name="result" class="java.lang.String">
+		<fieldDescription><![CDATA[The result of the test, the meaning depends on the test itself]]></fieldDescription>
+	</field>
 	<field name="notes" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
