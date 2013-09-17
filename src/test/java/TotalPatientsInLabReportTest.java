@@ -29,7 +29,7 @@ public class TotalPatientsInLabReportTest extends DbUnitConfig {
     @DatabaseSetup(value = "Total_Patients_in_Lab_Finalized_Tests.xml", type = DatabaseOperation.INSERT)
     @DatabaseTearDown(value = "Total_Patients_in_Lab_Finalized_Tests.xml", type = DatabaseOperation.DELETE)
     public void shouldReturnOnlyFinalizedTestsThatAreNotCancelled() throws Exception {
-        sql = XMLParseUtil.replaceDateTags(new DateTime(2013, 9, 13, 0, 0), new DateTime(2013, 9, 14, 0, 0), sql);
+        sql = XMLParseUtil.withDates(new DateTime(2010, 9, 13, 0, 0), new DateTime(2010, 9, 14, 0, 0), sql);
 
         List<Map<String, Object>> results = jdbcUtil.execute(sql);
 
@@ -42,7 +42,7 @@ public class TotalPatientsInLabReportTest extends DbUnitConfig {
     @DatabaseSetup(value = "Total_Patients_in_Lab_With_Diff_Date_Ranges.xml", type = DatabaseOperation.INSERT)
     @DatabaseTearDown(value = "Total_Patients_in_Lab_With_Diff_Date_Ranges.xml", type = DatabaseOperation.DELETE)
     public void shouldReturnOnlyFinalizedTestsThatAreWithinGivenDateRange() throws Exception {
-        sql = XMLParseUtil.replaceDateTags(new DateTime(2013, 9, 11, 0, 0), new DateTime(2013, 9, 12, 0, 0), sql);
+        sql = XMLParseUtil.withDates(new DateTime(2010, 9, 11, 0, 0), new DateTime(2010, 9, 12, 0, 0), sql);
 
         List<Map<String, Object>> results = jdbcUtil.execute(sql);
 

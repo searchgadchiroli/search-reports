@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+    //Finalized sample should appear on report
+    <test id="9990" description="test1" name = "Leucocytes"/>
+    <sample id="9995" accession_number="1140412000999" entered_date = "2010-09-17 00:00:00" received_date="2010-09-17 00:00:00" sample_source_id="2"/>
+    <sample_item id="9994" sort_order="1" samp_id="9995" status_id="1"/>
+    <status_of_sample id="9997" code="1" status_type="ANALYSIS" name="Finalized"/>
+    <analysis id="9992" analysis_type="MANUAL"  test_id="9990" status_id="9997" sampitem_id="9994"/>
+    <dictionary id="9000" local_abbrev="NEGATIVE"/>
+    <result id="9993" analysis_id="9992" result_type="D" value="9000"/>
+    <patient id="99999" person_id="9996"/>
+    <sample_human id="9993" samp_id="9995" patient_id="99999"/>
+    //assuming identity type with id 2 already exists
+    <patient_identity id="9999" identity_data="0987654321" patient_id="99999" identity_type_id="2"/>
+
+    <test id="8880" description="test2" name = "Leucocytes"/>
+    <sample id="8885" accession_number="1140412000888" entered_date = "2010-09-17 00:00:00" received_date="2010-09-17 00:00:00" sample_source_id="2"/>
+    <sample_item id="8884" sort_order="1" samp_id="8885" status_id="1"/>
+    <status_of_sample id="8887" code="1" status_type="ANALYSIS" name="Finalized"/>
+    <analysis id="8882" analysis_type="MANUAL"  test_id="8880" status_id="8887" sampitem_id="8884"/>
+    //assuming positive dictionary with id 1030 already exists
+    <result id="8883" analysis_id="8882" result_type="D" value="1030"/>
+    <patient id="88899" person_id="8886"/>
+    <sample_human id="8883" samp_id="8885" patient_id="88899"/>
+    //assuming identity type with id 2 already exists
+    <patient_identity id="8889" identity_data="0987654321" patient_id="88899" identity_type_id="2"/>
+
+</dataset>
