@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="username" value="clinlims" />
+        <property name="password" value="clinlims" />
+        <property name="url" value="jdbc:postgresql://192.168.33.10:5432/clinlims" />
+    </bean>
+
+    <bean name="databaseTester" class="org.dbunit.DataSourceDatabaseTester">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="jdbcUtil" class="JDBCUtil">
+        <property name="dataSource"  ref="dataSource" />
+    </bean>
+
+</beans>
