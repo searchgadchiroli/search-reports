@@ -38,7 +38,7 @@ class XMLParseUtil {
         return sql;
     }
 
-    public static String replaceDateTags(DateTime fromDate, DateTime toDate, String sql) {
+    public static String withDates(DateTime fromDate, DateTime toDate, String sql) {
         String from = fromDate.toString(DATE_TIME_FORMAT);
         String to = toDate.toString(DATE_TIME_FORMAT);
         sql = sql.replaceAll(XMLFromDate, SINGLE_QUOTE + from + SINGLE_QUOTE);
