@@ -22,5 +22,12 @@
     <status_of_sample id="7776" code="1" status_type="ANALYSIS" name="Finalized"/>
     <analysis id="7774" analysis_type="MANUAL" sampitem_id="7773" status_id="7776"/>
 
+    //Adding another sample for same patient : 99997
+    <sample id="6661" accession_number="1140412000666" entered_date = "2013-09-14 00:00:00" received_date="2013-09-14 00:00:00" sample_source_id="2"/>
+    <sample_human id="6662" samp_id="6661" patient_id="99997"/>
+    <sample_item id="6663" sort_order="1" samp_id="6661" status_id="1"/>
+    <status_of_sample id="6666" code="1" status_type="ANALYSIS" name="Finalized"/>
+    <analysis id="6664" analysis_type="MANUAL" sampitem_id="6663" status_id="6666"/>
+
 
 </dataset>

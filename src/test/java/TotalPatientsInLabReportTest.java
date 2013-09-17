@@ -25,8 +25,6 @@ public class TotalPatientsInLabReportTest extends DbUnitConfig {
 
     }
 
-    //TODO: test for distinct patients
-
     @Test
     @DatabaseSetup(value = "Total_Patients_in_Lab_Finalized_Tests.xml", type = DatabaseOperation.INSERT)
     @DatabaseTearDown(value = "Total_Patients_in_Lab_Finalized_Tests.xml", type = DatabaseOperation.DELETE)
@@ -35,7 +33,7 @@ public class TotalPatientsInLabReportTest extends DbUnitConfig {
 
         List<Map<String, Object>> results = jdbcUtil.execute(sql);
 
-        assertThat((Long) results.get(0).get("total_test"), is(2L));
+        assertThat((Long) results.get(0).get("total_test"), is(3L));
         assertThat((Long) results.get(0).get("total_patient"), is(2L));
         assertThat((String) results.get(0).get("name"), is("OPD"));
     }
