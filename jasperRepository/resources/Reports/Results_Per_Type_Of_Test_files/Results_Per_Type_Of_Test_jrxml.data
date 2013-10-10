@@ -22,6 +22,7 @@ WHERE status_of_sample.name = 'Finalized'
 AND result.result_type='N'
 AND sample.entered_date >= $P{from_date}
 AND sample.entered_date <= $P{to_date}
+AND result.value~E'^\\d*\\.?\\d+$'
 group by test.id;]]>
 	</queryString>
 	<field name="name" class="java.lang.String">
