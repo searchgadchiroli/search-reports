@@ -53,19 +53,16 @@
 		<queryString>
 			<![CDATA[SELECT Floor(Month(p.date_created) / 4 + 1)           AS quarter,
        Month(p.date_created)                          AS month,
-       l.name                                         AS location_name,
+       iis.name                                         AS location_name,
 		p.gender											AS gender,
 		count(*)                                       AS number
 FROM   person p,
-       person_attribute pa,
-       person_attribute_type pat,
-       location l
-WHERE  p.person_id = pa.person_id
-       AND pa.person_attribute_type_id = pat.person_attribute_type_id
-       AND pat.name = 'healthCenter'
-       AND pa.value = l.location_id
+	    patient_identifier pi, 
+       idgen_identifier_source iis
+WHERE  p.person_id  = pi.patient_id
+       AND pi.identifier like concat(iis.name, '%')
        AND Year(p.date_created) = $P{Enter_the_year}
-GROUP  BY l.name,
+GROUP  BY iis.name,
           Floor(Month(p.date_created) / 4 + 1),
           Month(p.date_created),
           p.gender
@@ -86,19 +83,16 @@ ORDER  BY quarter ASC,
 	<queryString>
 		<![CDATA[SELECT concat('Q',cast(Floor((Month(p.date_created)-1) / 3 + 1) as CHAR(2))) AS quarter,
        date_format(p.date_created, '%b')              AS month,
-       l.name                                         AS location_name,
+       iis.name                                         AS location_name,
 		case p.gender when 'M' then 'Male' else 'Female' end AS gender,
 		count(*)                                       AS number
 FROM   person p,
-       person_attribute pa,
-       person_attribute_type pat,
-       location l
-WHERE  p.person_id = pa.person_id
-       AND pa.person_attribute_type_id = pat.person_attribute_type_id
-       AND pat.name = 'healthCenter'
-       AND pa.value = l.location_id
-       AND Year(p.date_created) = $P{Enter_the_year}
-GROUP  BY l.name,
+	   patient_identifier pi,
+	   idgen_identifier_source iis
+WHERE  p.person_id = pi.patient_id
+       AND pi.identifier like concat (iis.name, '%')
+	   AND Year(p.date_created) = $P{Enter_the_year}
+GROUP  BY iis.name,
           Floor(Month(p.date_created) / 4 + 1),
           Month(p.date_created),
           p.gender

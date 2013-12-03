@@ -30,23 +30,21 @@
 		from encounter e
 		left outer join obs o on e.encounter_id = o.encounter_id and o.voided = 0
 		left outer join patient_identifier pi on e.patient_id = pi.patient_id and pi.preferred = 1 and pi.voided = 0
+		left outer join idgen_log_entry ile on pi.identifier = ile.identifier
+		inner join idgen_identifier_source iis on ile.source = iis.id and ($X{IN,iis.name,centers} or iis.name is null)
 		left outer join person_name pn on e.patient_id = pn.person_id and pn.voided = 0 and pn.preferred = 0
 		left outer join concept_name cn on o.concept_id = cn.concept_id
 			and concept_name_type = 'FULLY_SPECIFIED'
 			and cn.voided = 0
 		left outer join visit v on e.visit_id = v.visit_id
 		left outer join visit_type vt on v.visit_type_id = vt.visit_type_id
-		JOIN person_attribute pa ON pa.person_id = pn.person_id
-        		JOIN person_attribute_type pat ON pa.person_attribute_type_id = pat.person_attribute_type_id AND pat.name = 'healthCenter'
-        		JOIN location l ON l.location_id = pa.value AND ($X{IN,l.name,centers} or l.name is null)
-
 		where date(e.encounter_datetime) = $P{date}
 			and vt.name = $P{visit_type}
 		group by e.visit_id,
 				pi.identifier,
 				pi.patient_id,
 				concat(pn.given_name, ' ', pn.family_name),
-				e.date_created,
+				v.date_created,
 				(select max(date_started)
 				from visit v where v.patient_id = e.patient_id
 				and v.visit_id <> e.visit_id
