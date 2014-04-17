@@ -83,13 +83,5 @@ then
 fi
 
 echo "###########################################################################"
-echo "Copy interactive reports to Jasper Server"
-echo "###########################################################################"
-JASPER_MASTER_PROPERTIES="${JASPER_HOME}/buildomatic/default_master.properties"
-APP_SERVER_DIR=`cat $JASPER_MASTER_PROPERTIES | grep ^appServerDir | cut -f2 -d"="`
-yes | cp -RLv ${SCRIPT_DIR}/../html/src $APP_SERVER_DIR/webapps/jasperserver/maps
-
-
-echo "###########################################################################"
 echo "Done !!! "
 echo "###########################################################################"

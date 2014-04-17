@@ -2,10 +2,10 @@
 <inputControl>
     <folder>/Resources</folder>
     <name>visit_type</name>
-    <version>2</version>
+    <version>0</version>
     <label>Visit Type</label>
     <description>Type of visit</description>
-    <creationDate>2013-06-01T15:03:46.000+05:30</creationDate>
+    <creationDate>2014-04-17T15:32:43.000+05:30</creationDate>
     <updateDate>2013-06-01T16:28:08.000+05:30</updateDate>
     <type>3</type>
     <mandatory>true</mandatory>
@@ -16,10 +16,10 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="listOfValues">
             <folder>/Resources/visit_type_files</folder>
             <name>visit_list</name>
-            <version>2</version>
+            <version>0</version>
             <label>visit_list</label>
             <description></description>
-            <creationDate>2013-06-01T15:55:00.000+05:30</creationDate>
+            <creationDate>2014-04-17T15:32:43.000+05:30</creationDate>
             <updateDate>2013-06-01T15:55:00.000+05:30</updateDate>
             <item>
                 <itemLabel>New Patient</itemLabel>

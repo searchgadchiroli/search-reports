@@ -60,7 +60,7 @@ left join dictionary d on r.result_type='D' and d.id::varchar(255) = r.value
 left join note on note.reference_id = r.id
 left join reference_tables on note.reference_table = reference_tables.id and reference_tables.name = 'RESULT'
 inner join status_of_sample on status_of_sample.id = a.status_id
-WHERE ( status_of_sample.name = 'Finalized' 
+WHERE ( status_of_sample.name = 'Finalized'
 OR status_of_sample.name = 'Finalized RO' )
 AND s.received_date BETWEEN $P{from_date} AND $P{to_date}
 group by date, accession_number, sample, registration_number, test, result
@@ -110,7 +110,7 @@ order by date, accession_number, sample, test;]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Date]]></text>
+				<text><![CDATA[Gurpreet]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="d5cf1acc-9ad5-435b-b5fb-6d6158d3af0d" mode="Opaque" x="358" y="15" width="110" height="20" backcolor="#006699"/>

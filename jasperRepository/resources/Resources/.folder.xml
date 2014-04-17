@@ -4,7 +4,7 @@
     <name>Resources</name>
     <label>Resources</label>
     <description></description>
-    <creationDate>2013-02-22T17:07:00.000+05:30</creationDate>
+    <creationDate>2014-04-17T15:23:58.000+05:30</creationDate>
     <updateDate>2013-01-07T16:13:48.000+05:30</updateDate>
     <resource>center</resource>
     <resource>centers</resource>
@@ -12,6 +12,7 @@
     <resource>Enter_the_year</resource>
     <resource>from_date</resource>
     <resource>jss_logo</resource>
+    <resource>program_name</resource>
     <resource>program_village</resource>
     <resource>to_date</resource>
     <resource>visit_type</resource>

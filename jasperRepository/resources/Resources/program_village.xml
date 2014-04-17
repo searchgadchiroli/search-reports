@@ -2,11 +2,11 @@
 <inputControl>
     <folder>/Resources</folder>
     <name>program_village</name>
-    <version>9</version>
+    <version>0</version>
     <label>Please select the name of the program village</label>
     <description></description>
-    <creationDate>2013-01-24T16:17:58.628+05:30</creationDate>
-    <updateDate>2013-01-24T17:19:03.645+05:30</updateDate>
+    <creationDate>2014-04-17T15:32:44.000+05:30</creationDate>
+    <updateDate>2013-01-24T17:19:03.000+05:30</updateDate>
     <type>4</type>
     <mandatory>true</mandatory>
     <readOnly>false</readOnly>
@@ -16,11 +16,11 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="query">
             <folder>/Resources/program_village_files</folder>
             <name>get_all_program_villages</name>
-            <version>4</version>
+            <version>0</version>
             <label>programVillagesQuery</label>
             <description></description>
-            <creationDate>2013-01-24T16:17:58.628+05:30</creationDate>
-            <updateDate>2013-01-24T16:17:58.628+05:30</updateDate>
+            <creationDate>2014-04-17T15:32:44.000+05:30</creationDate>
+            <updateDate>2013-01-24T16:17:58.000+05:30</updateDate>
             <language>sql</language>
             <queryString>select jss_program_village from jss_program_village</queryString>
             <dataSource>

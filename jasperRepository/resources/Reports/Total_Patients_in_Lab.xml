@@ -2,10 +2,10 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>Total_Patients_in_Lab</name>
-    <version>6</version>
+    <version>0</version>
     <label>Total Patients in Lab</label>
     <description></description>
-    <creationDate>2013-08-27T10:31:14.000+05:30</creationDate>
+    <creationDate>2014-04-17T15:32:44.000+05:30</creationDate>
     <updateDate>2013-08-27T11:24:59.000+05:30</updateDate>
     <mainReport>
         <localResource
@@ -13,10 +13,10 @@
             dataFile="Total_Patients_in_Lab_jrxml.data" xsi:type="fileResource">
             <folder>/Reports/Total_Patients_in_Lab_files</folder>
             <name>Total_Patients_in_Lab_jrxml</name>
-            <version>3</version>
+            <version>0</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2013-08-27T10:31:14.000+05:30</creationDate>
+            <creationDate>2014-04-17T15:32:44.000+05:30</creationDate>
             <updateDate>2013-08-27T10:31:14.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>

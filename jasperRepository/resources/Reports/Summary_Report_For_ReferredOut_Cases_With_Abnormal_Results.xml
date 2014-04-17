@@ -4,7 +4,7 @@
     <name>Summary_Report_For_ReferredOut_Cases_With_Abnormal_Results</name>
     <version>0</version>
     <label>Report For ReferredOut Tests With Abnormal Results</label>
-    <creationDate>2013-08-28T10:49:07.000+05:30</creationDate>
+    <creationDate>2014-04-17T15:32:44.000+05:30</creationDate>
     <updateDate>2013-08-28T10:49:07.000+05:30</updateDate>
     <mainReport>
         <localResource
@@ -15,7 +15,7 @@
             <version>0</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2013-08-28T10:49:07.000+05:30</creationDate>
+            <creationDate>2014-04-17T15:32:44.000+05:30</creationDate>
             <updateDate>2013-08-28T10:49:07.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
@@ -23,7 +23,7 @@
     <dataSource>
         <uri>/Data_Sources/openelis</uri>
     </dataSource>
-        <inputControl>
+    <inputControl>
         <uri>/Resources/from_date</uri>
     </inputControl>
     <inputControl>

@@ -3,8 +3,9 @@
     <parent>/themes/pods_summer</parent>
     <name>images</name>
     <label>images</label>
-    <creationDate>2012-12-24T23:35:18.000+05:30</creationDate>
-    <updateDate>2012-08-16T04:09:16.000+05:30</updateDate>
+    <creationDate>2014-04-17T15:14:59.000+05:30</creationDate>
+    <updateDate>2012-11-14T06:01:08.000+05:30</updateDate>
+    <resource>adhoc_toolbar_buttons_sprite.png</resource>
     <resource>banner_bkgd.png</resource>
     <resource>body_bkgnd.png</resource>
     <resource>button_action_primary_sprite.png</resource>

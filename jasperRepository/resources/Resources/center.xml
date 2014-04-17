@@ -2,11 +2,11 @@
 <inputControl>
     <folder>/Resources</folder>
     <name>center</name>
-    <version>4</version>
+    <version>0</version>
     <label>Select the name of the center</label>
     <description></description>
-    <creationDate>2013-01-25T14:29:35.073+05:30</creationDate>
-    <updateDate>2013-01-25T14:38:33.912+05:30</updateDate>
+    <creationDate>2014-04-17T15:32:44.000+05:30</creationDate>
+    <updateDate>2013-01-25T14:38:33.000+05:30</updateDate>
     <type>4</type>
     <mandatory>true</mandatory>
     <readOnly>false</readOnly>
@@ -19,8 +19,8 @@
             <version>0</version>
             <label>CenterQuery</label>
             <description></description>
-            <creationDate>2013-01-25T14:38:33.912+05:30</creationDate>
-            <updateDate>2013-01-25T14:38:33.912+05:30</updateDate>
+            <creationDate>2014-04-17T15:32:44.000+05:30</creationDate>
+            <updateDate>2013-01-25T14:38:33.000+05:30</updateDate>
             <language>sql</language>
             <queryString>select name from idgen_identifier_source</queryString>
             <dataSource>

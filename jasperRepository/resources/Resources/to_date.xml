@@ -5,8 +5,8 @@
     <version>0</version>
     <label>Enter the end date</label>
     <description></description>
-    <creationDate>2013-01-23T15:12:52.092+05:30</creationDate>
-    <updateDate>2013-01-23T15:12:52.092+05:30</updateDate>
+    <creationDate>2014-04-17T15:32:42.000+05:30</creationDate>
+    <updateDate>2013-01-23T15:12:52.000+05:30</updateDate>
     <type>2</type>
     <mandatory>true</mandatory>
     <readOnly>false</readOnly>
@@ -19,8 +19,8 @@
             <version>0</version>
             <label>to_date</label>
             <description></description>
-            <creationDate>2013-01-23T15:12:52.092+05:30</creationDate>
-            <updateDate>2013-01-23T15:12:52.092+05:30</updateDate>
+            <creationDate>2014-04-17T15:32:42.000+05:30</creationDate>
+            <updateDate>2013-01-23T15:12:52.000+05:30</updateDate>
             <type>3</type>
             <regularExpr></regularExpr>
             <strictMin>false</strictMin>
