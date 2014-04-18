@@ -34,3 +34,9 @@ The main commands used in this process are:
 - `./scripts/deploy.sh` : Wrapper over the `js-import.sh` and `db_deploy.sh` Jasper command for importing all data and reports from _jasperRepository_ folder into `jasperserver` database.
 - `./scripts/db_deploy.sh` :  For running liquibase migrations.
 - `./scripts/create_symlinks.sh` :  For each report in _jasperRepository_, this command creats a shortcut file in _jrxml_ folder.
+
+
+Fresh Jasper (For Implementation)
+-----------------------------------
+
+The Tag `Baseline_Jasper` can be extracted from this repo to get a Fresh Japser instance for starting out with a new implementation.
