@@ -30,7 +30,7 @@ The main commands used in this process are:
 - `./scripts/run-puppet-module.sh bahmni-jasperreports` : Run this command from bahmni-environment to deploy the reports from _jasperRepository_ into `jasperserver` war file. This command will pull the reports from __GITHUB__. This command will typically need to be run on each deployment and internally uses the `js-import.sh` command of Jasper to populate the Jasper DB.
 
 #### Local Scripts
-- `./scripts/sample-export.sh` : Wrapper over the `js-export.sh` Jasper command for exporting the whole Japser Database into the _jasperRepository_ folder. Remember to delete or rename the current _jasperRepository_ folder in the repo __before__ running this command. 
-- `./scripts/deploy.sh` : Wrapper over the `js-import.sh` Jasper command for importing all data and reports from _jasperRepository_ folder into `jasperserver` database.
+- `./scripts/sample-export.sh` : Wrapper over the `js-export.sh` Jasper command for exporting the whole Japser Database into the _jasperRepository_ folder. This command will overwrite the current _jasperRepository_ folder with appropriate files. 
+- `./scripts/deploy.sh` : Wrapper over the `js-import.sh` and `db_deploy.sh` Jasper command for importing all data and reports from _jasperRepository_ folder into `jasperserver` database.
 - `./scripts/db_deploy.sh` :  For running liquibase migrations.
 - `./scripts/create_symlinks.sh` :  For each report in _jasperRepository_, this command creats a shortcut file in _jrxml_ folder.
