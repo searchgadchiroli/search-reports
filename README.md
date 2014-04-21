@@ -19,7 +19,7 @@ Working with Jasper
 
 We are using Jasper Server deployed as a WAR in the Webapps folder of Tomcat. Jasper internally uses a DB to store all configuration, report templates, meta-data, etc and provides with tooling to export / import the reports. In Bahmni, we use MySQL Db as backend for Jasper. 
 
-When we create a report in Jasper using the _iReport Designer_ tool, we upload the report to the Jasper Reporting Server from _iReport_. Once we are satisfied with the report, then using the export command, we dump all reports from the Jasper server, and check them into the _jasperRepository_ folder. 
+When we create a report in Jasper using the [Jaspersoft Studio](http://community.jaspersoft.com/project/jaspersoft-studio) tool, we upload the report to the Jasper Reporting Server from _Jaspersoft Studio_. Once we are satisfied with the report, then using the export command, we dump all reports from the Jasper server, and check them into the _jasperRepository_ folder. 
 
 The build process imports the contents of the _jasperRepository_ folder into the machine on which deployment is happening.
 
