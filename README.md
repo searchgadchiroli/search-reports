@@ -32,11 +32,25 @@ The main commands used in this process are:
 - __`./scripts/run-puppet-module.sh bahmni-jasperreports`__ : Run this command from bahmni-environment to deploy the reports from _jasperRepository_ into `jasperserver` war file. This command will pull the reports from __GITHUB__. This command will typically need to be run on each deployment and internally uses the `js-import.sh` command of Jasper to populate the Jasper DB.
 
 #### Local Scripts
-- __EXPORT:__ __`./scripts/sample-export.sh`__ : Wrapper over the `js-export.sh` Jasper command for exporting the whole Japser Database into the _jasperRepository_ folder. This command will overwrite the current _jasperRepository_ folder with appropriate files. Exact command: `./sample_export.sh /usr/local/jasperreports-server-cp-5.0.0-bin/buildomatic/` 
+- __EXPORT:__ __`./scripts/sample-export.sh`__ : Wrapper over the `js-export.sh` Jasper command for exporting the whole Japser Database into the _jasperRepository_ folder. This command will overwrite the current _jasperRepository_ folder with appropriate files. 
 - __IMPORT:__ __`./scripts/deploy.sh`__ : Wrapper over the `js-import.sh` and `db_deploy.sh` Jasper command for importing all data and reports from _jasperRepository_ folder into `jasperserver` database. Exact command `/deploy.sh -j /usr/local/jasperreports-server-cp-5.0.0-bin -p ../conf/reports_default.properties`
 - __LIQUIBASE:__ __`./scripts/db_deploy.sh`__ :  For running liquibase migrations.
 - __SYM LINKS:__ __`./scripts/create_symlinks.sh`__ :  For each report in _jasperRepository_, this command creats a shortcut file in _jrxml_ folder.
 
+
+### Process to follow to publish a report from QA Server
+Once you are OK with a report on the QA box, to publish it into GITHUB, follow these steps: 
+
+1. Log onto the box via SSH.
+2. Go to search-reports folder on the machine. 
+3. Perform a `git pull --rebase` to get latest. 
+4. Go to the scripts folder and execute the command: `./sample_export.sh /usr/local/jasperreports-server-cp-5.0.0-bin/buildomatic/`
+5. Perform a `git status`. We need to commit 3 files from this list. See this [commit](https://github.com/Bhamni/search-reports/commit/f92e46deabb7dfeccfe900a083dcc7a5c47e64dc) to understand which files need to be added (one .folder.xml, and 2 new ones).
+6. Once committed, perform a `git reset --hard` to undo all other changes. 
+7. Then, create a symlink jrxml file for future iReport editing using the command (from scripts folder): `create_symlinks.sh`.
+8. Commit this symlink file. and 
+9. Push the 2 commits to the repository on Github.
+10. Trigger the CI pipeline to ensure that everything is OK with reports repository.
 
 Fresh Jasper (For Implementation)
 -----------------------------------
