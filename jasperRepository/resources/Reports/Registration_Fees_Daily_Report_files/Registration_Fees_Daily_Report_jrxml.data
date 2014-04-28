@@ -125,46 +125,46 @@ group by v.patient_id, pi.identifier, pn.given_name, pn.family_name, p.gender, v
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="32" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<textField>
-				<reportElement uuid="a5549ad8-3384-4849-bfef-358e7f40d691" x="28" y="8" width="67" height="20"/>
+				<reportElement uuid="a5549ad8-3384-4849-bfef-358e7f40d691" x="28" y="2" width="67" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{identifier}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="8ee12d48-a7b8-4b2a-b4ea-318fa7df491b" x="358" y="8" width="51" height="20"/>
+				<reportElement uuid="8ee12d48-a7b8-4b2a-b4ea-318fa7df491b" x="358" y="2" width="51" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0">
-				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="421" y="8" width="53" height="20"/>
+				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="421" y="2" width="53" height="20"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Registration_Fees}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e6bfdf02-4cf1-4b64-a59f-456ad5c28eee" x="99" y="8" width="148" height="20"/>
+				<reportElement uuid="e6bfdf02-4cf1-4b64-a59f-456ad5c28eee" x="99" y="2" width="148" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$V{Patient_Name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="70d117a4-3b3a-4491-a72f-8b8e4adbd81d" x="253" y="8" width="100" height="20"/>
+				<reportElement uuid="70d117a4-3b3a-4491-a72f-8b8e4adbd81d" x="253" y="2" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{city_village}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3d954b65-26fa-4996-b296-cc84438e991f" x="6" y="8" width="22" height="20"/>
+				<reportElement uuid="3d954b65-26fa-4996-b296-cc84438e991f" x="6" y="2" width="22" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="8" splitType="Stretch"/>
+		<band height="5" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="27" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="54a004ec-a6cd-47a1-ad25-36c63d1359e1" x="297" y="7" width="245" height="20"/>
+				<reportElement uuid="54a004ec-a6cd-47a1-ad25-36c63d1359e1" x="297" y="1" width="245" height="20"/>
 				<textElement/>
 				<text><![CDATA[Registration Fees Daily Collection Report]]></text>
 			</staticText>
