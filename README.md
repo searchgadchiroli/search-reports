@@ -32,10 +32,10 @@ The main commands used in this process are:
 - __`./scripts/run-puppet-module.sh bahmni-jasperreports`__ : Run this command from bahmni-environment to deploy the reports from _jasperRepository_ into `jasperserver` war file. This command will pull the reports from __GITHUB__. This command will typically need to be run on each deployment and internally uses the `js-import.sh` command of Jasper to populate the Jasper DB.
 
 #### Local Scripts
-- __`./scripts/sample-export.sh`__ : Wrapper over the `js-export.sh` Jasper command for exporting the whole Japser Database into the _jasperRepository_ folder. This command will overwrite the current _jasperRepository_ folder with appropriate files. Exact command: `./sample_export.sh /usr/local/jasperreports-server-cp-5.0.0-bin/buildomatic/` 
-- __`./scripts/deploy.sh`__ : Wrapper over the `js-import.sh` and `db_deploy.sh` Jasper command for importing all data and reports from _jasperRepository_ folder into `jasperserver` database.
-- __`./scripts/db_deploy.sh`__ :  For running liquibase migrations.
-- __`./scripts/create_symlinks.sh`__ :  For each report in _jasperRepository_, this command creats a shortcut file in _jrxml_ folder. Exact command `/deploy.sh -j /usr/local/jasperreports-server-cp-5.0.0-bin -p ../conf/reports_default.properties`
+- __EXPORT:__ __`./scripts/sample-export.sh`__ : Wrapper over the `js-export.sh` Jasper command for exporting the whole Japser Database into the _jasperRepository_ folder. This command will overwrite the current _jasperRepository_ folder with appropriate files. Exact command: `./sample_export.sh /usr/local/jasperreports-server-cp-5.0.0-bin/buildomatic/` 
+- __IMPORT:__ __`./scripts/deploy.sh`__ : Wrapper over the `js-import.sh` and `db_deploy.sh` Jasper command for importing all data and reports from _jasperRepository_ folder into `jasperserver` database. Exact command `/deploy.sh -j /usr/local/jasperreports-server-cp-5.0.0-bin -p ../conf/reports_default.properties`
+- __LIQUIBASE:__ __`./scripts/db_deploy.sh`__ :  For running liquibase migrations.
+- __SYM LINKS:__ __`./scripts/create_symlinks.sh`__ :  For each report in _jasperRepository_, this command creats a shortcut file in _jrxml_ folder.
 
 
 Fresh Jasper (For Implementation)
