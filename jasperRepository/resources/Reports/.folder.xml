@@ -9,6 +9,7 @@
     <resource>All_Test_Results</resource>
     <resource>All_Tests_Referred_Out</resource>
     <resource>MIS_REGISTRATION_REPORT</resource>
+    <resource>Registration_Fees_Daily_Report</resource>
     <resource>Results_Per_Type_Of_Test</resource>
     <resource>Summary_Report_For_ReferredOut_Cases</resource>
     <resource>Summary_Report_For_ReferredOut_Cases_With_Abnormal_Results</resource>

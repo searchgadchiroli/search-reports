@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Registration Fees Collection Daily Report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="287cc74a-8e67-4ee8-a6af-7d7e770ee047">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select v.patient_id, pi.identifier, pn.given_name, pn.family_name, pa.city_village, p.gender, sum(coalesce(o.value_numeric,0)) as "Registration_Fees", v.visit_id
+From visit v
+inner join person p on v.patient_id = p.person_id
+inner join person_address pa on p.person_id = pa.person_id
+inner join patient_identifier pi on pi.patient_id = p.person_id
+inner join person_name pn on pn.person_id = p.person_id AND pn.voided = 0
+left outer join encounter e on e.visit_id = v.visit_id AND e.encounter_type = 2
+left outer join obs o on o.encounter_id = e.encounter_id and o.concept_id = 53 and o.voided = 0
+where date(v.date_started) = $P{date}
+group by v.patient_id, pi.identifier, pn.given_name, pn.family_name, p.gender, v.visit_id;]]>
+	</queryString>
+	<field name="patient_id" class="java.lang.Integer"/>
+	<field name="identifier" class="java.lang.String"/>
+	<field name="given_name" class="java.lang.String"/>
+	<field name="family_name" class="java.lang.String"/>
+	<field name="city_village" class="java.lang.String"/>
+	<field name="gender" class="java.lang.String"/>
+	<field name="Registration_Fees" class="java.lang.Double"/>
+	<field name="visit_id" class="java.lang.Integer"/>
+	<variable name="Patient_Name" class="java.lang.String">
+		<variableExpression><![CDATA[$F{given_name} + " " + $F{family_name}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="FirstName" class="java.lang.String">
+		<variableExpression><![CDATA[$F{given_name}]]></variableExpression>
+	</variable>
+	<variable name="LastName" class="java.lang.String">
+		<variableExpression><![CDATA[$F{family_name}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="67" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d2440877-8b75-447d-b2fb-caf1b6859269" x="6" y="12" width="536" height="49"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Registration Fees Daily Collection Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="cfea353a-66ff-4799-a0b3-7c5978268e92" x="6" y="0" width="127" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Patients who visited on :]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="848fa74e-9f64-4930-b415-6c7c74d62e1e" x="440" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="0bdebcca-fdac-449a-a247-4ba20694462c" x="521" y="0" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement uuid="93704edf-1a69-4a3a-9bc1-4093e2298d25" x="136" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="be193add-55bd-4559-9655-d255c163e3d4" x="29" y="0" width="67" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Patient ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a82bbaba-02ff-47d6-9a87-5fe78d874494" x="99" y="0" width="148" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Patient Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="09a72919-71d0-4684-8a3a-028e0454e4e2" x="357" y="0" width="51" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gender]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ba13226f-18f7-4db5-8cc2-6c72b4667b4e" x="420" y="0" width="54" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reg Fees]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d99f36c2-c885-4309-b571-95204c53ae11" x="252" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Village / Post]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dfd42dad-9801-487b-b11b-fa764405ba6e" x="6" y="0" width="22" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement uuid="a5549ad8-3384-4849-bfef-358e7f40d691" x="28" y="8" width="67" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{identifier}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8ee12d48-a7b8-4b2a-b4ea-318fa7df491b" x="358" y="8" width="51" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="421" y="8" width="53" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Registration_Fees}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e6bfdf02-4cf1-4b64-a59f-456ad5c28eee" x="99" y="8" width="148" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{Patient_Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="70d117a4-3b3a-4491-a72f-8b8e4adbd81d" x="253" y="8" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{city_village}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3d954b65-26fa-4996-b296-cc84438e991f" x="6" y="8" width="22" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="8" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="54a004ec-a6cd-47a1-ad25-36c63d1359e1" x="297" y="7" width="245" height="20"/>
+				<textElement/>
+				<text><![CDATA[Registration Fees Daily Collection Report]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="8" splitType="Stretch"/>
+	</summary>
+</jasperReport>
