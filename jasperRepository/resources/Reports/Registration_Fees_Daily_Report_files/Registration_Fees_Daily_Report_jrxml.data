@@ -36,13 +36,16 @@ group by v.patient_id, pi.identifier, pn.given_name, pn.family_name, p.gender, v
 	<variable name="LastName" class="java.lang.String">
 		<variableExpression><![CDATA[$F{family_name}]]></variableExpression>
 	</variable>
+	<variable name="Registration_Fees_1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{Registration_Fees}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="67" splitType="Stretch">
+		<band height="49" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="d2440877-8b75-447d-b2fb-caf1b6859269" x="6" y="12" width="536" height="49"/>
+				<reportElement uuid="d2440877-8b75-447d-b2fb-caf1b6859269" x="6" y="6" width="536" height="31"/>
 				<textElement textAlignment="Center">
 					<font size="24" isBold="true"/>
 				</textElement>
@@ -51,7 +54,7 @@ group by v.patient_id, pi.identifier, pn.given_name, pn.family_name, p.gender, v
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch">
+		<band height="25" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="cfea353a-66ff-4799-a0b3-7c5978268e92" x="6" y="0" width="127" height="20"/>
 				<textElement>
@@ -159,7 +162,15 @@ group by v.patient_id, pi.identifier, pn.given_name, pn.family_name, p.gender, v
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="5" splitType="Stretch"/>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement uuid="368617d7-6d46-43d1-87ca-b83540cc732d" x="307" y="2" width="167" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Amount Rs." + $V{Registration_Fees_1}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="22" splitType="Stretch">
