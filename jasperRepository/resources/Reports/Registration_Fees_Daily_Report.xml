@@ -2,21 +2,21 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>Registration_Fees_Daily_Report</name>
-    <version>3</version>
+    <version>10</version>
     <label>Registration Fees Daily Report</label>
     <description>Daily report of patients that were registered for that date along with Consultation fees paid or free</description>
-    <creationDate>2014-04-28T13:51:55.000+05:30</creationDate>
-    <updateDate>2014-04-28T14:14:09.000+05:30</updateDate>
+    <creationDate>2014-05-02T14:29:24.000+05:30</creationDate>
+    <updateDate>2014-05-06T14:22:16.000+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="Registration_Fees_Daily_Report_jrxml.data" xsi:type="fileResource">
             <folder>/Reports/Registration_Fees_Daily_Report_files</folder>
             <name>Registration_Fees_Daily_Report_jrxml</name>
-            <version>2</version>
+            <version>1</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2014-04-28T13:51:55.000+05:30</creationDate>
+            <creationDate>2014-05-02T14:29:24.000+05:30</creationDate>
             <updateDate>2014-04-28T13:51:55.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
@@ -27,6 +27,7 @@
     <inputControl>
         <uri>/Resources/date</uri>
     </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
     <alwaysPromptControls>true</alwaysPromptControls>
-    <controlsLayout>1</controlsLayout>
+    <controlsLayout>4</controlsLayout>
 </reportUnit>
