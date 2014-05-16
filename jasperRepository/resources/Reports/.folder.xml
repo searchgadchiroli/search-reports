@@ -14,5 +14,6 @@
     <resource>Summary_Report_For_ReferredOut_Cases</resource>
     <resource>Summary_Report_For_ReferredOut_Cases_With_Abnormal_Results</resource>
     <resource>Total_Patients_in_Lab</resource>
+    <resource>Monthly_MIS_Count_Of_Tests</resource>
     <resource>Total_Tests_Per_Patient_And_Abnormal_Results</resource>
 </folder>

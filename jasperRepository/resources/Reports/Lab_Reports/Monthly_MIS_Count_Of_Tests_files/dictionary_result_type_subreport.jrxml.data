@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dictionary_result_type_subreport" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a23197d2-198c-485c-89c6-787207280fbe">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/Lab_Reports/Monthly_MIS_Count_Of_Tests"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
+	<parameter name="testId" class="java.math.BigDecimal" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="resultType" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select t.name, d.dict_entry, count(r.*)
+from test t
+left join test_result tr on tr.test_id = t.id and tr.tst_rslt_type = 'D'
+inner join dictionary d on d.id = cast(tr.value as int)
+left join analysis a on a.test_id = t.id
+left join result r on r.analysis_id = a.id and tr.id = r.test_result_id
+ where t.id = $P{testId} group by t.name, d.dict_entry;]]>
+	</queryString>
+	<field name="dict_entry" class="java.lang.String"/>
+	<field name="count" class="java.lang.Long"/>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
+	</field>
+	<group name="name">
+		<groupExpression><![CDATA[$F{name}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20">
+			<printWhenExpression><![CDATA[$P{resultType} == 'D']]></printWhenExpression>
+			<textField>
+				<reportElement uuid="93cb2c47-dd7f-4836-a510-f34f80b2228f" x="104" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{dict_entry}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="274c4833-45e1-4482-b6ae-cff74eeb61cb" x="268" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

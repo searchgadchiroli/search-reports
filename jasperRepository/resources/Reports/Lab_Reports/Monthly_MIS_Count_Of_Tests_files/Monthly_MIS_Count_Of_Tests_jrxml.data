@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="All_Test_Results" language="groovy" pageWidth="1000" pageHeight="595" orientation="Landscape" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d20f4e0-4356-46df-affd-2ed28cd1e211">
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.1" value="pageHeader"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.2" value="pageFooter"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="columnHeader"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1" value="columnHeader"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/Lab_Reports/Monthly_MIS_Count_Of_Tests"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/Users/sushrao/code/TW/JSS/jrxmls/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="from_date" class="java.util.Date"/>
+	<parameter name="to_date" class="java.util.Date"/>
+	<parameter name="program_name" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select tos.description,t.id, t.name,r.result_type as resultType, count(a.test_id) as total_no_of_test, count(case when r.abnormal= true then 1 else null end) abnormal from test t
+left join sampletype_test stt on stt.test_id = t.id
+left join type_of_sample tos on tos.id = stt.sample_type_id
+left join analysis a on a.test_id = t.id
+left join result r on r.analysis_id = a.id
+group by tos.description, t.name, t.id, r.result_type order by tos.description, t.name;]]>
+	</queryString>
+	<field name="description" class="java.lang.String"/>
+	<field name="id" class="java.math.BigDecimal"/>
+	<field name="resultType" class="java.lang.String"/>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
+	</field>
+	<field name="total_no_of_test" class="java.lang.Long"/>
+	<field name="abnormal" class="java.lang.Long"/>
+	<group name="TestsByOrganization">
+		<groupExpression><![CDATA[$F{description}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="fac05bda-52f3-473a-8780-a142f683d8ef" mode="Opaque" x="0" y="0" width="802" height="20" backcolor="#CCCCCC"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<frame>
+				<reportElement uuid="8186addc-b74d-4c5d-a2b1-552c54f49cf0" mode="Opaque" x="0" y="0" width="960" height="100" backcolor="#006699"/>
+				<staticText>
+					<reportElement uuid="fbfba68b-1486-429b-a6af-7a05cc737c5d" x="100" y="11" width="860" height="61" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Monthly MIS Count Of Tests]]></text>
+				</staticText>
+				<textField evaluationTime="Report">
+					<reportElement uuid="9ffa84fb-be18-4d82-93c1-6cc5db93e7dd" x="100" y="74" width="860" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy")]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement uuid="99a839df-03f6-4a6c-af76-4989e98fcb0c" x="2" y="10" width="98" height="84"/>
+					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="36">
+			<staticText>
+				<reportElement uuid="65fc935e-2100-46c5-bd3a-115ceed4a8be" mode="Opaque" x="0" y="15" width="100" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Type Of Sample]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d5cf1acc-9ad5-435b-b5fb-6d6158d3af0d" mode="Opaque" x="358" y="15" width="110" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[abnormal count]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="63afdfa8-01bc-4bd2-815b-f98e2ad9cf8e" mode="Opaque" x="258" y="15" width="100" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Count Test]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9b957fd8-90a6-4162-8ea3-e648ba7dce32" mode="Opaque" x="100" y="15" width="158" height="20" backcolor="#006699"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Test ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41">
+			<textField>
+				<reportElement uuid="46e7c2a0-d692-4bbf-92af-dfc374f1eeb9" x="49" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0f0efff6-1871-4cc2-9801-72452736c53a" x="179" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{total_no_of_test}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="58a3190c-af75-4f6d-a50c-c2fb0f115c90" x="219" y="20" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{abnormal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2965dda4-b892-48c3-a6fe-dc2e2e90a55a" x="79" y="20" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Abnormal]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="119" y="40" width="200" height="0"/>
+				<subreportParameter name="testId">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="resultType">
+					<subreportParameterExpression><![CDATA[$F{resultType}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["repo:dictionary_result_type_subreport.jrxml"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="a399b99a-d34f-4a5d-bd8b-501dc53dab19" x="119" y="40" width="200" height="0"/>
+				<subreportParameter name="testId">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="resultType">
+					<subreportParameterExpression><![CDATA[$F{resultType}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["repo:numeric_result_type_subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
