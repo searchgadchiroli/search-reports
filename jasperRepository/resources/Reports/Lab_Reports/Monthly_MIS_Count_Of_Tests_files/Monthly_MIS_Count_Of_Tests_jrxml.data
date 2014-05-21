@@ -34,9 +34,6 @@
 	</parameter>
 	<parameter name="from_date" class="java.util.Date"/>
 	<parameter name="to_date" class="java.util.Date"/>
-	<parameter name="program_name" class="java.util.Collection">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
 		<![CDATA[select tos.description,t.id, t.name,r.result_type as resultType, count(a.test_id) as total_no_of_test, count(case when r.abnormal= true then 1 else null end) abnormal from test t
 left join sampletype_test stt on stt.test_id = t.id
@@ -128,7 +125,7 @@ group by tos.description, t.name, t.id, r.result_type order by tos.description, 
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="41">
+		<band height="56">
 			<textField>
 				<reportElement uuid="46e7c2a0-d692-4bbf-92af-dfc374f1eeb9" x="49" y="0" width="100" height="20"/>
 				<textElement/>
@@ -150,7 +147,7 @@ group by tos.description, t.name, t.id, r.result_type order by tos.description, 
 				<text><![CDATA[Abnormal]]></text>
 			</staticText>
 			<subreport>
-				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="119" y="40" width="200" height="0"/>
+				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="119" y="40" width="200" height="16"/>
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>

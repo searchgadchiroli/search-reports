@@ -7,35 +7,38 @@
 		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select v.patient_id, pi.identifier, pn.given_name, pn.family_name, pa.city_village, p.gender, sum(coalesce(o.value_numeric,0)) as "Registration_Fees", v.visit_id
+		<![CDATA[select v.patient_id, pi.identifier, (case when date(p.date_created) =  $P{date} then 'New' else 'Old' end) as Patient_Type,
+Locale_Name.name, Locale_Name.mobile,
+pa.city_village, p.gender,
+sum(coalesce(o.value_numeric,0)) as "Registration_Fees",
+v.visit_id
 From visit v
 inner join person p on v.patient_id = p.person_id
 inner join person_address pa on p.person_id = pa.person_id
 inner join patient_identifier pi on pi.patient_id = p.person_id
-inner join person_name pn on pn.person_id = p.person_id AND pn.voided = 0
-left outer join encounter e on e.visit_id = v.visit_id AND e.encounter_type = 2
-left outer join obs o on o.encounter_id = e.encounter_id and o.concept_id = 53 and o.voided = 0
+inner join (select pa.person_id, concat(group_concat(case when pat.name = 'givenNameLocal' then pa.value else '' end separator ''), ' ',
+group_concat(case when pat.name = 'middleNameLocal' then pa.value else '' end separator ''), ' ',
+group_concat(case when pat.name = 'familyNameLocal' then pa.value else '' end separator '')) as name,
+group_concat(case when pat.name = 'Primary Contact' then pa.value else '' end separator '') as mobile
+from person_attribute as pa
+inner join person_attribute_type pat on pa.person_attribute_type_id = pat.person_attribute_type_id
+group by pa.person_id) as Locale_Name on p.person_id = Locale_Name.person_id
+left outer join encounter e on e.visit_id = v.visit_id
+left outer join encounter_type et on e.encounter_type = et.encounter_type_id AND et.name = 'REG'
+left outer join obs o on o.encounter_id = e.encounter_id and o.voided = 0
+left outer join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'REGISTRATION FEES'
 where date(v.date_started) = $P{date}
-group by v.patient_id, pi.identifier, pn.given_name, pn.family_name, p.gender, v.visit_id;]]>
+group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 	</queryString>
 	<field name="patient_id" class="java.lang.Integer"/>
 	<field name="identifier" class="java.lang.String"/>
-	<field name="given_name" class="java.lang.String"/>
-	<field name="family_name" class="java.lang.String"/>
+	<field name="Patient_Type" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="mobile" class="java.lang.String"/>
 	<field name="city_village" class="java.lang.String"/>
 	<field name="gender" class="java.lang.String"/>
 	<field name="Registration_Fees" class="java.lang.Double"/>
 	<field name="visit_id" class="java.lang.Integer"/>
-	<variable name="Patient_Name" class="java.lang.String">
-		<variableExpression><![CDATA[$F{given_name} + " " + $F{family_name}]]></variableExpression>
-		<initialValueExpression><![CDATA[]]></initialValueExpression>
-	</variable>
-	<variable name="FirstName" class="java.lang.String">
-		<variableExpression><![CDATA[$F{given_name}]]></variableExpression>
-	</variable>
-	<variable name="LastName" class="java.lang.String">
-		<variableExpression><![CDATA[$F{family_name}]]></variableExpression>
-	</variable>
 	<variable name="Registration_Fees_1" class="java.lang.Double" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{Registration_Fees}]]></variableExpression>
 	</variable>
@@ -82,37 +85,37 @@ group by v.patient_id, pi.identifier, pn.given_name, pn.family_name, p.gender, v
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="26" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="be193add-55bd-4559-9655-d255c163e3d4" x="29" y="0" width="67" height="20"/>
+				<reportElement uuid="be193add-55bd-4559-9655-d255c163e3d4" x="34" y="0" width="87" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Patient ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a82bbaba-02ff-47d6-9a87-5fe78d874494" x="99" y="0" width="148" height="20"/>
+				<reportElement uuid="a82bbaba-02ff-47d6-9a87-5fe78d874494" x="168" y="0" width="93" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Patient Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="09a72919-71d0-4684-8a3a-028e0454e4e2" x="357" y="0" width="51" height="20"/>
+				<reportElement uuid="09a72919-71d0-4684-8a3a-028e0454e4e2" x="420" y="0" width="51" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Gender]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ba13226f-18f7-4db5-8cc2-6c72b4667b4e" x="420" y="0" width="54" height="20"/>
+				<reportElement uuid="ba13226f-18f7-4db5-8cc2-6c72b4667b4e" x="483" y="0" width="54" height="20"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Reg Fees]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="d99f36c2-c885-4309-b571-95204c53ae11" x="252" y="0" width="100" height="20"/>
+				<reportElement uuid="d99f36c2-c885-4309-b571-95204c53ae11" x="273" y="0" width="77" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -125,63 +128,82 @@ group by v.patient_id, pi.identifier, pn.given_name, pn.family_name, p.gender, v
 				</textElement>
 				<text><![CDATA[No.]]></text>
 			</staticText>
+			<staticText>
+				<reportElement uuid="40f986a2-8935-4d8e-aa24-8f9e8f8bf668" x="350" y="0" width="70" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mobile]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="24" splitType="Stretch">
+		<band height="19" splitType="Stretch">
 			<textField>
-				<reportElement uuid="a5549ad8-3384-4849-bfef-358e7f40d691" x="28" y="2" width="67" height="20"/>
+				<reportElement uuid="a5549ad8-3384-4849-bfef-358e7f40d691" x="33" y="1" width="88" height="18"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{identifier}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="8ee12d48-a7b8-4b2a-b4ea-318fa7df491b" x="358" y="2" width="51" height="20"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
-			</textField>
 			<textField pattern="###0">
-				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="421" y="2" width="53" height="20"/>
+				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="484" y="1" width="53" height="17"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Registration_Fees}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e6bfdf02-4cf1-4b64-a59f-456ad5c28eee" x="99" y="2" width="148" height="20"/>
+				<reportElement uuid="3d954b65-26fa-4996-b296-cc84438e991f" x="6" y="1" width="22" height="18"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$V{Patient_Name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="70d117a4-3b3a-4491-a72f-8b8e4adbd81d" x="253" y="2" width="100" height="20"/>
+				<reportElement uuid="81072f29-b60b-4971-8b93-6a5e8bc22939" x="168" y="1" width="93" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9ddbfc43-8110-498f-8487-718240557760" x="126" y="0" width="27" height="19"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Patient_Type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="70d117a4-3b3a-4491-a72f-8b8e4adbd81d" x="273" y="1" width="77" height="18"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{city_village}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3d954b65-26fa-4996-b296-cc84438e991f" x="6" y="2" width="22" height="20"/>
+				<reportElement uuid="ef2c2d10-03fa-4b67-ac93-282cbf5e927a" x="420" y="2" width="51" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c69b14e2-2c76-4cfd-aaa9-815eda85e397" x="353" y="1" width="67" height="17"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="23" splitType="Stretch">
-			<textField>
-				<reportElement uuid="368617d7-6d46-43d1-87ca-b83540cc732d" x="307" y="2" width="167" height="20"/>
-				<textElement textAlignment="Right">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Total Amount Rs." + $V{Registration_Fees_1}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="2" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="22" splitType="Stretch">
+		<band height="18" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="54a004ec-a6cd-47a1-ad25-36c63d1359e1" x="297" y="1" width="245" height="20"/>
-				<textElement/>
+				<reportElement uuid="54a004ec-a6cd-47a1-ad25-36c63d1359e1" x="297" y="2" width="245" height="15"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
 				<text><![CDATA[Registration Fees Daily Collection Report]]></text>
 			</staticText>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="8" splitType="Stretch"/>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement uuid="368617d7-6d46-43d1-87ca-b83540cc732d" x="372" y="5" width="167" height="17"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Amount Rs. " + $V{Registration_Fees_1}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>
