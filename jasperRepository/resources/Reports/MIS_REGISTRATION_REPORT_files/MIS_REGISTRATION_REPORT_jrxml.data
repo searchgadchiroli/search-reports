@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8c87200-35be-4654-b278-1c1e83225d69">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="147"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -98,9 +98,9 @@
 (
    Select count(*)
    from
-   person as p
+   patient as pt
    where
-   p.date_created >= $P{from_date} and p.date_created <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+   pt.date_created >= $P{from_date} and pt.date_created <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 ) as NEW_REGISTRATIONS,
 (
    Select count(*)
@@ -189,14 +189,14 @@
 	<detail>
 		<band height="272" splitType="Stretch">
 			<rectangle>
-				<reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="57" y="7" width="459" height="249" forecolor="#666666"/>
+				<reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="57" y="7" width="372" height="224" forecolor="#666666"/>
 			</rectangle>
 			<staticText>
 				<reportElement uuid="06e430f9-fa8c-4d51-8ce8-0d73f302df51" x="92" y="20" width="213" height="20"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[Total Number of Patients]]></text>
+				<text><![CDATA[Total Number of Visits]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="6e1143b3-adc2-4733-9ef0-60bcd84f61b2" x="314" y="20" width="67" height="20"/>
@@ -206,7 +206,7 @@
 				<textFieldExpression><![CDATA[$F{TOTAL_PATIENTS}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement uuid="d8ad4b23-eee2-4e14-8ae5-fdc98e8d407f" key="table 2" style="table 2" x="531" y="7" width="214" height="48"/>
+				<reportElement uuid="d8ad4b23-eee2-4e14-8ae5-fdc98e8d407f" key="table 2" style="table 2" x="477" y="7" width="214" height="48"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Visit_Type_Totals" uuid="135a670a-a0c0-44f4-848c-91679eda62fa">
 						<datasetParameter name="from_date_inner">
@@ -329,6 +329,15 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{RETURNING_VISITS}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="45" width="346" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="122" width="346" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="157" width="346" height="1"/>
+			</line>
 		</band>
 		<band/>
 		<band height="50">
