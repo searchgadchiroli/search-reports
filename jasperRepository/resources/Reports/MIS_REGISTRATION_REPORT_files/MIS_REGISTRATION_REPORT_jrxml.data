@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8c87200-35be-4654-b278-1c1e83225d69">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="147"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -67,6 +67,66 @@
 			<style backcolor="#EFF7FF"/>
 		</conditionalStyle>
 	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="Visit_Type_Totals" uuid="67a70c06-94f7-4899-b33a-8af9cd245c7e">
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
@@ -81,6 +141,61 @@
 		</queryString>
 		<field name="name" class="java.lang.String"/>
 		<field name="count(*)" class="java.lang.Long"/>
+	</subDataset>
+	<subDataset name="Visit_by_District" uuid="8943d047-4d62-420a-bdb2-cc7ff6859cf2">
+		<parameter name="from_date_inner" class="java.util.Date"/>
+		<parameter name="to_date_inner" class="java.util.Date"/>
+		<queryString language="SQL">
+			<![CDATA[Select padd.address2 as district, count(*) as visits_by_district
+	from visit as v
+	left join person_address as padd on padd.person_id = v.patient_id
+	where
+	v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
+	group by padd.address2;]]>
+		</queryString>
+		<field name="district" class="java.lang.String"/>
+		<field name="visits_by_district" class="java.lang.Long"/>
+		<group name="district">
+			<groupExpression><![CDATA[$F{district}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Visits_by_Location_Type" uuid="0d1f8f14-39ea-4ad9-b0c6-09db05e9b1fe">
+		<parameter name="from_date_inner" class="java.util.Date"/>
+		<parameter name="to_date_inner" class="java.util.Date"/>
+		<queryString language="SQL">
+			<![CDATA[Select  slct.Name, count(*) as visits_by_location_type
+	from visit as v
+	left join person_address as padd on padd.person_id = v.patient_id
+	left join SEARCH_LOCATION_CATEGORY as slc on slc.Village = padd.city_village AND slc.Tehsil = padd.address1
+	left join SEARCH_LOCATION_CATEGORY_TYPE as slct on slct.Id = slc.Category
+    where
+	v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
+	group by slc.category;]]>
+		</queryString>
+		<field name="Name" class="java.lang.String"/>
+		<field name="visits_by_location_type" class="java.lang.Long"/>
+		<group name="Name">
+			<groupExpression><![CDATA[$F{Name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Visit_by_caste" uuid="12715305-58c6-436f-b83a-13342c702346">
+		<parameter name="from_date_inner" class="java.util.Date"/>
+		<parameter name="to_date_inner" class="java.util.Date"/>
+		<queryString language="SQL">
+			<![CDATA[Select sc.caste_type, count(*) as visits_by_caste_type
+	from visit as v
+	left join person_attribute as pa on pa.person_id = v.patient_id
+	AND person_attribute_type_id = (select pat.person_attribute_type_id from person_attribute_type as pat where pat.name like '%caste%')
+	left join SEARCH_Caste as sc on sc.caste_name = pa.value
+	where
+	v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
+ 	group by sc.caste_type;]]>
+		</queryString>
+		<field name="caste_type" class="java.lang.String"/>
+		<field name="visits_by_caste_type" class="java.lang.Long"/>
+		<group name="caste_type">
+			<groupExpression><![CDATA[$F{caste_type}]]></groupExpression>
+		</group>
 	</subDataset>
 	<parameter name="from_date" class="java.util.Date">
 		<defaultValueExpression><![CDATA[new Date((new Date()).getTime()-(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-1)*24*60*60*1000L)]]></defaultValueExpression>
@@ -138,47 +253,44 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="33" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="38f096e0-701e-4ac6-969a-d3c645bbeb86" x="75" y="12" width="467" height="51"/>
-				<textElement>
-					<font size="36"/>
+				<reportElement uuid="38f096e0-701e-4ac6-969a-d3c645bbeb86" x="75" y="2" width="467" height="27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
 				</textElement>
 				<text><![CDATA[Registration MIS Report]]></text>
 			</staticText>
 		</band>
 	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<rectangle>
-				<reportElement uuid="c470c1a7-fbaa-468e-ba63-d34044c7b4da" x="57" y="2" width="459" height="47" forecolor="#666666"/>
+				<reportElement uuid="c470c1a7-fbaa-468e-ba63-d34044c7b4da" x="57" y="2" width="459" height="26" forecolor="#666666"/>
 			</rectangle>
 			<staticText>
-				<reportElement uuid="48678b3c-89c2-4571-862d-dd6ccfb20455" x="92" y="18" width="100" height="20" forecolor="#0033FF"/>
+				<reportElement uuid="48678b3c-89c2-4571-862d-dd6ccfb20455" x="92" y="7" width="100" height="20" forecolor="#0033FF"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Date Range: ]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement uuid="2177e809-9dfd-430d-8a28-3b3787215797" x="214" y="18" width="100" height="20" forecolor="#0000FF"/>
+				<reportElement uuid="2177e809-9dfd-430d-8a28-3b3787215797" x="214" y="7" width="100" height="20" forecolor="#0000FF"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{from_date}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement uuid="ddabcdcd-2100-4b35-9c61-1fd4cc8d20ce" x="381" y="18" width="122" height="20" forecolor="#0000FF"/>
+				<reportElement uuid="ddabcdcd-2100-4b35-9c61-1fd4cc8d20ce" x="381" y="7" width="122" height="20" forecolor="#0000FF"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{to_date}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="f59f4899-b969-43f9-a2ed-df0d1fe74ea7" x="338" y="19" width="20" height="19" forecolor="#0000FF"/>
+				<reportElement uuid="f59f4899-b969-43f9-a2ed-df0d1fe74ea7" x="338" y="7" width="20" height="19" forecolor="#0000FF"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
@@ -187,9 +299,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="272" splitType="Stretch">
+		<band height="307" splitType="Stretch">
 			<rectangle>
-				<reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="57" y="7" width="372" height="224" forecolor="#666666"/>
+				<reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="57" y="7" width="372" height="193" forecolor="#666666"/>
 			</rectangle>
 			<staticText>
 				<reportElement uuid="06e430f9-fa8c-4d51-8ce8-0d73f302df51" x="92" y="20" width="213" height="20"/>
@@ -274,56 +386,56 @@
 				<textFieldExpression><![CDATA[$F{NEW_REGISTRATIONS}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="92" y="131" width="165" height="20"/>
+				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="92" y="113" width="165" height="20"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Children (Upto 5 years)]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="807a7dec-b1e7-4b84-a8c6-afdfb09262c4" x="314" y="131" width="67" height="20"/>
+				<reportElement uuid="807a7dec-b1e7-4b84-a8c6-afdfb09262c4" x="314" y="113" width="67" height="20"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{UPTO_AGE_5}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="92" y="164" width="47" height="20"/>
+				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="92" y="145" width="47" height="20"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Males]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="7d646860-d722-4463-bccb-0a97263dde9f" x="314" y="164" width="67" height="20"/>
+				<reportElement uuid="7d646860-d722-4463-bccb-0a97263dde9f" x="314" y="145" width="67" height="20"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{MALE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="92" y="194" width="65" height="25"/>
+				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="92" y="175" width="65" height="25"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Females]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="16c00093-31e5-42fd-b489-dafd5416ac6c" x="314" y="199" width="67" height="20"/>
+				<reportElement uuid="16c00093-31e5-42fd-b489-dafd5416ac6c" x="314" y="180" width="67" height="20"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{FEMALE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="66c80f13-1259-45db-b20a-ecc25737853f" x="92" y="94" width="145" height="20"/>
+				<reportElement uuid="66c80f13-1259-45db-b20a-ecc25737853f" x="92" y="81" width="145" height="20"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Returning Visits]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="12924dfd-ff1a-4c0e-96e8-5090968eb310" x="314" y="94" width="67" height="20"/>
+				<reportElement uuid="12924dfd-ff1a-4c0e-96e8-5090968eb310" x="314" y="81" width="67" height="20"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
@@ -333,28 +445,191 @@
 				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="45" width="346" height="1"/>
 			</line>
 			<line>
-				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="122" width="346" height="1"/>
+				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="104" width="346" height="1"/>
 			</line>
 			<line>
-				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="157" width="346" height="1"/>
+				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="139" width="346" height="1"/>
 			</line>
+			<componentElement>
+				<reportElement uuid="84c509f5-78ff-454d-8756-d781f15e196f" key="table 3" style="table 3" x="237" y="208" width="150" height="44"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Visit_by_District" uuid="8e71e3c3-8038-4b51-9952-20f4e146fbde">
+						<datasetParameter name="from_date_inner">
+							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="to_date_inner">
+							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column uuid="4ef82ef9-a342-426c-95d9-464afa431cfa" width="95">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="b940a927-7e91-4580-a2ca-a68320619fc1" x="0" y="0" width="90" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[District]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement uuid="3ab02efc-fdb5-46f1-964b-fbb297eaf4c5" x="5" y="6" width="85" height="20"/>
+								<textElement>
+									<font size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{district}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column uuid="121ba47d-0291-497d-af84-5ef1e489cb1a" width="52">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="ed4e77e8-4366-4d07-8279-e0160a235ca1" x="0" y="0" width="48" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Count]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement uuid="7a7467e4-e3ca-4c9a-af77-bfea12057980" x="11" y="6" width="32" height="20"/>
+								<textElement textAlignment="Center">
+									<font size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{visits_by_district}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement uuid="cf64e10b-9685-4ba3-8321-f0f33dd123e9" key="table 4" style="table 4" x="57" y="208" width="159" height="44"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Visits_by_Location_Type" uuid="9533fe79-c5ac-4165-b5f6-8d77196af7a9">
+						<datasetParameter name="from_date_inner">
+							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="to_date_inner">
+							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column uuid="8b223222-cb1a-4079-bc6f-1e065b5b415f" width="117">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="df6bc928-c663-4f5e-a6d7-1310f1678214" x="0" y="0" width="108" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Area]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="28" rowSpan="1">
+							<textField>
+								<reportElement uuid="87e3e1e9-52fb-4b3c-8eb8-8de8eb2c422c" x="5" y="5" width="112" height="20"/>
+								<textElement>
+									<font size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column uuid="7088bc18-696f-46bd-99d3-66e413cccb2d" width="51">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="23e6f264-3079-41e9-a501-0c112f0505e9" x="0" y="0" width="51" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Count]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="28" rowSpan="1">
+							<textField>
+								<reportElement uuid="897e86e3-2e30-4689-bc18-e11e90bcd299" x="0" y="5" width="51" height="20"/>
+								<textElement textAlignment="Center">
+									<font size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{visits_by_location_type}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement uuid="e420fb37-e7a7-432c-ae15-7a7b6f3bf2f3" key="table 5" style="table 5" x="442" y="208" width="105" height="44"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Visit_by_caste" uuid="76245667-1a3d-44f9-b206-7b20a5c83f63">
+						<datasetParameter name="from_date_inner">
+							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="to_date_inner">
+							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column uuid="23feba61-826d-401e-9583-3fb014db4a0a" width="90">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="584877f4-bbe2-467e-ab18-ae5719033b22" x="0" y="0" width="90" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Caste Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="26" rowSpan="1">
+							<textField>
+								<reportElement uuid="c371b8c3-8cb1-4c95-acef-2b2b9facc7d4" x="6" y="2" width="80" height="20"/>
+								<textElement>
+									<font size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{caste_type}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column uuid="5dbcfeea-ddfa-43c5-bd4f-dd6aa50494bb" width="57">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="07142267-6a5d-4716-8d33-25b98394eb51" x="0" y="0" width="57" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Count]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="26" rowSpan="1">
+							<textField>
+								<reportElement uuid="8280a400-4e03-4e8c-9c16-47cdf32536ca" x="12" y="2" width="37" height="20"/>
+								<textElement textAlignment="Center">
+									<font size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{visits_by_caste_type}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
-		<band/>
-		<band height="50">
+	</detail>
+	<pageFooter>
+		<band height="20">
 			<staticText>
-				<reportElement uuid="c4277446-01df-4dbb-a9bf-a7e8914e99e8" x="57" y="19" width="212" height="20" forecolor="#000000"/>
+				<reportElement uuid="c4277446-01df-4dbb-a9bf-a7e8914e99e8" x="479" y="0" width="212" height="20" forecolor="#000000"/>
 				<textElement>
 					<font isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Created by Bahmni via Jasper Reports on:]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement uuid="40bc3366-6f31-4738-b500-f203981a3037" x="269" y="19" width="100" height="20"/>
+				<reportElement uuid="40bc3366-6f31-4738-b500-f203981a3037" x="691" y="0" width="100" height="20"/>
 				<textElement>
 					<font isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
-	</detail>
+	</pageFooter>
 </jasperReport>
