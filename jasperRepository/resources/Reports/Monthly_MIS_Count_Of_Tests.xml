@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <reportUnit>
-    <folder>/Reports/Lab_Reports</folder>
+    <folder>/Reports</folder>
     <name>Monthly_MIS_Count_Of_Tests</name>
     <version>66</version>
     <label>Monthly MIS Count Of Tests</label>
@@ -10,7 +10,7 @@
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="Monthly_MIS_Count_Of_Tests_jrxml.data" xsi:type="fileResource">
-            <folder>/Reports/Lab_Reports/Monthly_MIS_Count_Of_Tests_files</folder>
+            <folder>/Reports/Monthly_MIS_Count_Of_Tests_files</folder>
             <name>Monthly_MIS_Count_Of_Tests_jrxml</name>
             <version>31</version>
             <label>Main jrxml</label>
@@ -27,7 +27,7 @@
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="dictionary_result_type_subreport.jrxml.data" xsi:type="fileResource">
-            <folder>/Reports/Lab_Reports/Monthly_MIS_Count_Of_Tests_files</folder>
+            <folder>/Reports/Monthly_MIS_Count_Of_Tests_files</folder>
             <name>dictionary_result_type_subreport.jrxml</name>
             <version>16</version>
             <label>dictionary_result_type_subreport.jrxml</label>
@@ -40,7 +40,7 @@
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="numeric_result_type_subreport.jrxml.data" xsi:type="fileResource">
-            <folder>/Reports/Lab_Reports/Monthly_MIS_Count_Of_Tests_files</folder>
+            <folder>/Reports/Monthly_MIS_Count_Of_Tests_files</folder>
             <name>numeric_result_type_subreport.jrxml</name>
             <version>7</version>
             <label>numeric_result_type_subreport.jrxml</label>

@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="ireport.jasperserver.reportUnit" value="/Reports/Lab_Reports/Monthly_MIS_Count_Of_Tests"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/Monthly_MIS_Count_Of_Tests"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
 	<parameter name="testId" class="java.math.BigDecimal" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
