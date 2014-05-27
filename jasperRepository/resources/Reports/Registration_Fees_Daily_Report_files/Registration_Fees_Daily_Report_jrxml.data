@@ -94,28 +94,28 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 				<text><![CDATA[Patient ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a82bbaba-02ff-47d6-9a87-5fe78d874494" x="168" y="0" width="93" height="20"/>
+				<reportElement uuid="a82bbaba-02ff-47d6-9a87-5fe78d874494" x="168" y="0" width="129" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Patient Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="09a72919-71d0-4684-8a3a-028e0454e4e2" x="420" y="0" width="51" height="20"/>
+				<reportElement uuid="09a72919-71d0-4684-8a3a-028e0454e4e2" x="452" y="0" width="51" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Gender]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ba13226f-18f7-4db5-8cc2-6c72b4667b4e" x="483" y="0" width="54" height="20"/>
+				<reportElement uuid="ba13226f-18f7-4db5-8cc2-6c72b4667b4e" x="507" y="0" width="30" height="20"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reg Fees]]></text>
+				<text><![CDATA[Fees]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="d99f36c2-c885-4309-b571-95204c53ae11" x="273" y="0" width="77" height="20"/>
+				<reportElement uuid="d99f36c2-c885-4309-b571-95204c53ae11" x="305" y="0" width="77" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -129,7 +129,7 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 				<text><![CDATA[No.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="40f986a2-8935-4d8e-aa24-8f9e8f8bf668" x="350" y="0" width="70" height="20"/>
+				<reportElement uuid="40f986a2-8935-4d8e-aa24-8f9e8f8bf668" x="382" y="0" width="70" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
@@ -145,7 +145,7 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 				<textFieldExpression><![CDATA[$F{identifier}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0">
-				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="484" y="1" width="53" height="17"/>
+				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="507" y="1" width="30" height="17"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Registration_Fees}]]></textFieldExpression>
 			</textField>
@@ -155,8 +155,10 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="81072f29-b60b-4971-8b93-6a5e8bc22939" x="168" y="1" width="93" height="18"/>
-				<textElement/>
+				<reportElement uuid="81072f29-b60b-4971-8b93-6a5e8bc22939" x="168" y="1" width="129" height="18"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -165,17 +167,17 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 				<textFieldExpression><![CDATA[$F{Patient_Type}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="70d117a4-3b3a-4491-a72f-8b8e4adbd81d" x="273" y="1" width="77" height="18"/>
+				<reportElement uuid="70d117a4-3b3a-4491-a72f-8b8e4adbd81d" x="305" y="1" width="77" height="18"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{city_village}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ef2c2d10-03fa-4b67-ac93-282cbf5e927a" x="420" y="2" width="51" height="15"/>
+				<reportElement uuid="ef2c2d10-03fa-4b67-ac93-282cbf5e927a" x="452" y="2" width="51" height="15"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="c69b14e2-2c76-4cfd-aaa9-815eda85e397" x="353" y="1" width="67" height="17"/>
+				<reportElement uuid="c69b14e2-2c76-4cfd-aaa9-815eda85e397" x="385" y="1" width="67" height="17"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
 			</textField>
