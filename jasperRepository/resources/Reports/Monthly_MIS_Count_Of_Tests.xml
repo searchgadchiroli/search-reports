@@ -2,20 +2,20 @@
 <reportUnit>
     <folder>/Reports</folder>
     <name>Monthly_MIS_Count_Of_Tests</name>
-    <version>66</version>
-    <label>Monthly MIS Count Of Tests</label>
-    <creationDate>2014-05-15T15:36:18.000+05:30</creationDate>
-    <updateDate>2014-05-16T15:47:03.000+05:30</updateDate>
+    <version>8</version>
+    <label>Lab MIS - Count Of Tests</label>
+    <creationDate>2014-05-27T18:34:35.000+05:30</creationDate>
+    <updateDate>2014-05-27T18:36:46.000+05:30</updateDate>
     <mainReport>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             dataFile="Monthly_MIS_Count_Of_Tests_jrxml.data" xsi:type="fileResource">
             <folder>/Reports/Monthly_MIS_Count_Of_Tests_files</folder>
             <name>Monthly_MIS_Count_Of_Tests_jrxml</name>
-            <version>31</version>
+            <version>3</version>
             <label>Main jrxml</label>
             <description>Main jrxml</description>
-            <creationDate>2014-05-15T15:36:18.000+05:30</creationDate>
+            <creationDate>2014-05-27T18:34:35.000+05:30</creationDate>
             <updateDate>2014-05-15T15:36:18.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
@@ -29,9 +29,9 @@
             dataFile="dictionary_result_type_subreport.jrxml.data" xsi:type="fileResource">
             <folder>/Reports/Monthly_MIS_Count_Of_Tests_files</folder>
             <name>dictionary_result_type_subreport.jrxml</name>
-            <version>16</version>
+            <version>1</version>
             <label>dictionary_result_type_subreport.jrxml</label>
-            <creationDate>2014-05-16T11:43:50.000+05:30</creationDate>
+            <creationDate>2014-05-27T18:34:35.000+05:30</creationDate>
             <updateDate>2014-05-16T11:43:50.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>
@@ -42,9 +42,9 @@
             dataFile="numeric_result_type_subreport.jrxml.data" xsi:type="fileResource">
             <folder>/Reports/Monthly_MIS_Count_Of_Tests_files</folder>
             <name>numeric_result_type_subreport.jrxml</name>
-            <version>7</version>
+            <version>1</version>
             <label>numeric_result_type_subreport.jrxml</label>
-            <creationDate>2014-05-16T11:51:01.000+05:30</creationDate>
+            <creationDate>2014-05-27T18:34:35.000+05:30</creationDate>
             <updateDate>2014-05-16T11:51:01.000+05:30</updateDate>
             <fileType>jrxml</fileType>
         </localResource>

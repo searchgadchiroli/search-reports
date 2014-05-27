@@ -76,7 +76,7 @@ group by tos.description, t.name, t.id, r.result_type order by tos.description, 
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Monthly MIS Count Of Tests]]></text>
+					<text><![CDATA[Lab MIS - Count Of Tests]]></text>
 				</staticText>
 				<textField evaluationTime="Report">
 					<reportElement uuid="9ffa84fb-be18-4d82-93c1-6cc5db93e7dd" x="100" y="74" width="860" height="20"/>
