@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PV" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d20f4e0-4356-46df-affd-2ed28cd1e211">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/IPD_Billing_Summary"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/Users/sushrao/code/TW/JSS/jrxmls/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="from_date" class="java.util.Date"/>
+	<parameter name="to_date" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+  distinct  so.date_confirm discharge_date, rp.ref patient_id, rp.name, rpa.city_village village, rpa.address3 tehsil, rpa.county_district district, rpa.country tribal_indicator, so.amount_untaxed actual_cost, so.amount_total amount_charged
+FROM sale_order so
+  INNER JOIN sale_order_line sol ON so.id = sol.order_id
+  INNER JOIN res_partner rp ON so.partner_id = rp.id
+  inner join res_partner_address rpa on rp.id = rpa.partner_id
+  INNER JOIN product_product pp ON sol.product_id = pp.id
+  INNER JOIN product_template pt ON pp.product_tmpl_id = pt.id
+  INNER JOIN  product_category pc ON pt.categ_id = pc.id AND lower(pc.name) = 'admit'
+WHERE so.date_confirm > $P{from_date} and so.date_confirm < $P{to_date}]]>
+	</queryString>
+	<field name="discharge_date" class="java.sql.Date"/>
+	<field name="patient_id" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="village" class="java.lang.String"/>
+	<field name="tehsil" class="java.lang.String"/>
+	<field name="district" class="java.lang.String"/>
+	<field name="tribal_indicator" class="java.lang.String"/>
+	<field name="actual_cost" class="java.math.BigDecimal"/>
+	<field name="amount_charged" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<frame>
+				<reportElement uuid="8186addc-b74d-4c5d-a2b1-552c54f49cf0" mode="Opaque" x="0" y="0" width="555" height="100" backcolor="#006699"/>
+				<staticText>
+					<reportElement uuid="fbfba68b-1486-429b-a6af-7a05cc737c5d" x="99" y="2" width="456" height="61" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[IPD Billing Summary Report]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="50">
+			<staticText>
+				<reportElement uuid="f837f4d7-6244-414a-ba82-6e3a66920d8c" x="0" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[discharge_date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3610618f-ece4-4bfc-86bc-3331d440c261" x="61" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[patient_id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="941f88bd-a596-43a8-bbaf-7c44a35b733a" x="122" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0c5f45d3-bb13-4096-848c-d5d4461fd983" x="183" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[village]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1942f94a-ae69-4256-9ac1-0f5ac3b73b76" x="244" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[tehsil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="05880a20-1259-4833-a7a3-58c4f7b3b882" x="305" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[district]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f51534c8-6c01-4f07-92cf-624450ebb0cf" x="366" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[tribal_indicator]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="54aef9bf-bd2c-4d85-b711-6276d79ad1d8" x="427" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[actual_cost]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="230e8dcd-22ed-45d0-a63b-b73ca0f6b360" x="488" y="0" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[amount_charged]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="50">
+			<textField>
+				<reportElement uuid="e4090add-4c6b-4ca6-a083-539f8d7ce7a7" x="0" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{discharge_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="98b2f109-34ec-430c-bdf9-103f66d1aaf6" x="61" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{patient_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="863ea12c-24b0-4159-ae09-6f8a283e8993" x="122" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="05ad2be9-f19c-4be8-a4ad-7b48a4257136" x="183" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{village}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a6964bb7-d437-44cb-a78e-91250bae2d87" x="244" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{tehsil}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a1db17db-cfd0-4dff-b926-f10fb092f7d6" x="305" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{district}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="aa8c155b-6ca3-4cd4-83a7-ed968dba21d6" x="366" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{tribal_indicator}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="dfbe6bc6-55b8-46b5-b27a-a4b82d98bb39" x="427" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{actual_cost}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="91dd961d-bb98-4cb1-b367-bb2318f4789e" x="488" y="0" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{amount_charged}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="75" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit>
+    <folder>/Reports</folder>
+    <name>IPD_Billing_Summary</name>
+    <version>2</version>
+    <label>IPD Billing Summary</label>
+    <description></description>
+    <creationDate>2014-05-27T18:44:56.000+05:30</creationDate>
+    <updateDate>2014-05-27T18:49:25.000+05:30</updateDate>
+    <mainReport>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            dataFile="IPD_Billing_Summary_.data" xsi:type="fileResource">
+            <folder>/Reports/IPD_Billing_Summary_files</folder>
+            <name>IPD_Billing_Summary_</name>
+            <version>1</version>
+            <label>IPD Billing Summary</label>
+            <creationDate>2014-05-27T18:44:56.000+05:30</creationDate>
+            <updateDate>2014-05-27T18:44:56.000+05:30</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </mainReport>
+    <dataSource>
+        <uri>/Data_Sources/openerp</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/Resources/from_date</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/Resources/to_date</uri>
+    </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
+    <reportRenderingView></reportRenderingView>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>4</controlsLayout>
+</reportUnit>
