@@ -40,14 +40,13 @@ left join sampletype_test stt on stt.test_id = t.id
 left join type_of_sample tos on tos.id = stt.sample_type_id
 left join analysis a on a.test_id = t.id
 left join result r on r.analysis_id = a.id
+where r.lastupdated > $P{from_date} and r.lastupdated < $P{to_date}
 group by tos.description, t.name, t.id, r.result_type order by tos.description, t.name;]]>
 	</queryString>
 	<field name="description" class="java.lang.String"/>
 	<field name="id" class="java.math.BigDecimal"/>
+	<field name="name" class="java.lang.String"/>
 	<field name="resultType" class="java.lang.String"/>
-	<field name="name" class="java.lang.String">
-		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
-	</field>
 	<field name="total_no_of_test" class="java.lang.Long"/>
 	<field name="abnormal" class="java.lang.Long"/>
 	<group name="TestsByOrganization">
