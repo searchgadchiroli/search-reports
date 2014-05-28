@@ -39,22 +39,23 @@
                    tos.description,
                    t.id,
                    t.name,
-                   r.result_type AS result_type,
+                   r.result_type    AS  result_type,
                    count(a.test_id) AS  total_no_of_test,
                    count(CASE WHEN r.abnormal = TRUE THEN 1
                          ELSE null END) abnormal
                  FROM test t
                    LEFT JOIN analysis a
-                     ON a.test_id = t.id
+                     ON a.test_id = t.id and a.id in (select analysis_id from result )
                    LEFT JOIN result r
-                     ON r.analysis_id = a.id
+                     ON r.analysis_id = a.id and r.id is not null 
                    INNER JOIN sampletype_test stt
                      ON stt.test_id = t.id
                    INNER JOIN type_of_sample tos
                      ON tos.id = stt.sample_type_id
                  WHERE a.started_date > $P{from_date} AND a.started_date < $P{to_date} OR (a.id is null )
                  GROUP BY tos.description, t.name, t.id, r.result_type
-                 ORDER BY tos.description, t.name;]]>
+                 ORDER BY tos.description, t.name;
+]]>
 	</queryString>
 	<field name="description" class="java.lang.String"/>
 	<field name="id" class="java.math.BigDecimal"/>
