@@ -35,7 +35,7 @@
 	<parameter name="from_date" class="java.util.Date"/>
 	<parameter name="to_date" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[select tos.description,t.id, t.name,r.result_type as resultType, count(a.test_id) as total_no_of_test, count(case when r.abnormal= true then 1 else null end) abnormal from test t
+		<![CDATA[select tos.description,t.id, t.name,r.result_type as result_type, count(a.test_id) as total_no_of_test, count(case when r.abnormal= true then 1 else null end) abnormal from test t
 left join sampletype_test stt on stt.test_id = t.id
 left join type_of_sample tos on tos.id = stt.sample_type_id
 left join analysis a on a.test_id = t.id
@@ -46,7 +46,7 @@ group by tos.description, t.name, t.id, r.result_type order by tos.description, 
 	<field name="description" class="java.lang.String"/>
 	<field name="id" class="java.math.BigDecimal"/>
 	<field name="name" class="java.lang.String"/>
-	<field name="resultType" class="java.lang.String"/>
+	<field name="result_type" class="java.lang.String"/>
 	<field name="total_no_of_test" class="java.lang.Long"/>
 	<field name="abnormal" class="java.lang.Long"/>
 	<group name="TestsByOrganization">
@@ -150,8 +150,8 @@ group by tos.description, t.name, t.id, r.result_type order by tos.description, 
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="resultType">
-					<subreportParameterExpression><![CDATA[$F{resultType}]]></subreportParameterExpression>
+				<subreportParameter name="result_type">
+					<subreportParameterExpression><![CDATA[$F{result_type}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA["repo:dictionary_result_type_subreport.jrxml"]]></subreportExpression>
@@ -161,8 +161,8 @@ group by tos.description, t.name, t.id, r.result_type order by tos.description, 
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="resultType">
-					<subreportParameterExpression><![CDATA[$F{resultType}]]></subreportParameterExpression>
+				<subreportParameter name="result_type">
+					<subreportParameterExpression><![CDATA[$F{result_type}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA["repo:numeric_result_type_subreport.jrxml"]]></subreportExpression>

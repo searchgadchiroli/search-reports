@@ -5,7 +5,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="resultType" class="java.lang.String" isForPrompting="false">
+	<parameter name="result_type" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="testId" class="java.math.BigDecimal">
@@ -31,7 +31,7 @@ where t.id = $P{testId} group by t.name;]]>
 	</background>
 	<detail>
 		<band height="60" splitType="Stretch">
-			<printWhenExpression><![CDATA[$P{resultType} == 'N']]></printWhenExpression>
+			<printWhenExpression><![CDATA[$P{result_type} == 'N']]></printWhenExpression>
 			<textField>
 				<reportElement uuid="a8374f0f-6373-4d5a-ad39-2779693e59df" x="233" y="0" width="100" height="20"/>
 				<textElement/>
