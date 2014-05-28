@@ -39,7 +39,7 @@
                    tos.description,
                    t.id,
                    t.name,
-                   r.result_type    AS  resultType,
+                   r.result_type AS result_type,
                    count(a.test_id) AS  total_no_of_test,
                    count(CASE WHEN r.abnormal = TRUE THEN 1
                          ELSE null END) abnormal
