@@ -43,22 +43,30 @@ from test t
 				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="140" y="20" width="109" height="20"/>
+				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="140" y="20" width="109" height="20">
+                    <printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
+				</reportElement>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{lesser_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="140" y="40" width="109" height="20"/>
+				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="140" y="40" width="109" height="20">
+                    <printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
+				</reportElement>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{higher_value}]]></textFieldExpression>
 			</textField>
             <textField>
-                <reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="0" y="20" width="101" height="20"/>
+                <reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="0" y="20" width="101" height="20">
+                    <printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
+                </reportElement>
                 <textElement/>
                 <textFieldExpression><![CDATA["<" + $F{low_normal}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="0" y="40" width="101" height="20"/>
+                <reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="0" y="40" width="101" height="20">
+                    <printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
+                </reportElement>
                 <textElement/>
                 <textFieldExpression><![CDATA[">" + $F{high_normal}]]></textFieldExpression>
             </textField>
