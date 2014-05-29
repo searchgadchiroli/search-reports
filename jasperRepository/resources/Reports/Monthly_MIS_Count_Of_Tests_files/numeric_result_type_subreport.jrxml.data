@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="numeric_result_type_subreport" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="28734f1f-129d-4607-b596-f875d8b6aabb">
 	<property name="ireport.jasperserver.reportUnit" value="/Reports/Monthly_MIS_Count_Of_Tests"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="result_type" class="java.lang.String" isForPrompting="false">
@@ -33,32 +33,32 @@ where t.id = $P{testId} group by t.name;]]>
 		<band height="60" splitType="Stretch">
 			<printWhenExpression><![CDATA[$P{result_type} == 'N']]></printWhenExpression>
 			<textField>
-				<reportElement uuid="a8374f0f-6373-4d5a-ad39-2779693e59df" x="233" y="0" width="100" height="20"/>
+				<reportElement uuid="a8374f0f-6373-4d5a-ad39-2779693e59df" x="142" y="0" width="109" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="233" y="20" width="100" height="20"/>
+				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="142" y="20" width="109" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{lesser_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="233" y="40" width="100" height="20"/>
+				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="142" y="40" width="109" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{higher_value}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="83" y="20" width="100" height="20"/>
+				<reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="0" y="20" width="101" height="20"/>
 				<textElement/>
 				<text><![CDATA[lesser than normal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="83" y="40" width="100" height="20"/>
+				<reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="0" y="40" width="101" height="20"/>
 				<textElement/>
 				<text><![CDATA[higher than normal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="775e968b-23d4-401e-bc55-b5fbfbf09e08" x="83" y="0" width="100" height="20"/>
+				<reportElement uuid="775e968b-23d4-401e-bc55-b5fbfbf09e08" x="0" y="0" width="101" height="20"/>
 				<textElement/>
 				<text><![CDATA[total test]]></text>
 			</staticText>

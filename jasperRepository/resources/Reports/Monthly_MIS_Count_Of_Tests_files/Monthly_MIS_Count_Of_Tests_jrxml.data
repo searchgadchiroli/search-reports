@@ -4,9 +4,9 @@
 	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.2" value="pageFooter"/>
 	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="columnHeader"/>
 	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1" value="columnHeader"/>
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="4.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="470"/>
 	<property name="ireport.jasperserver.reportUnit" value="/Reports/Monthly_MIS_Count_Of_Tests"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
 	<style name="table">
@@ -47,15 +47,14 @@
                    LEFT JOIN analysis a
                      ON a.test_id = t.id and a.id in (select analysis_id from result )
                    LEFT JOIN result r
-                     ON r.analysis_id = a.id and r.id is not null 
+                     ON r.analysis_id = a.id and r.id is not null
                    INNER JOIN sampletype_test stt
                      ON stt.test_id = t.id
                    INNER JOIN type_of_sample tos
                      ON tos.id = stt.sample_type_id
                  WHERE a.started_date > $P{from_date} AND a.started_date < $P{to_date} OR (a.id is null )
                  GROUP BY tos.description, t.name, t.id, r.result_type
-                 ORDER BY tos.description, t.name;
-]]>
+                 ORDER BY tos.description, t.name;]]>
 	</queryString>
 	<field name="description" class="java.lang.String"/>
 	<field name="id" class="java.math.BigDecimal"/>
@@ -160,7 +159,7 @@
 				<text><![CDATA[Abnormal]]></text>
 			</staticText>
 			<subreport>
-				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="119" y="40" width="200" height="16"/>
+				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="80" y="40" width="200" height="16"/>
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -171,7 +170,7 @@
 				<subreportExpression><![CDATA["repo:dictionary_result_type_subreport.jrxml"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement uuid="a399b99a-d34f-4a5d-bd8b-501dc53dab19" x="119" y="40" width="200" height="0"/>
+				<reportElement uuid="a399b99a-d34f-4a5d-bd8b-501dc53dab19" x="80" y="40" width="199" height="16"/>
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
