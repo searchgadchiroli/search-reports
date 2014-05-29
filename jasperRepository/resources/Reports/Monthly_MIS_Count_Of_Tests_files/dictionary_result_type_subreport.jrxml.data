@@ -35,12 +35,12 @@ left join result r on r.analysis_id = a.id and tr.id = r.test_result_id
 		<band height="20">
 			<printWhenExpression><![CDATA[$P{result_type} == 'D']]></printWhenExpression>
 			<textField>
-				<reportElement uuid="93cb2c47-dd7f-4836-a510-f34f80b2228f" x="1" y="0" width="203" height="20"/>
+				<reportElement uuid="93cb2c47-dd7f-4836-a510-f34f80b2228f" x="0" y="0" width="203" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{dict_entry}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="274c4833-45e1-4482-b6ae-cff74eeb61cb" x="152" y="0" width="203" height="20"/>
+				<reportElement uuid="274c4833-45e1-4482-b6ae-cff74eeb61cb" x="140" y="0" width="203" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
 			</textField>
