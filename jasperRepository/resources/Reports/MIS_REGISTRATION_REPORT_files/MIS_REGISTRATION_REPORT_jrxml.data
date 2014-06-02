@@ -221,7 +221,7 @@
    Select count(*)
    from person as p
    join visit as v on p.person_id = v.patient_id
-   where datediff(v.date_started, p.date_created) > 2
+   where date(v.date_started)!= date(p.date_created)
    and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 ) as RETURNING_VISITS,
 (
