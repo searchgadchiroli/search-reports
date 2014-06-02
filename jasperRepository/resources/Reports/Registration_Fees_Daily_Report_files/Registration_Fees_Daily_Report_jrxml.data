@@ -16,7 +16,8 @@ From visit v
 inner join person p on v.patient_id = p.person_id
 inner join person_address pa on p.person_id = pa.person_id
 inner join patient_identifier pi on pi.patient_id = p.person_id
-inner join (select pa.person_id, concat(group_concat(case when pat.name = 'givenNameLocal' then pa.value else '' end separator ''), ' ',
+Left Outer join (
+select pa.person_id, concat(group_concat(case when pat.name = 'givenNameLocal' then pa.value else '' end separator ''), ' ',
 group_concat(case when pat.name = 'middleNameLocal' then pa.value else '' end separator ''), ' ',
 group_concat(case when pat.name = 'familyNameLocal' then pa.value else '' end separator '')) as name,
 group_concat(case when pat.name = 'Primary Contact' then pa.value else '' end separator '') as mobile
@@ -26,8 +27,8 @@ group by pa.person_id) as Locale_Name on p.person_id = Locale_Name.person_id
 left outer join encounter e on e.visit_id = v.visit_id
 left outer join encounter_type et on e.encounter_type = et.encounter_type_id AND et.name = 'REG'
 left outer join obs o on o.encounter_id = e.encounter_id and o.voided = 0
-left outer join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'REGISTRATION FEES'
-where date(v.date_started) = $P{date}
+left outer join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'REGISTRATION FEES' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
+where date(v.date_started) = $P{date} AND date(e.encounter_datetime) = $P{date}
 group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 	</queryString>
 	<field name="patient_id" class="java.lang.Integer"/>
@@ -101,14 +102,14 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 				<text><![CDATA[Patient Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="09a72919-71d0-4684-8a3a-028e0454e4e2" x="452" y="0" width="51" height="20"/>
+				<reportElement uuid="09a72919-71d0-4684-8a3a-028e0454e4e2" x="486" y="0" width="33" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Gender]]></text>
+				<text><![CDATA[Gen]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ba13226f-18f7-4db5-8cc2-6c72b4667b4e" x="507" y="0" width="30" height="20"/>
+				<reportElement uuid="ba13226f-18f7-4db5-8cc2-6c72b4667b4e" x="520" y="0" width="30" height="20"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
@@ -129,7 +130,7 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 				<text><![CDATA[No.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="40f986a2-8935-4d8e-aa24-8f9e8f8bf668" x="382" y="0" width="70" height="20"/>
+				<reportElement uuid="40f986a2-8935-4d8e-aa24-8f9e8f8bf668" x="382" y="0" width="104" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
@@ -141,20 +142,20 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 		<band height="22" splitType="Stretch">
 			<textField>
 				<reportElement uuid="a5549ad8-3384-4849-bfef-358e7f40d691" x="33" y="3" width="88" height="18"/>
-				<textElement/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{identifier}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0">
-				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="507" y="3" width="30" height="17"/>
-				<textElement textAlignment="Right"/>
+				<reportElement uuid="78afa531-5089-47f3-a073-a095ffa41724" x="520" y="3" width="30" height="17"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Registration_Fees}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3d954b65-26fa-4996-b296-cc84438e991f" x="6" y="3" width="22" height="18"/>
-				<textElement/>
+				<reportElement uuid="3d954b65-26fa-4996-b296-cc84438e991f" x="3" y="3" width="22" height="18"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="81072f29-b60b-4971-8b93-6a5e8bc22939" x="168" y="2" width="129" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" isPdfEmbedded="true"/>
@@ -163,22 +164,22 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 			</textField>
 			<textField>
 				<reportElement uuid="9ddbfc43-8110-498f-8487-718240557760" x="126" y="2" width="27" height="19"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Patient_Type}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="70d117a4-3b3a-4491-a72f-8b8e4adbd81d" x="305" y="3" width="77" height="19"/>
-				<textElement/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{city_village}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ef2c2d10-03fa-4b67-ac93-282cbf5e927a" x="452" y="2" width="51" height="15"/>
-				<textElement textAlignment="Center"/>
+				<reportElement uuid="ef2c2d10-03fa-4b67-ac93-282cbf5e927a" x="486" y="3" width="33" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="c69b14e2-2c76-4cfd-aaa9-815eda85e397" x="385" y="3" width="67" height="17"/>
-				<textElement/>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c69b14e2-2c76-4cfd-aaa9-815eda85e397" x="385" y="3" width="101" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
 			</textField>
 		</band>
