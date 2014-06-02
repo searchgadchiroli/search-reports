@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8c87200-35be-4654-b278-1c1e83225d69">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="40"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -146,12 +146,12 @@
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
 		<queryString language="SQL">
-			<![CDATA[Select padd.address2 as district, count(*) as visits_by_district
+			<![CDATA[Select padd.county_district as district, count(*) as visits_by_district
 	from visit as v
 	left join person_address as padd on padd.person_id = v.patient_id
 	where
 	v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
-	group by padd.address2;]]>
+	group by padd.county_district;]]>
 		</queryString>
 		<field name="district" class="java.lang.String"/>
 		<field name="visits_by_district" class="java.lang.Long"/>
@@ -163,10 +163,10 @@
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
 		<queryString language="SQL">
-			<![CDATA[Select  slct.Name, count(*) as visits_by_location_type
+			<![CDATA[Select  (case when slct.Name is not null then slct.Name else 'Others' END) as Name, count(*) as visits_by_location_type
 	from visit as v
 	left join person_address as padd on padd.person_id = v.patient_id
-	left join SEARCH_LOCATION_CATEGORY as slc on slc.Village = padd.city_village AND slc.Tehsil = padd.address1
+	left join SEARCH_LOCATION_CATEGORY as slc on slc.Village = padd.city_village AND slc.Tehsil = padd.address3
 	left join SEARCH_LOCATION_CATEGORY_TYPE as slct on slct.Id = slc.Category
     where
 	v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
@@ -182,7 +182,7 @@
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
 		<queryString language="SQL">
-			<![CDATA[Select sc.caste_type, count(*) as visits_by_caste_type
+			<![CDATA[Select (case when sc.caste_type is not null then sc.caste_type else 'Others' END) as caste_type, count(*) as visits_by_caste_type
 	from visit as v
 	left join person_attribute as pa on pa.person_id = v.patient_id
 	AND person_attribute_type_id = (select pat.person_attribute_type_id from person_attribute_type as pat where pat.name like '%caste%')
@@ -228,7 +228,7 @@
 	Select count(*) from person as p
 	join visit as v on v.patient_id = p.person_id
 	and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
-	and TIMESTAMPDIFF(YEAR,p.birthdate,CURDATE()) <= 5
+	and TIMESTAMPDIFF(YEAR,p.birthdate,CURDATE()) < 5
 ) as UPTO_AGE_5,
 (
 	Select count(*) from person as p
@@ -241,7 +241,13 @@
 	join visit as v on v.patient_id = p.person_id
 	and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 	and p.gender = 'F'
-) as FEMALE;]]>
+) as FEMALE,
+(
+	Select count(*) from person as p
+	join visit as v on v.patient_id = p.person_id
+	and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	and p.gender = 'O'
+) as OTHER;]]>
 	</queryString>
 	<field name="TOTAL_PATIENTS" class="java.lang.Long"/>
 	<field name="NEW_REGISTRATIONS" class="java.lang.Long"/>
@@ -249,6 +255,7 @@
 	<field name="UPTO_AGE_5" class="java.lang.Long"/>
 	<field name="MALE" class="java.lang.Long"/>
 	<field name="FEMALE" class="java.lang.Long"/>
+	<field name="OTHER" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -301,7 +308,7 @@
 	<detail>
 		<band height="307" splitType="Stretch">
 			<rectangle>
-				<reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="57" y="7" width="372" height="193" forecolor="#666666"/>
+				<reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="57" y="7" width="372" height="231" forecolor="#666666"/>
 			</rectangle>
 			<staticText>
 				<reportElement uuid="06e430f9-fa8c-4d51-8ce8-0d73f302df51" x="92" y="20" width="213" height="20"/>
@@ -451,7 +458,7 @@
 				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="139" width="346" height="1"/>
 			</line>
 			<componentElement>
-				<reportElement uuid="84c509f5-78ff-454d-8756-d781f15e196f" key="table 3" style="table 3" x="237" y="208" width="150" height="44"/>
+				<reportElement uuid="84c509f5-78ff-454d-8756-d781f15e196f" key="table 3" style="table 3" x="237" y="252" width="150" height="44"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Visit_by_District" uuid="8e71e3c3-8038-4b51-9952-20f4e146fbde">
 						<datasetParameter name="from_date_inner">
@@ -505,7 +512,7 @@
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement uuid="cf64e10b-9685-4ba3-8321-f0f33dd123e9" key="table 4" style="table 4" x="57" y="208" width="159" height="44"/>
+				<reportElement uuid="cf64e10b-9685-4ba3-8321-f0f33dd123e9" key="table 4" style="table 4" x="57" y="252" width="159" height="44"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Visits_by_Location_Type" uuid="9533fe79-c5ac-4165-b5f6-8d77196af7a9">
 						<datasetParameter name="from_date_inner">
@@ -559,7 +566,7 @@
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement uuid="e420fb37-e7a7-432c-ae15-7a7b6f3bf2f3" key="table 5" style="table 5" x="442" y="208" width="105" height="44"/>
+				<reportElement uuid="e420fb37-e7a7-432c-ae15-7a7b6f3bf2f3" key="table 5" style="table 5" x="442" y="252" width="105" height="44"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Visit_by_caste" uuid="76245667-1a3d-44f9-b206-7b20a5c83f63">
 						<datasetParameter name="from_date_inner">
@@ -612,6 +619,20 @@
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<staticText>
+				<reportElement uuid="575a5fe5-ce40-460c-8b31-c8b632dfb800" x="92" y="211" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Others]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="8eda29e6-1047-4e96-98a2-2b36cb5486ac" x="315" y="211" width="66" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OTHER}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
