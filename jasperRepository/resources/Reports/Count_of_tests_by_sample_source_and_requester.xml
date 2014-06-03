@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reportUnit>
+    <folder>/Reports</folder>
+    <name>Count_of_tests_by_sample_source_and_requester</name>
+    <version>5</version>
+    <label>Count of Tests by Sample Source and Requester</label>
+    <description>Count of Tests by Sample Source and Requester</description>
+    <creationDate>2014-06-02T20:10:37.000+05:30</creationDate>
+    <updateDate>2014-06-02T20:14:23.000+05:30</updateDate>
+    <mainReport>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            dataFile="Count_of_tests_by_sample_source_and_requester_jrxml.data" xsi:type="fileResource">
+            <folder>/Reports/Count_of_tests_by_sample_source_and_requester_files</folder>
+            <name>Count_of_tests_by_sample_source_and_requester_jrxml</name>
+            <version>2</version>
+            <label>Main jrxml</label>
+            <description>Main jrxml</description>
+            <creationDate>2014-06-02T20:10:37.000+05:30</creationDate>
+            <updateDate>2014-06-02T20:10:37.000+05:30</updateDate>
+            <fileType>jrxml</fileType>
+        </localResource>
+    </mainReport>
+    <dataSource>
+        <uri>/Data_Sources/openelis</uri>
+    </dataSource>
+    <inputControl>
+        <uri>/Resources/from_date</uri>
+    </inputControl>
+    <inputControl>
+        <uri>/Resources/to_date</uri>
+    </inputControl>
+    <inputControlRenderingView></inputControlRenderingView>
+    <reportRenderingView></reportRenderingView>
+    <alwaysPromptControls>true</alwaysPromptControls>
+    <controlsLayout>4</controlsLayout>
+</reportUnit>

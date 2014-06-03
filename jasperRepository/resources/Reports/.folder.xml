@@ -4,17 +4,21 @@
     <name>Reports</name>
     <label>Reports</label>
     <description></description>
-    <creationDate>2014-05-26T13:12:55.000+05:30</creationDate>
+    <creationDate>2014-04-18T10:48:44.000+05:30</creationDate>
     <updateDate>2013-01-07T16:11:35.000+05:30</updateDate>
+    <folder>Lab_Reports</folder>
     <resource>All_Test_Results</resource>
     <resource>All_Tests_Referred_Out</resource>
+    <resource>Count_of_tests_by_sample_source_and_requester</resource>
     <resource>IPD_Billing_Summary</resource>
     <resource>MIS_REGISTRATION_REPORT</resource>
     <resource>Monthly_MIS_Count_Of_Tests</resource>
     <resource>Registration_Fees_Daily_Report</resource>
     <resource>Results_Per_Type_Of_Test</resource>
+    <resource>Samples_For_PatientID</resource>
     <resource>Summary_Report_For_ReferredOut_Cases</resource>
     <resource>Summary_Report_For_ReferredOut_Cases_With_Abnormal_Results</resource>
+    <resource>Tests_done_Today</resource>
     <resource>Total_Patients_in_Lab</resource>
     <resource>Total_Tests_Per_Patient_And_Abnormal_Results</resource>
 </folder>
