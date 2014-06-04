@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dictionary_result_type_subreport" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a23197d2-198c-485c-89c6-787207280fbe">
-	<property name="ireport.zoom" value="2.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dictionary_result_type_subreport" language="groovy" pageWidth="576" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a23197d2-198c-485c-89c6-787207280fbe">
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.jasperserver.reportUnit" value="/Reports/Monthly_MIS_Count_Of_Tests"/>
@@ -12,7 +12,8 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select t.name, d.dict_entry, count(r.*)
+		<![CDATA[select t.name, d.dict_entry, count(r.*) as totalCount,
+ sum(case when r.abnormal then 1 else 0 end) as abnormalCount
 from test t
 left join test_result tr on tr.test_id = t.id and tr.tst_rslt_type = 'D'
 inner join dictionary d on d.id = cast(tr.value as int)
@@ -21,7 +22,8 @@ left join result r on r.analysis_id = a.id and tr.id = r.test_result_id
  where t.id = $P{testId} group by t.name, d.dict_entry;]]>
 	</queryString>
 	<field name="dict_entry" class="java.lang.String"/>
-	<field name="count" class="java.lang.Long"/>
+	<field name="totalCount" class="java.lang.Long"/>
+	<field name="abnormalCount" class="java.lang.Long"/>
 	<field name="name" class="java.lang.String">
 		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
 	</field>
@@ -35,14 +37,25 @@ left join result r on r.analysis_id = a.id and tr.id = r.test_result_id
 		<band height="20">
 			<printWhenExpression><![CDATA[$P{result_type} == 'D']]></printWhenExpression>
 			<textField>
-				<reportElement uuid="93cb2c47-dd7f-4836-a510-f34f80b2228f" x="0" y="0" width="203" height="20"/>
-				<textElement/>
+				<reportElement uuid="93cb2c47-dd7f-4836-a510-f34f80b2228f" x="0" y="0" width="143" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{dict_entry}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="274c4833-45e1-4482-b6ae-cff74eeb61cb" x="140" y="0" width="203" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+				<reportElement uuid="274c4833-45e1-4482-b6ae-cff74eeb61cb" x="218" y="0" width="59" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b29d9350-86d4-4a32-bf33-20568d25ddf7" x="434" y="0" width="71" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{abnormalCount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

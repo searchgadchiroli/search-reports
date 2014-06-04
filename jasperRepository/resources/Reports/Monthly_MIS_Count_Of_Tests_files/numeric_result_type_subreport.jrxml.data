@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="numeric_result_type_subreport" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="28734f1f-129d-4607-b596-f875d8b6aabb">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="numeric_result_type_subreport" language="groovy" pageWidth="576" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="28734f1f-129d-4607-b596-f875d8b6aabb">
 	<property name="ireport.jasperserver.reportUnit" value="/Reports/Monthly_MIS_Count_Of_Tests"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
-	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="result_type" class="java.lang.String" isForPrompting="false">
@@ -12,69 +12,83 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-select t.name,  count(r.*), rl.low_normal as low_normal, rl.high_normal as high_normal,
-  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < min_normal then 1 else 0 end else 0 end) as lesser_value,
-  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > max_normal then 1 else 0 end else 0 end) as higher_value
+		<![CDATA[select t.name,  count(r.*), r.min_normal as low_normal, r.max_normal as high_normal,
+  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < r.min_normal then 1 else 0 end else 0 end) as lesser_value,
+  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > r.max_normal then 1 else 0 end else 0 end) as higher_value,
+  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < r.min_normal and r.abnormal = true then 1 else 0 end else 0 end) as lesser_abnormal_value,
+  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > r.max_normal and r.abnormal = true then 1 else 0 end else 0 end) as higher_abnormal_value
 from test t
   left join analysis a on a.test_id = t.id
   left join result r on r.analysis_id = a.id and r.result_type = 'N'
-  left join result_limits rl on t.id = rl.test_id
-  where t.id = $P{testId}
-  group by t.name, rl.low_normal, rl.high_normal;]]>
+  where t.id =  $P{testId} and r.min_normal is not null and r.max_normal is not null
+  group by t.name, r.min_normal, r.max_normal;]]>
 	</queryString>
 	<field name="name" class="java.lang.String">
 		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
 	</field>
 	<field name="count" class="java.lang.Long"/>
+	<field name="lesser_abnormal_value" class="java.lang.Long"/>
+	<field name="higher_abnormal_value" class="java.lang.Long"/>
 	<field name="lesser_value" class="java.lang.Long"/>
 	<field name="higher_value" class="java.lang.Long"/>
-	<field name="low_normal" class="java.lang.Long"/>
-	<field name="high_normal" class="java.lang.Long"/>
+	<field name="low_normal" class="java.lang.String"/>
+	<field name="high_normal" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="60" splitType="Stretch">
+		<band height="39" splitType="Stretch">
 			<printWhenExpression><![CDATA[$P{result_type} == 'N']]></printWhenExpression>
 			<textField>
-				<reportElement uuid="a8374f0f-6373-4d5a-ad39-2779693e59df" x="140" y="0" width="109" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="140" y="20" width="109" height="20">
-                    <printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
+				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="217" y="0" width="72" height="20">
+					<printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
 				</reportElement>
-				<textElement/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{lesser_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="140" y="40" width="109" height="20">
-                    <printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
+				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="217" y="19" width="72" height="20">
+					<printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
 				</reportElement>
-				<textElement/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{higher_value}]]></textFieldExpression>
 			</textField>
-            <textField>
-                <reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="0" y="20" width="101" height="20">
-                    <printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
-                </reportElement>
-                <textElement/>
-                <textFieldExpression><![CDATA["<" + $F{low_normal}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="0" y="40" width="101" height="20">
-                    <printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
-                </reportElement>
-                <textElement/>
-                <textFieldExpression><![CDATA[">" + $F{high_normal}]]></textFieldExpression>
-            </textField>
-			<staticText>
-				<reportElement uuid="775e968b-23d4-401e-bc55-b5fbfbf09e08" x="0" y="0" width="101" height="20"/>
-				<textElement/>
-				<text><![CDATA[total test]]></text>
-			</staticText>
+			<textField>
+				<reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="0" y="0" width="101" height="20">
+					<printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<" + $F{low_normal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="0" y="19" width="101" height="20">
+					<printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[">" + $F{high_normal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3c583921-1931-4be2-a310-d32b458eb2b8" x="435" y="0" width="71" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lesser_abnormal_value}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6fdb0245-1adb-4a96-9cd0-3551e1635895" x="436" y="19" width="70" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{higher_abnormal_value}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>
