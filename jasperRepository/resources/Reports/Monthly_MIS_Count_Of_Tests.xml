@@ -30,6 +30,9 @@
     <inputControl>
         <uri>/Resources/to_date</uri>
     </inputControl>
+    <inputControl>
+        <uri>/Resources/type_of_sample</uri>
+    </inputControl>
     <resource>
         <localResource
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

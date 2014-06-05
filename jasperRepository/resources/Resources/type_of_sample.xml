@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inputControl>
+    <folder>/Resources</folder>
+    <name>type_of_sample</name>
+    <version>1</version>
+    <label>Choose Type of Sample</label>
+    <creationDate>2014-06-04T17:15:46.000+05:30</creationDate>
+    <updateDate>2014-06-04T17:16:08.000+05:30</updateDate>
+    <type>4</type>
+    <mandatory>false</mandatory>
+    <readOnly>false</readOnly>
+    <visible>true</visible>
+    <query>
+        <localResource
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="query">
+            <folder>/Resources/type_of_sample_files</folder>
+            <name>get_all_type_of_sample</name>
+            <version>1</version>
+            <label>type of samples</label>
+            <creationDate>2014-06-04T17:16:08.000+05:30</creationDate>
+            <updateDate>2014-06-04T17:16:08.000+05:30</updateDate>
+            <language>sql</language>
+            <queryString>select id, description from type_of_sample</queryString>
+            <dataSource>
+                <uri>/Data_Sources/openelis</uri>
+            </dataSource>
+        </localResource>
+    </query>
+    <queryVisibleColumn>description</queryVisibleColumn>
+    <queryValueColumn>description</queryValueColumn>
+</inputControl>

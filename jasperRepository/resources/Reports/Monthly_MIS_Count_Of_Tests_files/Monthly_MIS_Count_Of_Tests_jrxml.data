@@ -34,6 +34,7 @@
 	</parameter>
 	<parameter name="from_date" class="java.util.Date"/>
 	<parameter name="to_date" class="java.util.Date"/>
+	<parameter name="type_of_sample" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
                    tos.description,
@@ -52,7 +53,8 @@
                      ON stt.test_id = t.id
                    INNER JOIN type_of_sample tos
                      ON tos.id = stt.sample_type_id
-                 WHERE a.started_date > $P{from_date} AND a.started_date < $P{to_date} OR (a.id is null )
+                 WHERE case when $P{type_of_sample} is null then true else tos.description = $P{type_of_sample} end
+		AND ( a.started_date > $P{from_date} AND a.started_date < $P{to_date} OR (a.id is null ) )
                  GROUP BY tos.description, t.name, t.id, r.result_type
                  ORDER BY tos.description, t.name;]]>
 	</queryString>
@@ -95,7 +97,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy")]]></textFieldExpression>
+					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy") + $P{type_of_sample}]]></textFieldExpression>
 				</textField>
 				<image>
 					<reportElement uuid="99a839df-03f6-4a6c-af76-4989e98fcb0c" x="2" y="10" width="98" height="84"/>

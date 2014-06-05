@@ -15,5 +15,6 @@
     <resource>program_name</resource>
     <resource>program_village</resource>
     <resource>to_date</resource>
+    <resource>type_of_sample</resource>
     <resource>visit_type</resource>
 </folder>
