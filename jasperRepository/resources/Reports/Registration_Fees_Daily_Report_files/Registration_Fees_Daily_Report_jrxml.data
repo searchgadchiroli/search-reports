@@ -67,12 +67,12 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 				<text><![CDATA[Patients who visited on :]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="848fa74e-9f64-4930-b415-6c7c74d62e1e" x="440" y="0" width="80" height="20"/>
+				<reportElement uuid="848fa74e-9f64-4930-b415-6c7c74d62e1e" x="429" y="0" width="80" height="20"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="0bdebcca-fdac-449a-a247-4ba20694462c" x="521" y="0" width="40" height="20"/>
+				<reportElement uuid="0bdebcca-fdac-449a-a247-4ba20694462c" x="510" y="0" width="40" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -158,7 +158,7 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="81072f29-b60b-4971-8b93-6a5e8bc22939" x="168" y="2" width="129" height="20"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
@@ -197,12 +197,19 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 	</pageFooter>
 	<summary>
 		<band height="25" splitType="Stretch">
-			<textField>
-				<reportElement uuid="368617d7-6d46-43d1-87ca-b83540cc732d" x="372" y="5" width="167" height="17"/>
-				<textElement textAlignment="Right">
+			<textField pattern="###0">
+				<reportElement uuid="368617d7-6d46-43d1-87ca-b83540cc732d" x="372" y="5" width="138" height="17"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Total Amount Rs. " + $V{Registration_Fees_1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Total Amount Rs. "]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement uuid="8f1153c0-1fed-4187-a150-5b3bc22d0624" x="510" y="5" width="40" height="17"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Registration_Fees_1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
