@@ -97,7 +97,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy") + $P{type_of_sample}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["From:" +  $P{from_date}.format("dd/MM/yyyy") + " to " + $P{to_date}.format("dd/MM/yyyy")]]></textFieldExpression>
 				</textField>
 				<image>
 					<reportElement uuid="99a839df-03f6-4a6c-af76-4989e98fcb0c" x="2" y="10" width="98" height="84"/>
