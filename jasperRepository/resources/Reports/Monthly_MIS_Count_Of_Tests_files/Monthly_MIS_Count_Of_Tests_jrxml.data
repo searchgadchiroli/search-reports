@@ -54,7 +54,7 @@
                    INNER JOIN type_of_sample tos
                      ON tos.id = stt.sample_type_id
                  WHERE case when $P{type_of_sample} is null then true else tos.description = $P{type_of_sample} end
-		AND ( a.started_date > $P{from_date} AND a.started_date < $P{to_date} OR (a.id is null ) )
+		AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id is null ) )
                  GROUP BY tos.description, t.name, t.id, r.result_type
                  ORDER BY tos.description, t.name;]]>
 	</queryString>
@@ -93,7 +93,7 @@
 					<text><![CDATA[Lab MIS - Count Of Tests]]></text>
 				</staticText>
 				<textField evaluationTime="Report">
-					<reportElement uuid="9ffa84fb-be18-4d82-93c1-6cc5db93e7dd" x="100" y="74" width="860" height="20"/>
+					<reportElement uuid="9ffa84fb-be18-4d82-93c1-6cc5db93e7dd" x="100" y="74" width="860" height="20" forecolor="#FFFFFF"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
@@ -101,7 +101,7 @@
 				</textField>
 				<image>
 					<reportElement uuid="99a839df-03f6-4a6c-af76-4989e98fcb0c" x="2" y="10" width="98" height="84"/>
-					<imageExpression><![CDATA["repo:/Resources/jss_logo"]]></imageExpression>
+					<imageExpression><![CDATA["repo:/Resources/SEARCH_Logo"]]></imageExpression>
 				</image>
 			</frame>
 		</band>
@@ -109,28 +109,28 @@
 	<columnHeader>
 		<band height="22">
 			<staticText>
-				<reportElement uuid="65fc935e-2100-46c5-bd3a-115ceed4a8be" mode="Opaque" x="0" y="1" width="289" height="20" backcolor="#006699"/>
+				<reportElement uuid="65fc935e-2100-46c5-bd3a-115ceed4a8be" mode="Opaque" x="0" y="1" width="289" height="20" forecolor="#FFFFFF" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Type Of Sample]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="d5cf1acc-9ad5-435b-b5fb-6d6158d3af0d" mode="Opaque" x="792" y="1" width="168" height="20" backcolor="#006699"/>
+				<reportElement uuid="d5cf1acc-9ad5-435b-b5fb-6d6158d3af0d" mode="Opaque" x="792" y="1" width="168" height="20" forecolor="#FFFFFF" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[abnormal count]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="63afdfa8-01bc-4bd2-815b-f98e2ad9cf8e" mode="Opaque" x="576" y="1" width="216" height="20" backcolor="#006699"/>
+				<reportElement uuid="63afdfa8-01bc-4bd2-815b-f98e2ad9cf8e" mode="Opaque" x="576" y="1" width="216" height="20" forecolor="#FFFFFF" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Count Test]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9b957fd8-90a6-4162-8ea3-e648ba7dce32" mode="Opaque" x="289" y="1" width="287" height="20" backcolor="#006699"/>
+				<reportElement uuid="9b957fd8-90a6-4162-8ea3-e648ba7dce32" mode="Opaque" x="289" y="1" width="287" height="20" forecolor="#FFFFFF" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -139,23 +139,23 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20">
+		<band height="24">
 			<textField>
-				<reportElement uuid="46e7c2a0-d692-4bbf-92af-dfc374f1eeb9" x="289" y="0" width="100" height="20"/>
+				<reportElement uuid="46e7c2a0-d692-4bbf-92af-dfc374f1eeb9" x="289" y="4" width="100" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="0f0efff6-1871-4cc2-9801-72452736c53a" x="576" y="0" width="107" height="20"/>
+				<reportElement uuid="0f0efff6-1871-4cc2-9801-72452736c53a" x="576" y="4" width="107" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total_no_of_test}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="58a3190c-af75-4f6d-a50c-c2fb0f115c90" x="793" y="0" width="98" height="20"/>
+				<reportElement uuid="58a3190c-af75-4f6d-a50c-c2fb0f115c90" x="793" y="4" width="98" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
@@ -183,6 +183,9 @@
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA["repo:numeric_result_type_subreport.jrxml"]]></subreportExpression>
 			</subreport>
+			<line>
+				<reportElement uuid="c5bfdee0-691f-4dad-957d-67f613410771" x="0" y="1" width="960" height="1"/>
+			</line>
 		</band>
 	</detail>
 </jasperReport>
