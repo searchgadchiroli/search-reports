@@ -16,12 +16,14 @@
   sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < r.min_normal then 1 else 0 end else 0 end) as lesser_value,
   sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > r.max_normal then 1 else 0 end else 0 end) as higher_value,
   sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < r.min_normal and r.abnormal = true then 1 else 0 end else 0 end) as lesser_abnormal_value,
-  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > r.max_normal and r.abnormal = true then 1 else 0 end else 0 end) as higher_abnormal_value
+  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > r.max_normal and r.abnormal = true then 1 else 0 end else 0 end) as higher_abnormal_value,
+  rl.gender as gender, rl.min_age as min_age, rl.max_age as max_age
 from test t
   left join analysis a on a.test_id = t.id
   left join result r on r.analysis_id = a.id and r.result_type = 'N'
+  left join result_limits rl on a.test_id = rl.test_id and rl.low_normal = r.min_normal and rl.high_normal = r.max_normal
   where t.id =  $P{testId} and r.min_normal is not null and r.max_normal is not null
-  group by t.name, r.min_normal, r.max_normal;]]>
+  group by t.name, r.min_normal, r.max_normal,rl.gender, rl.min_age, rl.max_age;]]>
 	</queryString>
 	<field name="name" class="java.lang.String">
 		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
@@ -33,6 +35,9 @@ from test t
 	<field name="higher_value" class="java.lang.Long"/>
 	<field name="low_normal" class="java.lang.String"/>
 	<field name="high_normal" class="java.lang.String"/>
+	<field name="gender" class="java.lang.String"/>
+	<field name="min_age" class="java.lang.String"/>
+	<field name="max_age" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -40,7 +45,7 @@ from test t
 		<band height="39" splitType="Stretch">
 			<printWhenExpression><![CDATA[$P{result_type} == 'N']]></printWhenExpression>
 			<textField>
-				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="217" y="0" width="72" height="20">
+				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="289" y="0" width="72" height="20">
 					<printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -49,7 +54,7 @@ from test t
 				<textFieldExpression><![CDATA[$F{lesser_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="217" y="19" width="72" height="20">
+				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="289" y="19" width="72" height="20">
 					<printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -58,7 +63,7 @@ from test t
 				<textFieldExpression><![CDATA[$F{higher_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="0" y="0" width="101" height="20">
+				<reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="0" y="0" width="56" height="20">
 					<printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -67,7 +72,7 @@ from test t
 				<textFieldExpression><![CDATA["<" + $F{low_normal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="0" y="19" width="101" height="20">
+				<reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="0" y="19" width="56" height="20">
 					<printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -76,19 +81,61 @@ from test t
 				<textFieldExpression><![CDATA[">" + $F{high_normal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3c583921-1931-4be2-a310-d32b458eb2b8" x="435" y="0" width="71" height="20"/>
+				<reportElement uuid="3c583921-1931-4be2-a310-d32b458eb2b8" x="505" y="0" width="71" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{lesser_abnormal_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="6fdb0245-1adb-4a96-9cd0-3551e1635895" x="436" y="19" width="70" height="20"/>
+				<reportElement uuid="6fdb0245-1adb-4a96-9cd0-3551e1635895" x="506" y="19" width="70" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{higher_abnormal_value}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement uuid="97e4d10f-c5bb-40c0-a42f-04bfde94ce06" x="155" y="0" width="41" height="19">
+					<printWhenExpression><![CDATA[$F{gender} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="621d0ec5-96a0-4c39-8435-faf92ef5de64" x="103" y="19" width="44" height="20">
+					<printWhenExpression><![CDATA[$F{min_age} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{min_age}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="349d9adf-1e53-4458-af71-5d827766e693" x="208" y="19" width="50" height="20">
+					<printWhenExpression><![CDATA[$F{max_age} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{max_age}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b5e391c4-8db8-4e15-99f8-a571540458ee" x="93" y="0" width="62" height="20">
+					<printWhenExpression><![CDATA[$F{gender} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[For Gender :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9dd1cb74-7fc3-41f6-b9b5-ac210bea7181" x="57" y="19" width="45" height="20">
+					<printWhenExpression><![CDATA[$F{min_age} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Min Age: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0372e4f8-41ed-40ba-bfe3-e19894ce0f8b" x="158" y="19" width="50" height="20">
+					<printWhenExpression><![CDATA[$F{max_age} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Max Age:]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>

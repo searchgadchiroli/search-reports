@@ -109,7 +109,7 @@
 	<columnHeader>
 		<band height="22">
 			<staticText>
-				<reportElement uuid="65fc935e-2100-46c5-bd3a-115ceed4a8be" mode="Opaque" x="0" y="1" width="289" height="20" forecolor="#FFFFFF" backcolor="#006699"/>
+				<reportElement uuid="65fc935e-2100-46c5-bd3a-115ceed4a8be" mode="Opaque" x="0" y="1" width="210" height="20" forecolor="#FFFFFF" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -130,7 +130,7 @@
 				<text><![CDATA[Count Test]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9b957fd8-90a6-4162-8ea3-e648ba7dce32" mode="Opaque" x="289" y="1" width="287" height="20" forecolor="#FFFFFF" backcolor="#006699"/>
+				<reportElement uuid="9b957fd8-90a6-4162-8ea3-e648ba7dce32" mode="Opaque" x="210" y="1" width="366" height="20" forecolor="#FFFFFF" backcolor="#006699"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -141,7 +141,7 @@
 	<detail>
 		<band height="24">
 			<textField>
-				<reportElement uuid="46e7c2a0-d692-4bbf-92af-dfc374f1eeb9" x="289" y="4" width="100" height="20"/>
+				<reportElement uuid="46e7c2a0-d692-4bbf-92af-dfc374f1eeb9" x="210" y="4" width="100" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
@@ -162,7 +162,7 @@
 				<textFieldExpression><![CDATA[$F{abnormal}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="360" y="20" width="660" height="0"/>
+				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="288" y="20" width="660" height="0"/>
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -173,7 +173,7 @@
 				<subreportExpression><![CDATA["repo:dictionary_result_type_subreport.jrxml"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement uuid="a399b99a-d34f-4a5d-bd8b-501dc53dab19" x="360" y="20" width="660" height="0"/>
+				<reportElement uuid="a399b99a-d34f-4a5d-bd8b-501dc53dab19" x="288" y="20" width="660" height="0"/>
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>

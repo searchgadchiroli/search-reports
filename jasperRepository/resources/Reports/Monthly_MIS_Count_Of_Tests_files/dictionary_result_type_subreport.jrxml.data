@@ -44,14 +44,14 @@ left join result r on r.analysis_id = a.id and tr.id = r.test_result_id
 				<textFieldExpression><![CDATA[$F{dict_entry}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="274c4833-45e1-4482-b6ae-cff74eeb61cb" x="218" y="0" width="59" height="20"/>
+				<reportElement uuid="274c4833-45e1-4482-b6ae-cff74eeb61cb" x="289" y="0" width="70" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalCount}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b29d9350-86d4-4a32-bf33-20568d25ddf7" x="434" y="0" width="71" height="20"/>
+				<reportElement uuid="b29d9350-86d4-4a32-bf33-20568d25ddf7" x="505" y="0" width="71" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
