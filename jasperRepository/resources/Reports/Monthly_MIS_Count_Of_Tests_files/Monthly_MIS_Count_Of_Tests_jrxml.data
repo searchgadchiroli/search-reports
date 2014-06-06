@@ -169,6 +169,12 @@
 				<subreportParameter name="result_type">
 					<subreportParameterExpression><![CDATA[$F{result_type}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="from_date">
+					<subreportParameterExpression><![CDATA[$P{from_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="to_date">
+					<subreportParameterExpression><![CDATA[$P{to_date}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA["repo:dictionary_result_type_subreport.jrxml"]]></subreportExpression>
 			</subreport>
@@ -179,6 +185,12 @@
 				</subreportParameter>
 				<subreportParameter name="result_type">
 					<subreportParameterExpression><![CDATA[$F{result_type}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="from_date">
+					<subreportParameterExpression><![CDATA[$P{from_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="to_date">
+					<subreportParameterExpression><![CDATA[$P{to_date}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA["repo:numeric_result_type_subreport.jrxml"]]></subreportExpression>

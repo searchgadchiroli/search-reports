@@ -11,6 +11,8 @@
 	<parameter name="testId" class="java.math.BigDecimal">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="from_date" class="java.util.Date"/>
+	<parameter name="to_date" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[select distinct t.name as name,  count(r.*) as counting, r.min_normal as low_normal, r.max_normal as high_normal,
   sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < r.min_normal then 1 else 0 end else 0 end) as lesser_value,
@@ -28,6 +30,7 @@ from test t
   left join result_limits rl on a.test_id = rl.test_id and rl.low_normal = r.min_normal and rl.high_normal = r.max_normal
   where t.id =  $P{testId}
   and r.min_normal is not null and r.max_normal is not null
+AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id is null ) )
   group by t.name, r.min_normal, r.max_normal, rl.gender, rl.min_age, rl.max_age, t.id;]]>
 	</queryString>
 	<field name="name" class="java.lang.String">
