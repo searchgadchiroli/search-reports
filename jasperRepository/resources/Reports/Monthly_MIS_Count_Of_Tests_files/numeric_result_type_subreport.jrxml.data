@@ -12,18 +12,23 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select t.name,  count(r.*), r.min_normal as low_normal, r.max_normal as high_normal,
+		<![CDATA[select distinct t.name as name,  count(r.*) as counting, r.min_normal as low_normal, r.max_normal as high_normal,
   sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < r.min_normal then 1 else 0 end else 0 end) as lesser_value,
   sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > r.max_normal then 1 else 0 end else 0 end) as higher_value,
-  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < r.min_normal and r.abnormal = true then 1 else 0 end else 0 end) as lesser_abnormal_value,
-  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > r.max_normal and r.abnormal = true then 1 else 0 end else 0 end) as higher_abnormal_value,
-  rl.gender as gender, rl.min_age as min_age, rl.max_age as max_age
+  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) < r.min_normal then 1 else 0 end else 0 end) as lesser_abnormal_value,
+  sum(case when r.value~E'^\\d+$' then case when cast(r.value as double precision) > r.max_normal then 1 else 0 end else 0 end) as higher_abnormal_value,
+  case when exists (select test_id, min_age, max_age,low_normal, high_normal, count(*) from result_limits where test_id = t.id
+  and low_normal = r.min_normal and high_normal = r.max_normal
+   group by test_id, min_age, max_age,low_normal, high_normal having count(*) > 1)
+  then 'a' else rl.gender end as gender
+  , rl.min_age as min_age, rl.max_age as max_age, t.id
 from test t
   left join analysis a on a.test_id = t.id
-  left join result r on r.analysis_id = a.id and r.result_type = 'N'
+  left join result r on r.analysis_id = a.id and r.result_type = 'N' and r.abnormal = true
   left join result_limits rl on a.test_id = rl.test_id and rl.low_normal = r.min_normal and rl.high_normal = r.max_normal
-  where t.id =  $P{testId} and r.min_normal is not null and r.max_normal is not null
-  group by t.name, r.min_normal, r.max_normal,rl.gender, rl.min_age, rl.max_age;]]>
+  where t.id =  $P{testId}
+  and r.min_normal is not null and r.max_normal is not null
+  group by t.name, r.min_normal, r.max_normal, rl.gender, rl.min_age, rl.max_age, t.id;]]>
 	</queryString>
 	<field name="name" class="java.lang.String">
 		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
