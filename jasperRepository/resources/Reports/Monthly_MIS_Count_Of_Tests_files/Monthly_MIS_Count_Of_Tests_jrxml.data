@@ -162,7 +162,7 @@
 				<textFieldExpression><![CDATA[$F{abnormal}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="288" y="20" width="660" height="0"/>
+				<reportElement uuid="9dceb3cc-875e-4532-93ba-f62da5e32350" x="0" y="20" width="948" height="0"/>
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -179,7 +179,7 @@
 				<subreportExpression><![CDATA["repo:dictionary_result_type_subreport.jrxml"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement uuid="a399b99a-d34f-4a5d-bd8b-501dc53dab19" x="288" y="20" width="660" height="0"/>
+				<reportElement uuid="a399b99a-d34f-4a5d-bd8b-501dc53dab19" x="0" y="20" width="948" height="0"/>
 				<subreportParameter name="testId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>

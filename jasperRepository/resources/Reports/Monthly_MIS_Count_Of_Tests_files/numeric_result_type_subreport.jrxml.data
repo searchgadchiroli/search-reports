@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="numeric_result_type_subreport" language="groovy" pageWidth="576" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="28734f1f-129d-4607-b596-f875d8b6aabb">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="numeric_result_type_subreport" language="groovy" pageWidth="948" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="28734f1f-129d-4607-b596-f875d8b6aabb">
 	<property name="ireport.jasperserver.reportUnit" value="/Reports/Monthly_MIS_Count_Of_Tests"/>
 	<property name="ireport.jasperserver.url" value="http://192.168.33.10:8080/jasperserver/services/repository"/>
 	<property name="ireport.zoom" value="1.5"/>
@@ -53,7 +53,7 @@ AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id
 		<band height="39" splitType="Stretch">
 			<printWhenExpression><![CDATA[$P{result_type} == 'N']]></printWhenExpression>
 			<textField>
-				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="289" y="0" width="72" height="20">
+				<reportElement uuid="7f924b4d-30ba-4591-8d60-4830fb82b405" x="577" y="0" width="72" height="20">
 					<printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -62,7 +62,7 @@ AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id
 				<textFieldExpression><![CDATA[$F{lesser_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="289" y="19" width="72" height="20">
+				<reportElement uuid="4dce4a03-996e-4995-83e0-4196bac92fcd" x="577" y="19" width="72" height="20">
 					<printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -71,7 +71,7 @@ AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id
 				<textFieldExpression><![CDATA[$F{higher_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="0" y="0" width="56" height="20">
+				<reportElement uuid="0549737f-da41-4406-b994-8e21ab42a0bb" x="289" y="0" width="56" height="20">
 					<printWhenExpression><![CDATA[$F{low_normal} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -80,7 +80,7 @@ AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id
 				<textFieldExpression><![CDATA["<" + $F{low_normal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="0" y="19" width="56" height="20">
+				<reportElement uuid="873cdfb0-cc21-4908-927c-42a7a8f7762c" x="289" y="19" width="56" height="20">
 					<printWhenExpression><![CDATA[$F{high_normal} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -89,61 +89,66 @@ AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id
 				<textFieldExpression><![CDATA[">" + $F{high_normal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3c583921-1931-4be2-a310-d32b458eb2b8" x="505" y="0" width="71" height="20"/>
+				<reportElement uuid="3c583921-1931-4be2-a310-d32b458eb2b8" x="793" y="1" width="71" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{lesser_abnormal_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="6fdb0245-1adb-4a96-9cd0-3551e1635895" x="506" y="19" width="70" height="20"/>
+				<reportElement uuid="6fdb0245-1adb-4a96-9cd0-3551e1635895" x="793" y="19" width="70" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{higher_abnormal_value}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="97e4d10f-c5bb-40c0-a42f-04bfde94ce06" x="155" y="0" width="41" height="19">
+				<reportElement uuid="97e4d10f-c5bb-40c0-a42f-04bfde94ce06" x="159" y="1" width="41" height="19">
 					<printWhenExpression><![CDATA[$F{gender} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="621d0ec5-96a0-4c39-8435-faf92ef5de64" x="103" y="19" width="44" height="20">
+				<reportElement uuid="621d0ec5-96a0-4c39-8435-faf92ef5de64" x="118" y="19" width="41" height="20">
 					<printWhenExpression><![CDATA[$F{min_age} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{min_age}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="349d9adf-1e53-4458-af71-5d827766e693" x="208" y="19" width="50" height="20">
+				<reportElement uuid="349d9adf-1e53-4458-af71-5d827766e693" x="210" y="19" width="50" height="20">
 					<printWhenExpression><![CDATA[$F{max_age} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{max_age}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="b5e391c4-8db8-4e15-99f8-a571540458ee" x="93" y="0" width="62" height="20">
+				<reportElement uuid="b5e391c4-8db8-4e15-99f8-a571540458ee" x="97" y="0" width="62" height="20">
 					<printWhenExpression><![CDATA[$F{gender} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[For Gender :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9dd1cb74-7fc3-41f6-b9b5-ac210bea7181" x="57" y="19" width="45" height="20">
+				<reportElement uuid="9dd1cb74-7fc3-41f6-b9b5-ac210bea7181" x="73" y="19" width="45" height="20">
 					<printWhenExpression><![CDATA[$F{min_age} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[Min Age: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0372e4f8-41ed-40ba-bfe3-e19894ce0f8b" x="158" y="19" width="50" height="20">
+				<reportElement uuid="0372e4f8-41ed-40ba-bfe3-e19894ce0f8b" x="159" y="19" width="50" height="20">
 					<printWhenExpression><![CDATA[$F{max_age} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[Max Age:]]></text>
 			</staticText>
+			<line>
+				<reportElement uuid="483c5437-5456-49fa-b58c-a2952887a787" x="25" y="-2" width="248" height="1">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() != 1) && ($F{max_age} != null || $F{max_age} != null || $F{gender} != null)]]></printWhenExpression>
+				</reportElement>
+			</line>
 		</band>
 	</detail>
 </jasperReport>
