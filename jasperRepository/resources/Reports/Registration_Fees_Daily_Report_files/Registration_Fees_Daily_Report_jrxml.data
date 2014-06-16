@@ -27,7 +27,7 @@ group by pa.person_id) as Locale_Name on p.person_id = Locale_Name.person_id
 left outer join encounter e on e.visit_id = v.visit_id
 left outer join encounter_type et on e.encounter_type = et.encounter_type_id AND et.name = 'REG'
 left outer join obs o on o.encounter_id = e.encounter_id and o.voided = 0
-left outer join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'REGISTRATION FEES' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
+Inner join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'REGISTRATION FEES' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
 where date(v.date_started) = $P{date} AND date(e.encounter_datetime) = $P{date}
 group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 	</queryString>
@@ -40,7 +40,7 @@ group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 	<field name="gender" class="java.lang.String"/>
 	<field name="Registration_Fees" class="java.lang.Double"/>
 	<field name="visit_id" class="java.lang.Integer"/>
-	<variable name="Registration_Fees_1" class="java.lang.Double" resetType="Column" calculation="Sum">
+	<variable name="Registration_Fees_1" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{Registration_Fees}]]></variableExpression>
 	</variable>
 	<background>
