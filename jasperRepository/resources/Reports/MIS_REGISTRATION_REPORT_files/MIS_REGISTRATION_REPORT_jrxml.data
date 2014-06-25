@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8c87200-35be-4654-b278-1c1e83225d69">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="40"/>
+	<property name="ireport.y" value="37"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -134,10 +134,28 @@
 			<![CDATA[Select vt.name, count(*)
  from
  visit as v
- join visit_type as vt on v.visit_type_id = vt.visit_type_id
+ inner join visit_type as vt on v.visit_type_id = vt.visit_type_id
  where
- v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
- group by v.visit_type_id]]>
+ date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
+AND  vt.name !='OPD'
+ group by v.visit_type_id
+
+UNION
+
+Select vt.name, count(*) - (Select  count(*)
+ from
+ visit as v1
+ inner join visit_type as vt1 on v1.visit_type_id = vt1.visit_type_id
+ where
+ date(v1.date_started) >= $P{from_date_inner} and date(v1.date_started) <= $P{to_date_inner}
+AND  vt1.name ='IPD'
+)
+ from
+ visit as v
+ inner join visit_type as vt on v.visit_type_id = vt.visit_type_id
+ where
+ date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
+AND  vt.name ='OPD']]>
 		</queryString>
 		<field name="name" class="java.lang.String"/>
 		<field name="count(*)" class="java.lang.Long"/>
@@ -150,7 +168,8 @@
 	from visit as v
 	left join person_address as padd on padd.person_id = v.patient_id
 	where
-	v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
+	date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
+	AND v.visit_type_id !=(select visit_type_id from visit_type where name = 'IPD')
 	group by padd.county_district;]]>
 		</queryString>
 		<field name="district" class="java.lang.String"/>
@@ -170,6 +189,7 @@
 	left join SEARCH_LOCATION_CATEGORY_TYPE as slct on slct.Id = slc.Category
     where
 	v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
+	AND v.visit_type_id !=(select visit_type_id from visit_type where name = 'IPD')
 	group by slc.category;]]>
 		</queryString>
 		<field name="Name" class="java.lang.String"/>
@@ -189,6 +209,7 @@
 	left join SEARCH_Caste as sc on sc.caste_name = pa.value
 	where
 	v.date_started >= $P{from_date_inner} and v.date_started <= DATE_ADD($P{to_date_inner}, INTERVAL 1 DAY)
+	AND v.visit_type_id !=(select visit_type_id from visit_type where name = 'IPD')
  	group by sc.caste_type;]]>
 		</queryString>
 		<field name="caste_type" class="java.lang.String"/>
@@ -208,45 +229,59 @@
 (
    SELECT count(*)
    FROM visit as v
-   where v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+   inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+   where date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+   AND vt.name !='IPD'
 ) as TOTAL_PATIENTS,
 (
    Select count(*)
    from person as p
-   join visit as v on p.person_id = v.patient_id
+   inner join visit as v on p.person_id = v.patient_id
+   inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
    where date(v.date_started)= date(p.date_created)
-   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+   AND vt.name !='IPD'
 ) as NEW_REGISTRATIONS,
 (
    Select count(*)
    from person as p
-   join visit as v on p.person_id = v.patient_id
+   inner join visit as v on p.person_id = v.patient_id
+   inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
    where date(v.date_started)!= date(p.date_created)
-   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+   AND vt.name !='IPD'
 ) as RETURNING_VISITS,
 (
 	Select count(*) from person as p
-	join visit as v on v.patient_id = p.person_id
-	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	inner join visit as v on v.patient_id = p.person_id
+	inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
 	and TIMESTAMPDIFF(YEAR,p.birthdate,CURDATE()) < 5
+	AND vt.name !='IPD'
 ) as UPTO_AGE_5,
 (
 	Select count(*) from person as p
-	join visit as v on v.patient_id = p.person_id
-	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	inner join visit as v on v.patient_id = p.person_id
+	inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
 	and p.gender = 'M'
+	AND vt.name !='IPD'
 ) as MALE,
 (
 	Select count(*) from person as p
-	join visit as v on v.patient_id = p.person_id
-	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	inner join visit as v on v.patient_id = p.person_id
+	inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
 	and p.gender = 'F'
+	AND vt.name !='IPD'
 ) as FEMALE,
 (
 	Select count(*) from person as p
-	join visit as v on v.patient_id = p.person_id
-	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	inner join visit as v on v.patient_id = p.person_id
+	inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
 	and p.gender = 'O'
+	AND vt.name !='IPD'
 ) as OTHER;]]>
 	</queryString>
 	<field name="TOTAL_PATIENTS" class="java.lang.Long"/>
