@@ -130,7 +130,7 @@
 	<subDataset name="Visit_Type_Totals" uuid="67a70c06-94f7-4899-b33a-8af9cd245c7e">
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString language="SQL">
+		<queryString>
 			<![CDATA[Select vt.name, count(*)
  from
  visit as v
@@ -145,8 +145,8 @@
 	<subDataset name="Visit_by_District" uuid="8943d047-4d62-420a-bdb2-cc7ff6859cf2">
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString language="SQL">
-			<![CDATA[Select padd.county_district as district, count(*) as visits_by_district
+		<queryString>
+			<![CDATA[Select (case when padd.county_district is not null then padd.county_district else 'Unknown' END) as district, count(*) as visits_by_district
 	from visit as v
 	left join person_address as padd on padd.person_id = v.patient_id
 	where
@@ -162,8 +162,8 @@
 	<subDataset name="Visits_by_Location_Type" uuid="0d1f8f14-39ea-4ad9-b0c6-09db05e9b1fe">
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString language="SQL">
-			<![CDATA[Select  (case when slct.Name is not null then slct.Name else 'Others' END) as Name, count(*) as visits_by_location_type
+		<queryString>
+			<![CDATA[Select  (case when slct.Name is not null then slct.Name else 'Unknown' END) as Name, count(*) as visits_by_location_type
 	from visit as v
 	left join person_address as padd on padd.person_id = v.patient_id
 	left join SEARCH_LOCATION_CATEGORY as slc on slc.Village = padd.city_village AND slc.Tehsil = padd.address3
@@ -181,8 +181,8 @@
 	<subDataset name="Visit_by_caste" uuid="12715305-58c6-436f-b83a-13342c702346">
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString language="SQL">
-			<![CDATA[Select (case when sc.caste_type is not null then sc.caste_type else 'Others' END) as caste_type, count(*) as visits_by_caste_type
+		<queryString>
+			<![CDATA[Select (case when sc.caste_type is not null then sc.caste_type else 'Unknown' END) as caste_type, count(*) as visits_by_caste_type
 	from visit as v
 	left join person_attribute as pa on pa.person_id = v.patient_id
 	AND person_attribute_type_id = (select pat.person_attribute_type_id from person_attribute_type as pat where pat.name like '%caste%')
@@ -212,40 +212,40 @@
 ) as TOTAL_PATIENTS,
 (
    Select count(*)
-   from
-   patient as pt
-   where
-   pt.date_created >= $P{from_date} and pt.date_created <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+   from person as p
+   join visit as v on p.person_id = v.patient_id
+   where date(v.date_started)= date(p.date_created)
+   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 ) as NEW_REGISTRATIONS,
 (
    Select count(*)
    from person as p
    join visit as v on p.person_id = v.patient_id
    where date(v.date_started)!= date(p.date_created)
-   and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 ) as RETURNING_VISITS,
 (
 	Select count(*) from person as p
 	join visit as v on v.patient_id = p.person_id
-	and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 	and TIMESTAMPDIFF(YEAR,p.birthdate,CURDATE()) < 5
 ) as UPTO_AGE_5,
 (
 	Select count(*) from person as p
 	join visit as v on v.patient_id = p.person_id
-	and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 	and p.gender = 'M'
 ) as MALE,
 (
 	Select count(*) from person as p
 	join visit as v on v.patient_id = p.person_id
-	and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 	and p.gender = 'F'
 ) as FEMALE,
 (
 	Select count(*) from person as p
 	join visit as v on v.patient_id = p.person_id
-	and v.date_started >= $P{from_date} and v.date_started <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
+	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= DATE_ADD($P{to_date}, INTERVAL 1 DAY)
 	and p.gender = 'O'
 ) as OTHER;]]>
 	</queryString>
@@ -325,7 +325,7 @@
 				<textFieldExpression><![CDATA[$F{TOTAL_PATIENTS}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement uuid="d8ad4b23-eee2-4e14-8ae5-fdc98e8d407f" key="table 2" style="table 2" x="477" y="7" width="214" height="48"/>
+				<reportElement uuid="d8ad4b23-eee2-4e14-8ae5-fdc98e8d407f" key="table 2" style="table 2" x="652" y="7" width="139" height="48"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Visit_Type_Totals" uuid="135a670a-a0c0-44f4-848c-91679eda62fa">
 						<datasetParameter name="from_date_inner">
@@ -458,7 +458,7 @@
 				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="69" y="139" width="346" height="1"/>
 			</line>
 			<componentElement>
-				<reportElement uuid="84c509f5-78ff-454d-8756-d781f15e196f" key="table 3" style="table 3" x="237" y="252" width="150" height="44"/>
+				<reportElement uuid="84c509f5-78ff-454d-8756-d781f15e196f" key="table 3" style="table 3" x="443" y="7" width="192" height="44"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Visit_by_District" uuid="8e71e3c3-8038-4b51-9952-20f4e146fbde">
 						<datasetParameter name="from_date_inner">
@@ -489,10 +489,10 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column uuid="121ba47d-0291-497d-af84-5ef1e489cb1a" width="52">
+					<jr:column uuid="121ba47d-0291-497d-af84-5ef1e489cb1a" width="76">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement uuid="ed4e77e8-4366-4d07-8279-e0160a235ca1" x="0" y="0" width="48" height="30"/>
+								<reportElement uuid="ed4e77e8-4366-4d07-8279-e0160a235ca1" x="0" y="0" width="72" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="14" isBold="true"/>
 								</textElement>
@@ -501,8 +501,8 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement uuid="7a7467e4-e3ca-4c9a-af77-bfea12057980" x="11" y="6" width="32" height="20"/>
-								<textElement textAlignment="Center">
+								<reportElement uuid="7a7467e4-e3ca-4c9a-af77-bfea12057980" x="11" y="6" width="61" height="20"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="14"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{visits_by_district}]]></textFieldExpression>
@@ -543,10 +543,10 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column uuid="7088bc18-696f-46bd-99d3-66e413cccb2d" width="51">
+					<jr:column uuid="7088bc18-696f-46bd-99d3-66e413cccb2d" width="68">
 						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement uuid="23e6f264-3079-41e9-a501-0c112f0505e9" x="0" y="0" width="51" height="30"/>
+								<reportElement uuid="23e6f264-3079-41e9-a501-0c112f0505e9" x="0" y="0" width="68" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="14" isBold="true"/>
 								</textElement>
@@ -555,8 +555,8 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table 4_TD" height="28" rowSpan="1">
 							<textField>
-								<reportElement uuid="897e86e3-2e30-4689-bc18-e11e90bcd299" x="0" y="5" width="51" height="20"/>
-								<textElement textAlignment="Center">
+								<reportElement uuid="897e86e3-2e30-4689-bc18-e11e90bcd299" x="0" y="5" width="58" height="20"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="14"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{visits_by_location_type}]]></textFieldExpression>
@@ -566,7 +566,7 @@
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement uuid="e420fb37-e7a7-432c-ae15-7a7b6f3bf2f3" key="table 5" style="table 5" x="442" y="252" width="105" height="44"/>
+				<reportElement uuid="e420fb37-e7a7-432c-ae15-7a7b6f3bf2f3" key="table 5" style="table 5" x="275" y="252" width="144" height="44"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Visit_by_caste" uuid="76245667-1a3d-44f9-b206-7b20a5c83f63">
 						<datasetParameter name="from_date_inner">
@@ -597,7 +597,7 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column uuid="5dbcfeea-ddfa-43c5-bd4f-dd6aa50494bb" width="57">
+					<jr:column uuid="5dbcfeea-ddfa-43c5-bd4f-dd6aa50494bb" width="62">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement uuid="07142267-6a5d-4716-8d33-25b98394eb51" x="0" y="0" width="57" height="30"/>
@@ -609,8 +609,8 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="26" rowSpan="1">
 							<textField>
-								<reportElement uuid="8280a400-4e03-4e8c-9c16-47cdf32536ca" x="12" y="2" width="37" height="20"/>
-								<textElement textAlignment="Center">
+								<reportElement uuid="8280a400-4e03-4e8c-9c16-47cdf32536ca" x="0" y="2" width="57" height="20"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="14"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{visits_by_caste_type}]]></textFieldExpression>
