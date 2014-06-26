@@ -22,15 +22,13 @@ inner join dictionary d on d.id = cast(tr.value as int)
 left join analysis a on a.test_id = t.id
 left join result r on r.analysis_id = a.id and tr.id = r.test_result_id
  where t.id = $P{testId}
-  AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id is null ) )
+  AND ( date(a.started_date) >= $P{from_date} AND date(a.started_date) <= $P{to_date} OR (a.id is null ) )
  group by t.name, d.dict_entry;]]>
 	</queryString>
+	<field name="name" class="java.lang.String"/>
 	<field name="dict_entry" class="java.lang.String"/>
-	<field name="totalCount" class="java.lang.Long"/>
-	<field name="abnormalCount" class="java.lang.Long"/>
-	<field name="name" class="java.lang.String">
-		<fieldDescription><![CDATA[Name of analyte]]></fieldDescription>
-	</field>
+	<field name="totalcount" class="java.lang.Long"/>
+	<field name="abnormalcount" class="java.lang.Long"/>
 	<group name="name">
 		<groupExpression><![CDATA[$F{name}]]></groupExpression>
 	</group>
@@ -41,7 +39,7 @@ left join result r on r.analysis_id = a.id and tr.id = r.test_result_id
 		<band height="21">
 			<printWhenExpression><![CDATA[$P{result_type} == 'D']]></printWhenExpression>
 			<textField>
-				<reportElement uuid="93cb2c47-dd7f-4836-a510-f34f80b2228f" x="289" y="1" width="143" height="20"/>
+				<reportElement uuid="93cb2c47-dd7f-4836-a510-f34f80b2228f" x="231" y="1" width="261" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>

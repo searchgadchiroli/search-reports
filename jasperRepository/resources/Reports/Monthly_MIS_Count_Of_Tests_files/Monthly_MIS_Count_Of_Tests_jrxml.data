@@ -32,8 +32,12 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/Users/sushrao/code/TW/JSS/jrxmls/"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="from_date" class="java.util.Date"/>
-	<parameter name="to_date" class="java.util.Date"/>
+	<parameter name="from_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new Date((new Date()).getTime()-(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-1)*24*60*60*1000L)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="to_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
 	<parameter name="type_of_sample" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
@@ -141,7 +145,7 @@
 	<detail>
 		<band height="24">
 			<textField>
-				<reportElement uuid="46e7c2a0-d692-4bbf-92af-dfc374f1eeb9" x="210" y="4" width="100" height="20"/>
+				<reportElement uuid="46e7c2a0-d692-4bbf-92af-dfc374f1eeb9" x="210" y="4" width="269" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
