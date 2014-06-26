@@ -31,7 +31,8 @@ left outer join obs o on o.encounter_id = e.encounter_id and o.voided = 0
 left outer join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'REGISTRATION FEES' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
 where date(v.date_started) = $P{date} AND date(e.encounter_datetime) =  $P{date}
 and (o.concept_id=cn.concept_id or o.concept_id is null)
-And vt.name like '%OPD%'
+And vt.name != 'IPD'
+and v.patient_id !=8
 group by v.patient_id, pi.identifier, pa.city_village, p.gender, v.visit_id;]]>
 	</queryString>
 	<field name="patient_id" class="java.lang.Integer"/>
