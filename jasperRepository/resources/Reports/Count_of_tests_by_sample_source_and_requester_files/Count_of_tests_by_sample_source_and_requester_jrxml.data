@@ -86,18 +86,16 @@
 	<subDataset name="Sample_Source" uuid="f062b69f-afdf-4e61-ad74-0cfa2a809dd8">
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString language="SQL">
-			<![CDATA[select  ss.name as sample_source, t.name as test_name, count(*)
-from sample_item as si
-JOIN sample as s on si.samp_id = s.id
-JOIN analysis as a ON si.id = a.sampitem_id
-JOIN test as t ON t.id = a.test_id
-JOIN sample_source as ss ON s.sample_source_id = ss.id
-Left JOIN result as r ON r.analysis_id = a.id
-where
-date(s.entered_date) >= $P{from_date_inner} AND date(s.entered_date) <= (date($P{to_date_inner}) + INTERVAL '1 day')
-group by sample_source, test_name
-order by sample_source;]]>
+		<queryString>
+			<![CDATA[select  ss.name as sample_source, t.name as test_name,  count(a.id)
+from analysis as a
+inner join sample_item si on a.sampitem_id = si.id
+inner join sample as s on si.samp_id = s.id
+inner join sample_source as ss on s.sample_source_id = ss.id
+inner join test as t on a.test_id = t.id
+where date(a.started_date) >= $P{from_date_inner} AND date(a.started_date) <= $P{to_date_inner} and a.completed_date is not null
+group by ss.name, t.name
+order by ss.name, t.name;]]>
 		</queryString>
 		<field name="sample_source" class="java.lang.String"/>
 		<field name="test_name" class="java.lang.String"/>
@@ -110,8 +108,15 @@ order by sample_source;]]>
 		</group>
 	</subDataset>
 	<subDataset name="Requester_Count" uuid="7771983b-458e-4a75-8a1d-cb7f4c155b73">
-		<queryString language="SQL">
-			<![CDATA[select  (case when p.first_name is not null then concat(p.first_name, ' ', p.last_name) Else 'NA' END) as requester_name, t.name as test_name, count(*), sum(case when r.abnormal = TRUE then 1 else 0 end) as abnormal_count
+		<parameter name="from_date_inner" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="to_date_inner" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select  (case when p.first_name is not null then concat(p.first_name, ' ', p.last_name) Else 'NA' END) as requester_name,
+t.name as test_name, count(a.*), sum(case when r.abnormal = TRUE then 1 else 0 end) as abnormal_count
 from sample_item as si
 JOIN sample as s on si.samp_id = s.id
 JOIN analysis as a ON si.id = a.sampitem_id
@@ -122,9 +127,9 @@ Left JOIN sample_requester as sr ON sr.sample_id= s.id
 Left Join provider as pr ON pr.id = sr.requester_id
 Left Join person as p on p.id = pr.person_id
 where
-date(s.entered_date) >= date('2014-06-18') AND date(s.entered_date) <= date('2014-06-23')
+date(a.started_date) >= $P{from_date_inner} AND date(a.started_date) <= $P{to_date_inner} and a.completed_date is not null
 group by requester_name, test_name
-order by requester_name;]]>
+order by requester_name, test_name;]]>
 		</queryString>
 		<field name="requester_name" class="java.lang.String"/>
 		<field name="test_name" class="java.lang.String"/>
@@ -159,6 +164,7 @@ and a.completed_date is not null
 	</queryString>
 	<field name="patient_count" class="java.lang.Long"/>
 	<field name="test_count" class="java.lang.Long"/>
+	<variable name="Sum_Column" class="java.lang.Integer" resetType="Column" calculation="Sum"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -276,6 +282,7 @@ and a.completed_date is not null
 								<text><![CDATA[Count]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="22" rowSpan="1">
 							<textField>
 								<reportElement uuid="c81c3d30-168a-4b6c-bca0-385847f54203" x="0" y="1" width="70" height="20"/>
@@ -331,6 +338,12 @@ and a.completed_date is not null
 				<reportElement uuid="9fc92a2a-7457-4988-85ec-1a67cc14e5ba" key="table 3" style="table 3" x="16" y="43" width="361" height="25"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Requester_Count" uuid="1a0f7e09-d474-4f36-8a56-0cd1ba0a4b9c">
+						<datasetParameter name="from_date_inner">
+							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="to_date_inner">
+							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column uuid="b4b260a6-51cd-4d78-9ef8-6d0088be7646" width="90">
