@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8c87200-35be-4654-b278-1c1e83225d69">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="40"/>
+	<property name="ireport.y" value="86"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -127,6 +127,86 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="Visit_Type_Totals" uuid="67a70c06-94f7-4899-b33a-8af9cd245c7e">
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
@@ -217,6 +297,24 @@ AND  vt.name ='OPD']]>
 		<group name="caste_type">
 			<groupExpression><![CDATA[$F{caste_type}]]></groupExpression>
 		</group>
+	</subDataset>
+	<subDataset name="Total_Registration_Fees" uuid="6131cd4b-2282-469a-9865-e4007fcb84d3">
+		<parameter name="from_date_inner" class="java.util.Date"/>
+		<parameter name="to_date_inner" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[select vt.name, sum(o.value_numeric) as "Total_Registration_Fees"
+From visit v
+inner join visit_type vt on vt.visit_type_id = v.visit_type_id
+inner join encounter e on e.visit_id = v.visit_id
+inner join encounter_type et on e.encounter_type = et.encounter_type_id AND et.name = 'REG'
+inner join obs o on o.encounter_id = e.encounter_id and o.voided = 0
+inner join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'REGISTRATION FEES' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
+where date(v.date_started) >= date($P{from_date_inner}) and date(v.date_started) <= date($P{to_date_inner})
+group by vt.name
+order by vt.name;]]>
+		</queryString>
+		<field name="name" class="java.lang.String"/>
+		<field name="Total_Registration_Fees" class="java.lang.Double"/>
 	</subDataset>
 	<parameter name="from_date" class="java.util.Date">
 		<defaultValueExpression><![CDATA[new Date((new Date()).getTime()-(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-1)*24*60*60*1000L)]]></defaultValueExpression>
@@ -318,21 +416,21 @@ AND  vt.name ='OPD']]>
 				<reportElement uuid="c470c1a7-fbaa-468e-ba63-d34044c7b4da" x="57" y="2" width="695" height="26" forecolor="#666666"/>
 			</rectangle>
 			<staticText>
-				<reportElement uuid="48678b3c-89c2-4571-862d-dd6ccfb20455" x="171" y="7" width="100" height="20" forecolor="#0033FF"/>
+				<reportElement uuid="48678b3c-89c2-4571-862d-dd6ccfb20455" x="127" y="7" width="100" height="20" forecolor="#0033FF"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Date Range: ]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement uuid="2177e809-9dfd-430d-8a28-3b3787215797" x="293" y="7" width="100" height="20" forecolor="#0000FF"/>
+				<reportElement uuid="2177e809-9dfd-430d-8a28-3b3787215797" x="231" y="7" width="162" height="20" forecolor="#0000FF"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{from_date}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement uuid="ddabcdcd-2100-4b35-9c61-1fd4cc8d20ce" x="460" y="7" width="122" height="20" forecolor="#0000FF"/>
+				<reportElement uuid="ddabcdcd-2100-4b35-9c61-1fd4cc8d20ce" x="460" y="7" width="220" height="20" forecolor="#0000FF"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
@@ -348,7 +446,7 @@ AND  vt.name ='OPD']]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="307" splitType="Stretch">
+		<band height="297" splitType="Stretch">
 			<rectangle>
 				<reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="13" y="7" width="372" height="231" forecolor="#666666"/>
 			</rectangle>
@@ -366,60 +464,6 @@ AND  vt.name ='OPD']]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TOTAL_PATIENTS}]]></textFieldExpression>
 			</textField>
-			<componentElement>
-				<reportElement uuid="d8ad4b23-eee2-4e14-8ae5-fdc98e8d407f" key="table 2" style="table 2" x="652" y="7" width="139" height="48"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Visit_Type_Totals" uuid="135a670a-a0c0-44f4-848c-91679eda62fa">
-						<datasetParameter name="from_date_inner">
-							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="to_date_inner">
-							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:column uuid="7ec32644-fc2d-46df-813b-75dbbd5b089f" width="90">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="07892c4e-331e-443a-ad34-9f03378aba6a" x="0" y="0" width="90" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Visit Type]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement uuid="8c6973fb-c98e-467b-9e27-f8e937e22756" x="5" y="5" width="85" height="20"/>
-								<textElement verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="fb06be34-fb01-435c-98d9-e6e6a6f3c9d6" width="75">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="d5f759a0-929e-4c85-852c-71c6e61fc316" x="0" y="0" width="68" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Count]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement uuid="6afa472f-9344-4d40-b7e2-f34b2b4bd480" x="0" y="5" width="68" height="20"/>
-								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{count(*)}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
 			<staticText>
 				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="55" width="128" height="20"/>
 				<textElement>
@@ -675,7 +719,116 @@ AND  vt.name ='OPD']]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{OTHER}]]></textFieldExpression>
 			</textField>
+			<componentElement>
+				<reportElement uuid="d8ad4b23-eee2-4e14-8ae5-fdc98e8d407f" key="table 2" style="table 2" x="652" y="7" width="139" height="37"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Visit_Type_Totals" uuid="135a670a-a0c0-44f4-848c-91679eda62fa">
+						<datasetParameter name="from_date_inner">
+							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="to_date_inner">
+							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column uuid="7ec32644-fc2d-46df-813b-75dbbd5b089f" width="90">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="07892c4e-331e-443a-ad34-9f03378aba6a" x="0" y="0" width="90" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Visit Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement uuid="8c6973fb-c98e-467b-9e27-f8e937e22756" x="5" y="5" width="85" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column uuid="fb06be34-fb01-435c-98d9-e6e6a6f3c9d6" width="75">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="d5f759a0-929e-4c85-852c-71c6e61fc316" x="0" y="0" width="68" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Count]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement uuid="6afa472f-9344-4d40-b7e2-f34b2b4bd480" x="0" y="5" width="68" height="20"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{count(*)}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement uuid="91c5033d-df15-4184-82ec-910a37a7d942" key="table 9" style="table 9" x="647" y="252" width="150" height="44"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Total_Registration_Fees" uuid="48bea628-b102-4667-bafc-6c3ebfd80444">
+						<datasetParameter name="from_date_inner">
+							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="to_date_inner">
+							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column uuid="feb51bbe-8ac7-43be-b85f-d38eaa21e6c3" width="82">
+						<jr:tableHeader style="table 9_TH" height="46" rowSpan="1">
+							<staticText>
+								<reportElement uuid="bf99a7dc-271c-413c-ad29-756f4186dd13" x="0" y="0" width="82" height="46"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Visit Type]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="79a1a906-4e79-4aa4-a554-1019d9f0763f" x="9" y="0" width="73" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column uuid="7214901e-be66-4171-b4b1-6ce8fdc9f8c0" width="87">
+						<jr:tableHeader style="table 9_TH" height="46" rowSpan="1">
+							<staticText>
+								<reportElement uuid="c55b126b-dd97-40b8-9396-eaa84d348792" x="0" y="0" width="86" height="46"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Registration Fees]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+							<textField pattern="###0">
+								<reportElement uuid="8541a0d0-849c-4c6d-99ec-db146757a275" x="3" y="0" width="83" height="20"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="12" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_Registration_Fees}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
+		<band height="42"/>
 	</detail>
 	<pageFooter>
 		<band height="20">
