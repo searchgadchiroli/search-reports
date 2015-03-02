@@ -124,7 +124,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[abnormal count]]></text>
+				<text><![CDATA[Abnormal Count]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="63afdfa8-01bc-4bd2-815b-f98e2ad9cf8e" mode="Opaque" x="576" y="1" width="216" height="20" forecolor="#FFFFFF" backcolor="#006699"/>

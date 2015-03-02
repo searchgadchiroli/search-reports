@@ -27,8 +27,8 @@ left join result r on r.analysis_id = a.id and tr.id = r.test_result_id
 	</queryString>
 	<field name="name" class="java.lang.String"/>
 	<field name="dict_entry" class="java.lang.String"/>
-	<field name="totalcount" class="java.lang.Long"/>
-	<field name="abnormalcount" class="java.lang.Long"/>
+	<field name="totalCount" class="java.lang.Long"/>
+	<field name="abnormalCount" class="java.lang.Long"/>
 	<group name="name">
 		<groupExpression><![CDATA[$F{name}]]></groupExpression>
 	</group>
