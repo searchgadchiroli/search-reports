@@ -152,7 +152,7 @@ order by requester_name, test_name;]]>
 		<![CDATA[SELECT
 (select count(distinct(sh.patient_id, date(s.received_date))) from sample_human sh
   join sample s on s.id = sh.samp_id
-where s.received_date >= $P{from_date} and s.received_date <= $P{to_date}
+where date(s.received_date) >= $P{from_date} and date(s.received_date) <= $P{to_date}
 AND sh.patient_id !=8
 )AS Patient_Count,
 (
