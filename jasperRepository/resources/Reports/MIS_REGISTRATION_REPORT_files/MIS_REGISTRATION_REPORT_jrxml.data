@@ -302,16 +302,16 @@ AND  vt.name ='OPD']]>
 		<parameter name="from_date_inner" class="java.util.Date"/>
 		<parameter name="to_date_inner" class="java.util.Date"/>
 		<queryString>
-			<![CDATA[select vt.name, sum(o.value_numeric) as "Total_Registration_Fees"
-From visit v
-inner join visit_type vt on vt.visit_type_id = v.visit_type_id
-inner join encounter e on e.visit_id = v.visit_id
-inner join encounter_type et on e.encounter_type = et.encounter_type_id AND et.name = 'REG'
-inner join obs o on o.encounter_id = e.encounter_id and o.voided = 0
-inner join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'REGISTRATION FEES' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
-where date(v.date_started) >= date($P{from_date_inner}) and date(v.date_started) <= date($P{to_date_inner})
-group by vt.name
-order by vt.name;]]>
+			<![CDATA[select vt.name,sum(CONVERT(cnn.name, SIGNED INTEGER)) as 'Total_Registration_Fees'
+                      From visit v
+                      inner join visit_type vt on vt.visit_type_id = v.visit_type_id
+                      inner join encounter e on e.visit_id = v.visit_id
+                      inner join encounter_type et on e.encounter_type = et.encounter_type_id
+                      inner join obs o on o.encounter_id = e.encounter_id and o.voided = 0
+                      inner join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'Registration Fee' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
+                      inner join concept_name as cnn on o.value_coded=cnn.concept_id and cnn.concept_name_type='SHORT'
+                      where date(v.date_started) >= date($P{from_date_inner}) and date(v.date_started) <= date($P{to_date_inner})
+                      group by vt.name;]]>
 		</queryString>
 		<field name="name" class="java.lang.String"/>
 		<field name="Total_Registration_Fees" class="java.lang.Double"/>
