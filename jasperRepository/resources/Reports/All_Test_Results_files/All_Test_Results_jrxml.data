@@ -62,7 +62,7 @@ left join reference_tables on note.reference_table = reference_tables.id and ref
 inner join status_of_sample on status_of_sample.id = a.status_id
 WHERE ( status_of_sample.name = 'Finalized'
 OR status_of_sample.name = 'Finalized RO' )
-AND s.received_date BETWEEN $P{from_date} AND $P{to_date}
+AND date(s.received_date) BETWEEN $P{from_date} AND $P{to_date}
 group by date, accession_number, sample, registration_number, test, result
 order by date, accession_number, sample, test;]]>
 	</queryString>

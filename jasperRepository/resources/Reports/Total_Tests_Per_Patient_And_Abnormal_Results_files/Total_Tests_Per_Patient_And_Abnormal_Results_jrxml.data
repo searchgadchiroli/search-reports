@@ -33,7 +33,7 @@ inner join patient_identity_type on (patient_identity.identity_type_id = patient
 left  join dictionary on result.result_type='D' and dictionary.id::varchar(255) = result.value
 inner join status_of_sample on status_of_sample.id = analysis.status_id
 WHERE status_of_sample.name = 'Finalized'
-AND sample.entered_date >= $P{from_date} AND sample.entered_date <= $P{to_date}
+AND date(sample.entered_date) >= $P{from_date} AND date(sample.entered_date) <= $P{to_date}
 ORDER BY date, registration_number]]>
 	</queryString>
 	<field name="date" class="java.sql.Timestamp"/>

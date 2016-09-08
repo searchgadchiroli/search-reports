@@ -58,7 +58,7 @@
                    INNER JOIN type_of_sample tos
                      ON tos.id = stt.sample_type_id
                  WHERE case when $P{type_of_sample} is null then true else tos.description = $P{type_of_sample} end
-		AND ( a.started_date >= $P{from_date} AND a.started_date <= $P{to_date} OR (a.id is null ) )
+		AND ( date(a.started_date) >= $P{from_date} AND date(a.started_date) <= $P{to_date} OR (a.id is null ) )
                  GROUP BY tos.description, t.name, t.id, r.result_type
                  ORDER BY tos.description, t.name;]]>
 	</queryString>
