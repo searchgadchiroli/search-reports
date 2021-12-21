@@ -1,851 +1,859 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8c87200-35be-4654-b278-1c1e83225d69">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="86"/>
-	<style name="table">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 1">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 2">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
-			<style backcolor="#EFF7FF"/>
-		</conditionalStyle>
-	</style>
-	<style name="table 3">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 4">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 5">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 6">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 7">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 8">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 9">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<subDataset name="Visit_Type_Totals" uuid="67a70c06-94f7-4899-b33a-8af9cd245c7e">
-		<parameter name="from_date_inner" class="java.util.Date"/>
-		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString>
-			<![CDATA[Select vt.name, count(*)
- from
- visit as v
- inner join visit_type as vt on v.visit_type_id = vt.visit_type_id
- where
- date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
-AND  vt.name !='OPD'
- group by v.visit_type_id
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="86"/>
+    <style name="table">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 1">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 2">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+        <conditionalStyle>
+            <conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+            <style backcolor="#EFF7FF"/>
+        </conditionalStyle>
+    </style>
+    <style name="table 3">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 4">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 5">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 6">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 7">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 8">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 9">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <subDataset name="Visit_Type_Totals" uuid="67a70c06-94f7-4899-b33a-8af9cd245c7e">
+        <parameter name="from_date_inner" class="java.util.Date"/>
+        <parameter name="to_date_inner" class="java.util.Date"/>
+        <queryString>
+            <![CDATA[Select vt.name, count(*)
+                     from
+                         visit as v
+                             inner join visit_type as vt on v.visit_type_id = vt.visit_type_id
+                     where
+                             date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
+                       AND  vt.name NOT IN ('OPD')
+                     group by v.visit_type_id
 
-UNION
+                     UNION
 
 Select vt.name, count(*) - (Select  count(*)
- from
- visit as v1
- inner join visit_type as vt1 on v1.visit_type_id = vt1.visit_type_id
- where
- date(v1.date_started) >= $P{from_date_inner} and date(v1.date_started) <= $P{to_date_inner}
-AND  vt1.name ='IPD'
-)
- from
- visit as v
- inner join visit_type as vt on v.visit_type_id = vt.visit_type_id
- where
- date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
-AND  vt.name ='OPD']]>
-		</queryString>
-		<field name="name" class="java.lang.String"/>
-		<field name="count(*)" class="java.lang.Long"/>
-	</subDataset>
-	<subDataset name="Visit_by_District" uuid="8943d047-4d62-420a-bdb2-cc7ff6859cf2">
-		<parameter name="from_date_inner" class="java.util.Date"/>
-		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString>
-			<![CDATA[Select (case when padd.county_district is not null then padd.county_district else 'Not-Classified' END) as district, count(*) as visits_by_district
-	from visit as v
-	left join person_address as padd on padd.person_id = v.patient_id
-	where
-	date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
-	AND v.visit_type_id !=(select visit_type_id from visit_type where name = 'IPD')
-	group by padd.county_district;]]>
-		</queryString>
-		<field name="district" class="java.lang.String"/>
-		<field name="visits_by_district" class="java.lang.Long"/>
-		<group name="district">
-			<groupExpression><![CDATA[$F{district}]]></groupExpression>
-		</group>
-	</subDataset>
-	<subDataset name="Visits_by_Location_Type" uuid="0d1f8f14-39ea-4ad9-b0c6-09db05e9b1fe">
-		<parameter name="from_date_inner" class="java.util.Date"/>
-		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString>
-			<![CDATA[Select  (case when slct.Name is not null then slct.Name else 'Not-classified' END) as Name, count(*) as visits_by_location_type
-	from visit as v
-	left join person_address as padd on padd.person_id = v.patient_id
-	left join SEARCH_LOCATION_CATEGORY as slc on slc.Village = padd.city_village AND slc.Tehsil = padd.address3
-	left join SEARCH_LOCATION_CATEGORY_TYPE as slct on slct.Id = slc.Category
-    where
-	date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
-	AND v.visit_type_id !=(select visit_type_id from visit_type where name = 'IPD')
-	group by slc.category order by Name;]]>
-		</queryString>
-		<field name="Name" class="java.lang.String"/>
-		<field name="visits_by_location_type" class="java.lang.Long"/>
-		<group name="Name">
-			<groupExpression><![CDATA[$F{Name}]]></groupExpression>
-		</group>
-	</subDataset>
-	<subDataset name="Visit_by_caste" uuid="12715305-58c6-436f-b83a-13342c702346">
-		<parameter name="from_date_inner" class="java.util.Date"/>
-		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString>
-			<![CDATA[Select (case when sc.caste_type is not null then sc.caste_type else 'Not-Classified' END) as caste_type, count(*) as visits_by_caste_type
-	from visit as v
-	left join person_attribute as pa on pa.person_id = v.patient_id
-	AND person_attribute_type_id = (select pat.person_attribute_type_id from person_attribute_type as pat where pat.name like '%caste%')
-	left join SEARCH_Caste as sc on sc.caste_name = pa.value
-	where
-	date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
-	AND v.visit_type_id !=(select visit_type_id from visit_type where name = 'IPD')
- 	group by sc.caste_type;]]>
-		</queryString>
-		<field name="caste_type" class="java.lang.String"/>
-		<field name="visits_by_caste_type" class="java.lang.Long"/>
-		<group name="caste_type">
-			<groupExpression><![CDATA[$F{caste_type}]]></groupExpression>
-		</group>
-	</subDataset>
-	<subDataset name="Total_Registration_Fees" uuid="6131cd4b-2282-469a-9865-e4007fcb84d3">
-		<parameter name="from_date_inner" class="java.util.Date"/>
-		<parameter name="to_date_inner" class="java.util.Date"/>
-		<queryString>
-			<![CDATA[select vt.name,sum(CONVERT(cnn.name, SIGNED INTEGER)) as 'Total_Registration_Fees'
-                      From visit v
-                      inner join visit_type vt on vt.visit_type_id = v.visit_type_id
-                      inner join encounter e on e.visit_id = v.visit_id
-                      inner join encounter_type et on e.encounter_type = et.encounter_type_id
-                      inner join obs o on o.encounter_id = e.encounter_id and o.voided = 0
-                      inner join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'Registration Fee' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
-                      inner join concept_name as cnn on o.value_coded=cnn.concept_id and cnn.concept_name_type='SHORT'
-                      where date(v.date_started) >= date($P{from_date_inner}) and date(v.date_started) <= date($P{to_date_inner})
-                      group by vt.name;]]>
-		</queryString>
-		<field name="name" class="java.lang.String"/>
-		<field name="Total_Registration_Fees" class="java.lang.Double"/>
-	</subDataset>
-	<parameter name="from_date" class="java.util.Date">
-		<defaultValueExpression><![CDATA[new Date((new Date()).getTime()-(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-1)*24*60*60*1000L)]]></defaultValueExpression>
-	</parameter>
-	<parameter name="to_date" class="java.util.Date">
-		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
-	</parameter>
-	<queryString>
-		<![CDATA[SELECT
-(
-   SELECT count(*)
-   FROM visit as v
-   inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
-   where date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
-   AND vt.name !='IPD'
-   AND v.patient_id !=8
-) as TOTAL_PATIENTS,
-(
-   Select count(*)
-   from person as p
-   inner join visit as v on p.person_id = v.patient_id
-   inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
-   where date(v.date_started)= date(p.date_created)
-   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
-   AND vt.name !='IPD'
-    AND v.patient_id !=8
-) as NEW_REGISTRATIONS,
-(
-   Select count(*)
-   from person as p
-   inner join visit as v on p.person_id = v.patient_id
-   inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
-   where date(v.date_started)!= date(p.date_created)
-   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
-   AND vt.name !='IPD'
-   AND v.patient_id !=8
-) as RETURNING_VISITS,
-(
-	Select count(*) from person as p
-	inner join visit as v on v.patient_id = p.person_id
-	inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
-	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
-	and TIMESTAMPDIFF(YEAR,p.birthdate,CURDATE()) < 5
-	AND vt.name !='IPD'
-   AND v.patient_id !=8
-) as UPTO_AGE_5,
-(
-	Select count(*) from person as p
-	inner join visit as v on v.patient_id = p.person_id
-	inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
-	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
-	and p.gender = 'M'
-	AND vt.name !='IPD'
-   AND v.patient_id !=8
-) as MALE,
-(
-	Select count(*) from person as p
-	inner join visit as v on v.patient_id = p.person_id
-	inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
-	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
-	and p.gender = 'F'
-	AND vt.name !='IPD'
-   AND v.patient_id !=8
-) as FEMALE,
-(
-	Select count(*) from person as p
-	inner join visit as v on v.patient_id = p.person_id
-	inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
-	and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
-	and p.gender = 'O'
-	AND vt.name !='IPD'
-   AND v.patient_id !=8
-) as OTHER;]]>
-	</queryString>
-	<field name="TOTAL_PATIENTS" class="java.lang.Long"/>
-	<field name="NEW_REGISTRATIONS" class="java.lang.Long"/>
-	<field name="RETURNING_VISITS" class="java.lang.Long"/>
-	<field name="UPTO_AGE_5" class="java.lang.Long"/>
-	<field name="MALE" class="java.lang.Long"/>
-	<field name="FEMALE" class="java.lang.Long"/>
-	<field name="OTHER" class="java.lang.Long"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<title>
-		<band height="33" splitType="Stretch">
-			<staticText>
-				<reportElement uuid="38f096e0-701e-4ac6-969a-d3c645bbeb86" x="146" y="2" width="467" height="27"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20"/>
-				</textElement>
-				<text><![CDATA[Registration MIS Report]]></text>
-			</staticText>
-		</band>
-	</title>
-	<columnHeader>
-		<band height="30" splitType="Stretch">
-			<rectangle>
-				<reportElement uuid="c470c1a7-fbaa-468e-ba63-d34044c7b4da" x="57" y="2" width="695" height="26" forecolor="#666666"/>
-			</rectangle>
-			<staticText>
-				<reportElement uuid="48678b3c-89c2-4571-862d-dd6ccfb20455" x="127" y="7" width="100" height="20" forecolor="#0033FF"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<text><![CDATA[Date Range: ]]></text>
-			</staticText>
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement uuid="2177e809-9dfd-430d-8a28-3b3787215797" x="231" y="7" width="162" height="20" forecolor="#0000FF"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{from_date}]]></textFieldExpression>
-			</textField>
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement uuid="ddabcdcd-2100-4b35-9c61-1fd4cc8d20ce" x="460" y="7" width="220" height="20" forecolor="#0000FF"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{to_date}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="f59f4899-b969-43f9-a2ed-df0d1fe74ea7" x="417" y="7" width="20" height="19" forecolor="#0000FF"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<text><![CDATA[ -]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="297" splitType="Stretch">
-			<rectangle>
-				<reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="13" y="7" width="372" height="231" forecolor="#666666"/>
-			</rectangle>
-			<staticText>
-				<reportElement uuid="06e430f9-fa8c-4d51-8ce8-0d73f302df51" x="48" y="20" width="213" height="20"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total Number of Visits]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="6e1143b3-adc2-4733-9ef0-60bcd84f61b2" x="270" y="20" width="67" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{TOTAL_PATIENTS}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="55" width="128" height="20"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[New Registrations]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="1fc241d1-f3f6-4640-9043-b8bae339e52d" x="270" y="55" width="67" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{NEW_REGISTRATIONS}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="113" width="165" height="20"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[Children (Upto 5 years)]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="807a7dec-b1e7-4b84-a8c6-afdfb09262c4" x="270" y="113" width="67" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{UPTO_AGE_5}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="145" width="47" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[Males]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="7d646860-d722-4463-bccb-0a97263dde9f" x="270" y="145" width="67" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{MALE}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="175" width="65" height="25"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[Females]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="16c00093-31e5-42fd-b489-dafd5416ac6c" x="270" y="180" width="67" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{FEMALE}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="66c80f13-1259-45db-b20a-ecc25737853f" x="48" y="81" width="145" height="20"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[Returning Visits]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="12924dfd-ff1a-4c0e-96e8-5090968eb310" x="270" y="81" width="67" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{RETURNING_VISITS}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="25" y="45" width="346" height="1"/>
-			</line>
-			<line>
-				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="25" y="104" width="346" height="1"/>
-			</line>
-			<line>
-				<reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="25" y="139" width="346" height="1"/>
-			</line>
-			<componentElement>
-				<reportElement uuid="84c509f5-78ff-454d-8756-d781f15e196f" key="table 3" style="table 3" x="443" y="7" width="192" height="44"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Visit_by_District" uuid="8e71e3c3-8038-4b51-9952-20f4e146fbde">
-						<datasetParameter name="from_date_inner">
-							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="to_date_inner">
-							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:column uuid="4ef82ef9-a342-426c-95d9-464afa431cfa" width="113">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="b940a927-7e91-4580-a2ca-a68320619fc1" x="0" y="0" width="113" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[District]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement uuid="3ab02efc-fdb5-46f1-964b-fbb297eaf4c5" x="5" y="6" width="108" height="20"/>
-								<textElement>
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{district}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="121ba47d-0291-497d-af84-5ef1e489cb1a" width="76">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="ed4e77e8-4366-4d07-8279-e0160a235ca1" x="0" y="0" width="72" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Count]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement uuid="7a7467e4-e3ca-4c9a-af77-bfea12057980" x="11" y="6" width="61" height="20"/>
-								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{visits_by_district}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
-			<componentElement>
-				<reportElement uuid="cf64e10b-9685-4ba3-8321-f0f33dd123e9" key="table 4" style="table 4" x="13" y="252" width="200" height="44"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Visits_by_Location_Type" uuid="9533fe79-c5ac-4165-b5f6-8d77196af7a9">
-						<datasetParameter name="from_date_inner">
-							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="to_date_inner">
-							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:column uuid="8b223222-cb1a-4079-bc6f-1e065b5b415f" width="135">
-						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="df6bc928-c663-4f5e-a6d7-1310f1678214" x="0" y="0" width="135" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Location Type]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 4_TD" height="28" rowSpan="1">
-							<textField>
-								<reportElement uuid="87e3e1e9-52fb-4b3c-8eb8-8de8eb2c422c" x="5" y="5" width="130" height="20"/>
-								<textElement verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="7088bc18-696f-46bd-99d3-66e413cccb2d" width="68">
-						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="23e6f264-3079-41e9-a501-0c112f0505e9" x="0" y="0" width="68" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Count]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 4_TD" height="28" rowSpan="1">
-							<textField>
-								<reportElement uuid="897e86e3-2e30-4689-bc18-e11e90bcd299" x="0" y="5" width="58" height="20"/>
-								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{visits_by_location_type}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
-			<componentElement>
-				<reportElement uuid="e420fb37-e7a7-432c-ae15-7a7b6f3bf2f3" key="table 5" style="table 5" x="231" y="252" width="186" height="44"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Visit_by_caste" uuid="76245667-1a3d-44f9-b206-7b20a5c83f63">
-						<datasetParameter name="from_date_inner">
-							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="to_date_inner">
-							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:column uuid="23feba61-826d-401e-9583-3fb014db4a0a" width="117">
-						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="584877f4-bbe2-467e-ab18-ae5719033b22" x="0" y="0" width="117" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Caste Type]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="26" rowSpan="1">
-							<textField>
-								<reportElement uuid="c371b8c3-8cb1-4c95-acef-2b2b9facc7d4" x="6" y="2" width="111" height="20"/>
-								<textElement verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{caste_type}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="5dbcfeea-ddfa-43c5-bd4f-dd6aa50494bb" width="62">
-						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="07142267-6a5d-4716-8d33-25b98394eb51" x="0" y="0" width="57" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Count]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="26" rowSpan="1">
-							<textField>
-								<reportElement uuid="8280a400-4e03-4e8c-9c16-47cdf32536ca" x="0" y="2" width="57" height="20"/>
-								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{visits_by_caste_type}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
-			<staticText>
-				<reportElement uuid="575a5fe5-ce40-460c-8b31-c8b632dfb800" x="48" y="211" width="100" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[Others]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="8eda29e6-1047-4e96-98a2-2b36cb5486ac" x="271" y="211" width="66" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{OTHER}]]></textFieldExpression>
-			</textField>
-			<componentElement>
-				<reportElement uuid="d8ad4b23-eee2-4e14-8ae5-fdc98e8d407f" key="table 2" style="table 2" x="652" y="7" width="139" height="37"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Visit_Type_Totals" uuid="135a670a-a0c0-44f4-848c-91679eda62fa">
-						<datasetParameter name="from_date_inner">
-							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="to_date_inner">
-							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:column uuid="7ec32644-fc2d-46df-813b-75dbbd5b089f" width="90">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="07892c4e-331e-443a-ad34-9f03378aba6a" x="0" y="0" width="90" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Visit Type]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement uuid="8c6973fb-c98e-467b-9e27-f8e937e22756" x="5" y="5" width="85" height="20"/>
-								<textElement verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="fb06be34-fb01-435c-98d9-e6e6a6f3c9d6" width="75">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement uuid="d5f759a0-929e-4c85-852c-71c6e61fc316" x="0" y="0" width="68" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Count]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement uuid="6afa472f-9344-4d40-b7e2-f34b2b4bd480" x="0" y="5" width="68" height="20"/>
-								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{count(*)}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
-			<componentElement>
-				<reportElement uuid="91c5033d-df15-4184-82ec-910a37a7d942" key="table 9" style="table 9" x="647" y="252" width="150" height="44"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Total_Registration_Fees" uuid="48bea628-b102-4667-bafc-6c3ebfd80444">
-						<datasetParameter name="from_date_inner">
-							<datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="to_date_inner">
-							<datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:column uuid="feb51bbe-8ac7-43be-b85f-d38eaa21e6c3" width="82">
-						<jr:tableHeader style="table 9_TH" height="46" rowSpan="1">
-							<staticText>
-								<reportElement uuid="bf99a7dc-271c-413c-ad29-756f4186dd13" x="0" y="0" width="82" height="46"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="12" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Visit Type]]></text>
-							</staticText>
-						</jr:tableHeader>
-						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
-							<textField>
-								<reportElement uuid="79a1a906-4e79-4aa4-a554-1019d9f0763f" x="9" y="0" width="73" height="20"/>
-								<textElement verticalAlignment="Middle">
-									<font size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column uuid="7214901e-be66-4171-b4b1-6ce8fdc9f8c0" width="87">
-						<jr:tableHeader style="table 9_TH" height="46" rowSpan="1">
-							<staticText>
-								<reportElement uuid="c55b126b-dd97-40b8-9396-eaa84d348792" x="0" y="0" width="86" height="46"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="12" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Total Registration Fees]]></text>
-							</staticText>
-						</jr:tableHeader>
-						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
-							<textField pattern="###0">
-								<reportElement uuid="8541a0d0-849c-4c6d-99ec-db146757a275" x="3" y="0" width="83" height="20"/>
-								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="12" isBold="false"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{Total_Registration_Fees}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
-		</band>
-		<band height="42"/>
-	</detail>
-	<pageFooter>
-		<band height="20">
-			<staticText>
-				<reportElement uuid="c4277446-01df-4dbb-a9bf-a7e8914e99e8" x="479" y="0" width="212" height="20" forecolor="#000000"/>
-				<textElement>
-					<font isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Created by Bahmni via Jasper Reports on:]]></text>
-			</staticText>
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement uuid="40bc3366-6f31-4738-b500-f203981a3037" x="691" y="0" width="100" height="20"/>
-				<textElement>
-					<font isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-		</band>
-	</pageFooter>
+                            from
+                                visit as v1
+                                    inner join visit_type as vt1 on v1.visit_type_id = vt1.visit_type_id
+                            where
+                                    date(v1.date_started) >= $P{from_date_inner} and date(v1.date_started) <= $P{to_date_inner}
+    AND  vt1.name ='IPD'
+    )
+from
+    visit as v
+    inner join visit_type as vt on v.visit_type_id = vt.visit_type_id
+where
+    date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
+  AND  vt.name ='OPD']]>
+        </queryString>
+        <field name="name" class="java.lang.String"/>
+        <field name="count(*)" class="java.lang.Long"/>
+    </subDataset>
+    <subDataset name="Visit_by_District" uuid="8943d047-4d62-420a-bdb2-cc7ff6859cf2">
+        <parameter name="from_date_inner" class="java.util.Date"/>
+        <parameter name="to_date_inner" class="java.util.Date"/>
+        <queryString>
+            <![CDATA[Select (case when padd.county_district is not null then padd.county_district else 'Not-Classified' END) as district, count(*) as visits_by_district
+             from visit as v
+                      left join person_address as padd on padd.person_id = v.patient_id
+             where
+                     date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
+               AND v.visit_type_id not in(select visit_type_id from visit_type where name  IN ('IPD','LAB VISIT') )
+             group by padd.county_district;]]>
+        </queryString>
+        <field name="district" class="java.lang.String"/>
+        <field name="visits_by_district" class="java.lang.Long"/>
+        <group name="district">
+            <groupExpression><![CDATA[$F{district}]]></groupExpression>
+        </group>
+    </subDataset>
+    <subDataset name="Visits_by_Location_Type" uuid="0d1f8f14-39ea-4ad9-b0c6-09db05e9b1fe">
+        <parameter name="from_date_inner" class="java.util.Date"/>
+        <parameter name="to_date_inner" class="java.util.Date"/>
+        <queryString>
+            <![CDATA[Select  (case when slct.Name is not null then slct.Name else 'Not-classified' END) as Name, count(*) as visits_by_location_type
+                     from visit as v
+                              left join person_address as padd on padd.person_id = v.patient_id
+                              left join SEARCH_LOCATION_CATEGORY as slc on slc.Village = padd.city_village AND slc.Tehsil = padd.address3
+                              left join SEARCH_LOCATION_CATEGORY_TYPE as slct on slct.Id = slc.Category
+                     where
+                                                                        date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
+                       AND v.visit_type_id not in(select visit_type_id from visit_type where name IN ('IPD','LAB VISIT'))
+                     group by slc.category order by Name;]]>
+        </queryString>
+        <field name="Name" class="java.lang.String"/>
+        <field name="visits_by_location_type" class="java.lang.Long"/>
+        <group name="Name">
+            <groupExpression><![CDATA[$F{Name}]]></groupExpression>
+        </group>
+    </subDataset>
+    <subDataset name="Visit_by_caste" uuid="12715305-58c6-436f-b83a-13342c702346">
+        <parameter name="from_date_inner" class="java.util.Date"/>
+        <parameter name="to_date_inner" class="java.util.Date"/>
+        <queryString>
+            <![CDATA[Select (case when sc.caste_type is not null then sc.caste_type else 'Not-Classified' END) as caste_type, count(*) as visits_by_caste_type
+                     from visit as v
+                              left join person_attribute as pa on pa.person_id = v.patient_id
+                         AND person_attribute_type_id = (select pat.person_attribute_type_id from person_attribute_type as pat where pat.name like '%caste%')
+                              left join SEARCH_Caste as sc on sc.caste_name = pa.value
+                     where
+                                                                                      date(v.date_started) >= $P{from_date_inner} and date(v.date_started) <= $P{to_date_inner}
+                       AND v.visit_type_id not in(select visit_type_id from visit_type where name IN ('IPD','LAB VISIT'))
+                     group by sc.caste_type;]]>
+        </queryString>
+        <field name="caste_type" class="java.lang.String"/>
+        <field name="visits_by_caste_type" class="java.lang.Long"/>
+        <group name="caste_type">
+            <groupExpression><![CDATA[$F{caste_type}]]></groupExpression>
+        </group>
+    </subDataset>
+    <subDataset name="Total_Registration_Fees" uuid="6131cd4b-2282-469a-9865-e4007fcb84d3">
+        <parameter name="from_date_inner" class="java.util.Date"/>
+        <parameter name="to_date_inner" class="java.util.Date"/>
+        <queryString>
+            <![CDATA[select vt.name,sum(CONVERT(cnn.name, SIGNED INTEGER)) as 'Total_Registration_Fees'
+                     From visit v
+                              inner join visit_type vt on vt.visit_type_id = v.visit_type_id
+                              inner join encounter e on e.visit_id = v.visit_id
+                              inner join encounter_type et on e.encounter_type = et.encounter_type_id
+                              inner join obs o on o.encounter_id = e.encounter_id and o.voided = 0
+                              inner join concept_name as cn on cn.concept_id = o.concept_id AND cn.name = 'Registration Fee' AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
+                              inner join concept_name as cnn on o.value_coded=cnn.concept_id and cnn.concept_name_type='SHORT'
+                     where date(v.date_started) >= date($P{from_date_inner}) and date(v.date_started) <= date($P{to_date_inner})   and vt.name !='LAB VISIT'
+                     group by vt.name;]]>
+        </queryString>
+        <field name="name" class="java.lang.String"/>
+        <field name="Total_Registration_Fees" class="java.lang.Double"/>
+    </subDataset>
+    <parameter name="from_date" class="java.util.Date">
+        <defaultValueExpression><![CDATA[new Date((new Date()).getTime()-(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-1)*24*60*60*1000L)]]></defaultValueExpression>
+    </parameter>
+    <parameter name="to_date" class="java.util.Date">
+        <defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+    </parameter>
+    <queryString>
+        <![CDATA[SELECT
+                                                           (
+                                                               SELECT count(*)
+                                                               FROM visit as v
+                                                                        inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+                                                               where date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+                                                           AND vt.name !='IPD'
+                                                           AND v.patient_id !=8
+                                                           and vt.name !='LAB VISIT'
+
+                                                           ) as TOTAL_PATIENTS,
+                      (
+                 Select count(*)
+                 from person as p
+                                                           inner join visit as v on p.person_id = v.patient_id
+                                                           inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+                 where date(v.date_started)= date(p.date_created)
+                   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+                   AND vt.name !='IPD'
+                   AND v.patient_id !=8
+                   and vt.name !='LAB VISIT'
+                                                           ) as NEW_REGISTRATIONS,
+                     (
+                 Select count(*)
+                 from person as p
+                                                           inner join visit as v on p.person_id = v.patient_id
+                                                           inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+                 where date(v.date_started)!= date(p.date_created)
+                   and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+                   AND vt.name !='IPD'
+                   AND v.patient_id !=8
+                   and vt.name !='LAB VISIT'
+                                                           ) as RETURNING_VISITS,
+                     (
+                 Select count(*) from person as p
+                                                           inner join visit as v on v.patient_id = p.person_id
+                                                           inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+                                                           and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+                                                           and TIMESTAMPDIFF(YEAR,p.birthdate,CURDATE()) < 5
+                                                           AND vt.name !='IPD'
+                                                           AND v.patient_id !=8
+                                                           and vt.name !='LAB VISIT'
+                                                           ) as UPTO_AGE_5,
+                                                           (
+                 Select count(*) from person as p
+                                                           inner join visit as v on v.patient_id = p.person_id
+                                                           inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+                                                           and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+                                                           and p.gender = 'M'
+                                                           AND vt.name !='IPD'
+                                                           AND v.patient_id !=8
+                                                           and vt.name !='LAB VISIT'
+                                                           ) as MALE,
+                                                           (
+                 Select count(*) from person as p
+                                                           inner join visit as v on v.patient_id = p.person_id
+                                                           inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+                                                           and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+                                                           and p.gender = 'F'
+                                                           AND vt.name !='IPD'
+                                                           AND v.patient_id !=8
+                                                           and vt.name !='LAB VISIT'
+                                                           ) as FEMALE,
+                                                           (
+                 Select count(*) from person as p
+                                                           inner join visit as v on v.patient_id = p.person_id
+                                                           inner join visit_type as vt on vt.visit_type_id = v.visit_type_id
+                                                           and date(v.date_started) >= $P{from_date} and date(v.date_started) <= $P{to_date}
+                                                           and p.gender = 'O'
+                                                           AND vt.name !='IPD'
+                                                           AND v.patient_id !=8
+                                                           and vt.name !='LAB VISIT'
+                                                           ) as OTHER;]]>
+    </queryString>
+    <field name="TOTAL_PATIENTS" class="java.lang.Long"/>
+    <field name="NEW_REGISTRATIONS" class="java.lang.Long"/>
+    <field name="RETURNING_VISITS" class="java.lang.Long"/>
+    <field name="UPTO_AGE_5" class="java.lang.Long"/>
+    <field name="MALE" class="java.lang.Long"/>
+    <field name="FEMALE" class="java.lang.Long"/>
+    <field name="OTHER" class="java.lang.Long"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="33" splitType="Stretch">
+            <staticText>
+                <reportElement uuid="38f096e0-701e-4ac6-969a-d3c645bbeb86" x="146" y="2" width="467" height="27"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20"/>
+                </textElement>
+                <text><![CDATA[Registration MIS Report(OPD visits only)]]></text>
+            </staticText>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="30" splitType="Stretch">
+            <rectangle>
+                <reportElement uuid="c470c1a7-fbaa-468e-ba63-d34044c7b4da" x="57" y="2" width="695" height="26" forecolor="#666666"/>
+            </rectangle>
+            <staticText>
+                <reportElement uuid="48678b3c-89c2-4571-862d-dd6ccfb20455" x="127" y="7" width="100" height="20" forecolor="#0033FF"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <text><![CDATA[Date Range: ]]></text>
+            </staticText>
+            <textField pattern="MMMMM dd, yyyy">
+                <reportElement uuid="2177e809-9dfd-430d-8a28-3b3787215797" x="231" y="7" width="162" height="20" forecolor="#0000FF"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{from_date}]]></textFieldExpression>
+            </textField>
+            <textField pattern="MMMMM dd, yyyy">
+                <reportElement uuid="ddabcdcd-2100-4b35-9c61-1fd4cc8d20ce" x="460" y="7" width="220" height="20" forecolor="#0000FF"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{to_date}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="f59f4899-b969-43f9-a2ed-df0d1fe74ea7" x="417" y="7" width="20" height="19" forecolor="#0000FF"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <text><![CDATA[ -]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="297" splitType="Stretch">
+            <rectangle>
+                <reportElement uuid="149fb12b-feee-4b5e-ab5d-d9809e2d0d8e" x="13" y="7" width="372" height="231" forecolor="#666666"/>
+            </rectangle>
+            <staticText>
+                <reportElement uuid="06e430f9-fa8c-4d51-8ce8-0d73f302df51" x="48" y="20" width="213" height="20"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total Number of Visits]]></text>
+            </staticText>
+            <textField>
+                <reportElement uuid="6e1143b3-adc2-4733-9ef0-60bcd84f61b2" x="270" y="20" width="67" height="20"/>
+                <textElement textAlignment="Right">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{TOTAL_PATIENTS}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="55" width="128" height="20"/>
+                <textElement>
+                    <font size="12"/>
+                </textElement>
+                <text><![CDATA[New Registrations]]></text>
+            </staticText>
+            <textField>
+                <reportElement uuid="1fc241d1-f3f6-4640-9043-b8bae339e52d" x="270" y="55" width="67" height="20"/>
+                <textElement textAlignment="Right">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{NEW_REGISTRATIONS}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="113" width="165" height="20"/>
+                <textElement>
+                    <font size="12"/>
+                </textElement>
+                <text><![CDATA[Children (Upto 5 years)]]></text>
+            </staticText>
+            <textField>
+                <reportElement uuid="807a7dec-b1e7-4b84-a8c6-afdfb09262c4" x="270" y="113" width="67" height="20"/>
+                <textElement textAlignment="Right">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{UPTO_AGE_5}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="145" width="47" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <text><![CDATA[Males]]></text>
+            </staticText>
+            <textField>
+                <reportElement uuid="7d646860-d722-4463-bccb-0a97263dde9f" x="270" y="145" width="67" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{MALE}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="e02d7615-ad10-4dd4-a3b9-66262d3181ba" x="48" y="175" width="65" height="25"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <text><![CDATA[Females]]></text>
+            </staticText>
+            <textField>
+                <reportElement uuid="16c00093-31e5-42fd-b489-dafd5416ac6c" x="270" y="180" width="67" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{FEMALE}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement uuid="66c80f13-1259-45db-b20a-ecc25737853f" x="48" y="81" width="145" height="20"/>
+                <textElement>
+                    <font size="12"/>
+                </textElement>
+                <text><![CDATA[Returning Visits]]></text>
+            </staticText>
+            <textField>
+                <reportElement uuid="12924dfd-ff1a-4c0e-96e8-5090968eb310" x="270" y="81" width="67" height="20"/>
+                <textElement textAlignment="Right">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{RETURNING_VISITS}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="25" y="45" width="346" height="1"/>
+            </line>
+            <line>
+                <reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="25" y="104" width="346" height="1"/>
+            </line>
+            <line>
+                <reportElement uuid="07072864-c088-474b-9c37-d455d5ceb480" x="25" y="139" width="346" height="1"/>
+            </line>
+            <componentElement>
+                <reportElement uuid="84c509f5-78ff-454d-8756-d781f15e196f" key="table 3" style="table 3" x="443" y="7" width="192" height="44"/>
+                <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+                    <datasetRun subDataset="Visit_by_District" uuid="8e71e3c3-8038-4b51-9952-20f4e146fbde">
+                        <datasetParameter name="from_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <datasetParameter name="to_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                    </datasetRun>
+                    <jr:column uuid="4ef82ef9-a342-426c-95d9-464afa431cfa" width="113">
+                        <jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="b940a927-7e91-4580-a2ca-a68320619fc1" x="0" y="0" width="113" height="30"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="14" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[District]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="3ab02efc-fdb5-46f1-964b-fbb297eaf4c5" x="5" y="6" width="108" height="20"/>
+                                <textElement>
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{district}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column uuid="121ba47d-0291-497d-af84-5ef1e489cb1a" width="76">
+                        <jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="ed4e77e8-4366-4d07-8279-e0160a235ca1" x="0" y="0" width="72" height="30"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="14" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Count]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="7a7467e4-e3ca-4c9a-af77-bfea12057980" x="11" y="6" width="61" height="20"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{visits_by_district}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                </jr:table>
+            </componentElement>
+            <componentElement>
+                <reportElement uuid="cf64e10b-9685-4ba3-8321-f0f33dd123e9" key="table 4" style="table 4" x="13" y="252" width="200" height="44"/>
+                <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+                    <datasetRun subDataset="Visits_by_Location_Type" uuid="9533fe79-c5ac-4165-b5f6-8d77196af7a9">
+                        <datasetParameter name="from_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <datasetParameter name="to_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                    </datasetRun>
+                    <jr:column uuid="8b223222-cb1a-4079-bc6f-1e065b5b415f" width="135">
+                        <jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="df6bc928-c663-4f5e-a6d7-1310f1678214" x="0" y="0" width="135" height="30"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="14" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Location Type]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell style="table 4_TD" height="28" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="87e3e1e9-52fb-4b3c-8eb8-8de8eb2c422c" x="5" y="5" width="130" height="20"/>
+                                <textElement verticalAlignment="Middle">
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column uuid="7088bc18-696f-46bd-99d3-66e413cccb2d" width="68">
+                        <jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="23e6f264-3079-41e9-a501-0c112f0505e9" x="0" y="0" width="68" height="30"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="14" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Count]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell style="table 4_TD" height="28" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="897e86e3-2e30-4689-bc18-e11e90bcd299" x="0" y="5" width="58" height="20"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{visits_by_location_type}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                </jr:table>
+            </componentElement>
+            <componentElement>
+                <reportElement uuid="e420fb37-e7a7-432c-ae15-7a7b6f3bf2f3" key="table 5" style="table 5" x="231" y="252" width="186" height="44"/>
+                <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+                    <datasetRun subDataset="Visit_by_caste" uuid="76245667-1a3d-44f9-b206-7b20a5c83f63">
+                        <datasetParameter name="from_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <datasetParameter name="to_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                    </datasetRun>
+                    <jr:column uuid="23feba61-826d-401e-9583-3fb014db4a0a" width="117">
+                        <jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="584877f4-bbe2-467e-ab18-ae5719033b22" x="0" y="0" width="117" height="30"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="14" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Caste Type]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell style="table 5_TD" height="26" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="c371b8c3-8cb1-4c95-acef-2b2b9facc7d4" x="6" y="2" width="111" height="20"/>
+                                <textElement verticalAlignment="Middle">
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{caste_type}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column uuid="5dbcfeea-ddfa-43c5-bd4f-dd6aa50494bb" width="62">
+                        <jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="07142267-6a5d-4716-8d33-25b98394eb51" x="0" y="0" width="57" height="30"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="14" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Count]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell style="table 5_TD" height="26" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="8280a400-4e03-4e8c-9c16-47cdf32536ca" x="0" y="2" width="57" height="20"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{visits_by_caste_type}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                </jr:table>
+            </componentElement>
+            <staticText>
+                <reportElement uuid="575a5fe5-ce40-460c-8b31-c8b632dfb800" x="48" y="211" width="100" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <text><![CDATA[Others]]></text>
+            </staticText>
+            <textField>
+                <reportElement uuid="8eda29e6-1047-4e96-98a2-2b36cb5486ac" x="271" y="211" width="66" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{OTHER}]]></textFieldExpression>
+            </textField>
+            <componentElement>
+                <reportElement uuid="d8ad4b23-eee2-4e14-8ae5-fdc98e8d407f" key="table 2" style="table 2" x="652" y="7" width="139" height="37"/>
+                <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+                    <datasetRun subDataset="Visit_Type_Totals" uuid="135a670a-a0c0-44f4-848c-91679eda62fa">
+                        <datasetParameter name="from_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <datasetParameter name="to_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                    </datasetRun>
+                    <jr:column uuid="7ec32644-fc2d-46df-813b-75dbbd5b089f" width="90">
+                        <jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="07892c4e-331e-443a-ad34-9f03378aba6a" x="0" y="0" width="90" height="30"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="14" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Visit Type]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="8c6973fb-c98e-467b-9e27-f8e937e22756" x="5" y="5" width="85" height="20"/>
+                                <textElement verticalAlignment="Middle">
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column uuid="fb06be34-fb01-435c-98d9-e6e6a6f3c9d6" width="75">
+                        <jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="d5f759a0-929e-4c85-852c-71c6e61fc316" x="0" y="0" width="68" height="30"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="14" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Count]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="6afa472f-9344-4d40-b7e2-f34b2b4bd480" x="0" y="5" width="68" height="20"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{count(*)}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                </jr:table>
+            </componentElement>
+            <componentElement>
+                <reportElement uuid="91c5033d-df15-4184-82ec-910a37a7d942" key="table 9" style="table 9" x="647" y="252" width="150" height="44"/>
+                <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+                    <datasetRun subDataset="Total_Registration_Fees" uuid="48bea628-b102-4667-bafc-6c3ebfd80444">
+                        <datasetParameter name="from_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{from_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <datasetParameter name="to_date_inner">
+                            <datasetParameterExpression><![CDATA[$P{to_date}]]></datasetParameterExpression>
+                        </datasetParameter>
+                        <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                    </datasetRun>
+                    <jr:column uuid="feb51bbe-8ac7-43be-b85f-d38eaa21e6c3" width="82">
+                        <jr:tableHeader style="table 9_TH" height="46" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="bf99a7dc-271c-413c-ad29-756f4186dd13" x="0" y="0" width="82" height="46"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="12" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Visit Type]]></text>
+                            </staticText>
+                        </jr:tableHeader>
+                        <jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+                            <textField>
+                                <reportElement uuid="79a1a906-4e79-4aa4-a554-1019d9f0763f" x="9" y="0" width="73" height="20"/>
+                                <textElement verticalAlignment="Middle">
+                                    <font size="12"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column uuid="7214901e-be66-4171-b4b1-6ce8fdc9f8c0" width="87">
+                        <jr:tableHeader style="table 9_TH" height="46" rowSpan="1">
+                            <staticText>
+                                <reportElement uuid="c55b126b-dd97-40b8-9396-eaa84d348792" x="0" y="0" width="86" height="46"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font size="12" isBold="true"/>
+                                </textElement>
+                                <text><![CDATA[Total Registration Fees]]></text>
+                            </staticText>
+                        </jr:tableHeader>
+                        <jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+                            <textField pattern="###0">
+                                <reportElement uuid="8541a0d0-849c-4c6d-99ec-db146757a275" x="3" y="0" width="83" height="20"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font size="12" isBold="false"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{Total_Registration_Fees}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                </jr:table>
+            </componentElement>
+        </band>
+        <band height="42"/>
+    </detail>
+    <pageFooter>
+        <band height="20">
+            <staticText>
+                <reportElement uuid="c4277446-01df-4dbb-a9bf-a7e8914e99e8" x="479" y="0" width="212" height="20" forecolor="#000000"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Created by Bahmni via Jasper Reports on:]]></text>
+            </staticText>
+            <textField pattern="MMMMM dd, yyyy">
+                <reportElement uuid="40bc3366-6f31-4738-b500-f203981a3037" x="691" y="0" width="100" height="20"/>
+                <textElement>
+                    <font isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
 </jasperReport>
